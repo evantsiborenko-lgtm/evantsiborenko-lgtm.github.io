@@ -1,0 +1,35 @@
+SEO notes / что уже добавлено
+
+1. robots.txt
+   https://evantsiborenko-lgtm.github.io/video-greetings-site/robots.txt
+
+2. sitemap.xml
+   https://evantsiborenko-lgtm.github.io/video-greetings-site/sitemap.xml
+
+3. В index.html добавлены:
+   - SEO title
+   - meta description
+   - canonical
+   - robots meta
+   - Open Graph
+   - Twitter Card
+   - JSON-LD structured data
+   - theme-color
+
+4. Google Search Console verification
+   В index.html добавлен placeholder:
+   <meta name="google-site-verification" content="PASTE_GOOGLE_SEARCH_CONSOLE_VERIFICATION_TOKEN_HERE">
+
+   Чтобы подтвердить сайт:
+   - открыть Google Search Console;
+   - добавить URL-prefix property:
+     https://evantsiborenko-lgtm.github.io/video-greetings-site/
+   - выбрать способ HTML tag;
+   - заменить placeholder на реальный verification token;
+   - commit/push;
+   - нажать Verify в Search Console.
+
+5. После публикации:
+   - открыть https://evantsiborenko-lgtm.github.io/video-greetings-site/robots.txt
+   - открыть https://evantsiborenko-lgtm.github.io/video-greetings-site/sitemap.xml
+   - отправить sitemap.xml в Google Search Console.

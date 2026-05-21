@@ -1,0 +1,61 @@
+SEO / Sitemap / Google Search Console
+
+Добавлено:
+
+1. sitemap.xml
+   URL после публикации:
+   https://evantsiborenko-lgtm.github.io/video-greetings-site/sitemap.xml
+
+2. robots.txt
+   URL после публикации:
+   https://evantsiborenko-lgtm.github.io/video-greetings-site/robots.txt
+
+3. Google Search Console verification file
+   Файл:
+   googlec0bdf766a3da086f.html
+
+   URL после публикации:
+   https://evantsiborenko-lgtm.github.io/video-greetings-site/googlec0bdf766a3da086f.html
+
+После загрузки на GitHub Pages:
+
+1. Открой в браузере:
+   https://evantsiborenko-lgtm.github.io/video-greetings-site/sitemap.xml
+   https://evantsiborenko-lgtm.github.io/video-greetings-site/robots.txt
+   https://evantsiborenko-lgtm.github.io/video-greetings-site/googlec0bdf766a3da086f.html
+
+2. Если все три адреса открываются, зайди в Google Search Console и нажми Verify.
+
+3. После подтверждения отправь sitemap:
+   https://evantsiborenko-lgtm.github.io/video-greetings-site/sitemap.xml
+
+Важно:
+- sitemap.xml сейчас содержит главную страницу сайта, потому что сайт одностраничный.
+- Если позже появятся отдельные страницы /birthday, /new-year и т.п., их нужно добавить в sitemap.xml.
+
+
+Google Search Console meta verification также добавлен в index.html:
+
+<meta name="google-site-verification" content="JxxN1bzo-d4aY1_KlOf_QxFXhHe1kUJOyVWIpzNzNf0" />
+
+Теперь доступны оба способа подтверждения:
+1. HTML-файл: googlec0bdf766a3da086f.html
+2. Meta-тег в head страницы
+
+
+Yandex Webmaster verification добавлен в index.html:
+
+<meta name="yandex-verification" content="d38da1a6f7dc7a4b" />
+
+После публикации сайта:
+1. Открой главную страницу.
+2. Посмотри исходный код страницы и убедись, что yandex-verification есть в <head>.
+3. Вернись в Яндекс Вебмастер и нажми “Проверить”.
+4. После подтверждения добавь Sitemap:
+   https://evantsiborenko-lgtm.github.io/video-greetings-site/sitemap.xml
+
+
+Hover preview fix:
+- Desktop hover now uses `(hover: hover) and (pointer: fine)` instead of width <= 768.
+- Video preview sets muted/autoplay/playsinline attributes before play() for better browser compatibility.
+- Video src is still assigned only on hover, so the page remains lightweight.

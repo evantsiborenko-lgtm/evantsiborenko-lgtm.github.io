@@ -1,0 +1,19 @@
+# Обновление сайта: Premium redesign + оплата СБП
+
+Добавлено:
+- новый светлый premium/minimalist стиль;
+- блок “Пакеты и цены” с Premium Pack 12 роликов и Cats Pack 12 роликов;
+- блок оплаты по СБП;
+- кнопка оплаты по ссылке;
+- QR-код оплаты: assets/icons/payment_sbp_qr.png;
+- сохранены Google / Yandex verification, robots.txt, sitemap.xml;
+- сохранена структура каталога и hover-preview.
+
+Важно:
+- ZIP не содержит папки assets/posters и assets/videos с медиа, кроме нового QR-кода.
+- При обновлении сайта не удаляй существующую папку assets с постерами и preview-видео.
+- Новый файл нужно добавить:
+  assets/icons/payment_sbp_qr.png
+
+Оплата:
+https://c2c.cbrpay.ru/AS1I002E5DAN3MRN8KQP9R97693V67MF
