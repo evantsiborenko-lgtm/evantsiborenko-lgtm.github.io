@@ -177,6 +177,54 @@
       border-color: rgba(255, 255, 255, 0.24);
     }
 
+
+
+    .btn.with-icon {
+      gap: 9px;
+      padding-left: 16px;
+    }
+
+    .messenger-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 8px;
+      object-fit: cover;
+      flex: 0 0 auto;
+      box-shadow: 0 5px 14px rgba(0,0,0,0.24);
+    }
+
+    .showreel-note {
+      margin: 14px auto 0;
+      max-width: 360px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+      text-align: center;
+    }
+
+    .contact-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+      align-items: center;
+    }
+
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      color: var(--muted);
+      background: rgba(255,255,255,0.055);
+      border: 1px solid var(--line);
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .contact-link:hover { color: var(--text); background: rgba(255,255,255,0.09); }
+
     .btn.primary {
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
       color: #111827;
@@ -613,7 +661,8 @@
         <a href="#formats">Форматы</a>
         <a href="#partners">Партнёрам</a>
         <a href="/video-greetings-site/">Видео-открытки</a>
-        <a href="https://t.me/KVSemenov" rel="noopener">Написать</a>
+        <a href="https://t.me/KVSemenov" rel="noopener">TG</a>
+        <a href="https://max.ru/u/f9LHodD0cOJlDpukwqptJu22mt7WP9gY3Hf1QqJlId29eI5iof0XN7XmUnI" rel="noopener">MAX</a>
       </nav>
     </header>
 
@@ -623,13 +672,17 @@
           <div class="eyebrow">Короткие AI-видео для товаров</div>
           <h1>AI product videos для брендов, WB/Ozon и рекламы</h1>
           <p class="lead">
-            Делаю короткие ролики 6–12 секунд для карточек товаров, Reels, сайтов,
-            презентаций и рекламных материалов. Для студий, агентств и фотографов возможен white-label — без watermark.
+            Короткие AI product videos, которые можно сразу использовать в карточке товара, Reels
+            или презентации продукта. Для студий, агентств и фотографов возможен white-label — без watermark.
           </p>
           <div class="actions">
-            <a class="btn primary" href="https://t.me/KVSemenov" rel="noopener">Обсудить задачу в Telegram</a>
-            <a class="btn" href="https://t.me/KVSemenov_AI" rel="noopener">Смотреть портфолио</a>
+            <a class="btn primary" href="#portfolio">Смотреть портфолио</a>
+            <a class="btn with-icon" href="https://t.me/KVSemenov_AI" rel="noopener"><img class="messenger-icon" src="assets/tg-icon.png" alt="">Больше работ в Telegram</a>
             <a class="btn" href="/video-greetings-site/">Видео-открытки</a>
+          </div>
+          <div class="contact-row" aria-label="Контакты">
+            <a class="contact-link" href="https://t.me/KVSemenov" rel="noopener"><img class="messenger-icon" src="assets/tg-icon.png" alt="">Написать в TG</a>
+            <a class="contact-link" href="https://max.ru/u/f9LHodD0cOJlDpukwqptJu22mt7WP9gY3Hf1QqJlId29eI5iof0XN7XmUnI" rel="noopener"><img class="messenger-icon" src="assets/max-icon.png" alt="">Написать в MAX</a>
           </div>
           <div class="trust" aria-label="Ключевые условия">
             <span>6–12 сек</span>
@@ -651,6 +704,7 @@
               </div>
             </div>
           </div>
+          <p class="showreel-note">Короткая нарезка примеров: beauty, fragrance, candles, accessories.</p>
           <div class="metrics">
             <div class="metric"><strong>6–12</strong><span>секунд</span></div>
             <div class="metric"><strong>3</strong><span>формата услуги</span></div>
@@ -662,9 +716,9 @@
       <section id="portfolio">
         <div class="section-head">
           <div class="kicker">Портфолио</div>
-          <h2>Короткие preview с watermark</h2>
+          <h2>Примеры коротких product videos</h2>
           <p class="section-text">
-            На сайте — облегчённые 720p-preview без звука и с аккуратным watermark. Чистые версии без watermark — для оплаченных и партнёрских white-label проектов.
+            720p-preview без звука: beauty, fragrance, candles, skincare, mist и fashion accessories. Чистые версии без watermark — для оплаченных и партнёрских white-label проектов.
           </p>
         </div>
         <div class="portfolio video-grid" aria-label="Видео-примеры AI product videos">
@@ -701,9 +755,8 @@
             <div class="work-caption"><strong>Bright beauty</strong><span>tropical product visual</span></div>
           </article>
         </div>
-        <p class="download-note">Защита на сайте отключает очевидное скачивание, но публичные preview всё равно публикуются только с watermark.</p>
         <div class="actions">
-          <a class="btn primary" href="https://t.me/KVSemenov_AI" rel="noopener">Открыть TG-портфолио @KVSemenov_AI</a>
+          <a class="btn primary with-icon" href="https://t.me/KVSemenov_AI" rel="noopener"><img class="messenger-icon" src="assets/tg-icon.png" alt="">Больше работ в Telegram</a>
         </div>
       </section>
 
@@ -797,8 +850,8 @@
           </p>
         </div>
         <div class="actions">
-          <a class="btn primary" href="https://t.me/KVSemenov" rel="noopener">Написать @KVSemenov</a>
-          <a class="btn" href="https://t.me/KVSemenov_AI" rel="noopener">Портфолио</a>
+          <a class="btn primary with-icon" href="https://t.me/KVSemenov" rel="noopener"><img class="messenger-icon" src="assets/tg-icon.png" alt="">Написать в TG</a>
+          <a class="btn with-icon" href="https://max.ru/u/f9LHodD0cOJlDpukwqptJu22mt7WP9gY3Hf1QqJlId29eI5iof0XN7XmUnI" rel="noopener"><img class="messenger-icon" src="assets/max-icon.png" alt="">Написать в MAX</a>
         </div>
       </section>
     </main>
@@ -807,6 +860,7 @@
       <div>© KVSemenov · AI product videos</div>
       <div>
         <a href="https://t.me/KVSemenov" rel="noopener">Telegram</a> ·
+        <a href="https://max.ru/u/f9LHodD0cOJlDpukwqptJu22mt7WP9gY3Hf1QqJlId29eI5iof0XN7XmUnI" rel="noopener">MAX</a> ·
         <a href="https://t.me/KVSemenov_AI" rel="noopener">Портфолио</a> ·
         <a href="/video-greetings-site/">Видео-открытки</a>
       </div>
@@ -850,6 +904,7 @@
     "areaServed": "RU",
     "sameAs": [
       "https://t.me/KVSemenov",
+      "https://max.ru/u/f9LHodD0cOJlDpukwqptJu22mt7WP9gY3Hf1QqJlId29eI5iof0XN7XmUnI",
       "https://t.me/KVSemenov_AI"
     ],
     "offers": [
