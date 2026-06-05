@@ -503,12 +503,87 @@
     footer a { color: var(--muted); text-decoration: none; }
     footer a:hover { color: var(--text); }
 
+
+
+    .hero-video-wrap {
+      height: 100%;
+      border-radius: 25px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.13);
+      background: #050711;
+      position: relative;
+    }
+
+    .hero-video-wrap video,
+    .work-video video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .hero-video-wrap::after,
+    .work-video::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(180deg, transparent 62%, rgba(0,0,0,0.38));
+    }
+
+    .portfolio.video-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .work.video-work {
+      padding: 0;
+      min-height: 0;
+      aspect-ratio: 9 / 16;
+      background: rgba(255,255,255,0.055);
+      box-shadow: 0 22px 70px rgba(0,0,0,0.24);
+    }
+
+    .work.video-work::before { display: none; }
+
+    .work-video {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      border-radius: 26px;
+      background: #050711;
+    }
+
+    .work-caption {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      z-index: 2;
+      padding: 10px 11px;
+      border-radius: 18px;
+      background: rgba(0,0,0,0.42);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(12px);
+    }
+
+    .work-caption strong { display: block; font-size: 15px; margin: 0 0 3px; }
+    .work-caption span { display: block; font-size: 12px; color: rgba(226,232,240,0.86); }
+
+    .download-note {
+      margin-top: 14px;
+      color: var(--soft);
+      font-size: 13px;
+    }
+
     @media (max-width: 900px) {
       header { align-items: flex-start; position: static; }
       nav { display: none; }
       .hero { grid-template-columns: 1fr; padding-top: 24px; }
       .showcase-card { min-height: auto; }
-      .grid, .portfolio { grid-template-columns: 1fr; }
+      .grid, .portfolio, .portfolio.video-grid { grid-template-columns: 1fr; }
       .process { grid-template-columns: repeat(2, 1fr); }
       .cta { grid-template-columns: 1fr; }
       .cta .actions { margin-top: 0; }
@@ -566,11 +641,13 @@
 
         <aside class="showcase-card" aria-label="Пример визуального формата">
           <div class="phone">
-            <div class="mock-video">
-              <div class="mock-product" aria-hidden="true"></div>
+            <div class="hero-video-wrap">
+              <video autoplay muted loop playsinline preload="metadata" poster="assets/posters/showreel.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false" aria-label="Showreel AI product videos KVSemenov">
+                <source src="assets/videos/showreel_720p_watermark.mp4" type="video/mp4">
+              </video>
               <div class="video-label">
-                <span>9:16</span>
-                <span>product loop</span>
+                <span>showreel</span>
+                <span>720p preview</span>
               </div>
             </div>
           </div>
@@ -585,19 +662,48 @@
       <section id="portfolio">
         <div class="section-head">
           <div class="kicker">Портфолио</div>
-          <h2>Примеры собраны в Telegram-канале</h2>
+          <h2>Короткие preview с watermark</h2>
           <p class="section-text">
-            В канале есть работы по beauty/skincare, perfume/fragrance, home fragrance/candles,
-            fashion accessories и отдельные story generation tests.
+            На сайте — облегчённые 720p-preview без звука и с аккуратным watermark. Чистые версии без watermark — для оплаченных и партнёрских white-label проектов.
           </p>
         </div>
-        <div class="portfolio" aria-label="Категории портфолио">
-          <div class="work"><strong>Fashion accessories</strong><span>ролики для очков, аксессуаров и имиджевых продуктов</span></div>
-          <div class="work"><strong>Beauty / skincare</strong><span>сыворотки, кремы, масла, mist и clean beauty visuals</span></div>
-          <div class="work"><strong>Perfume / candles</strong><span>атмосферные ролики для ароматов, свечей и home fragrance</span></div>
+        <div class="portfolio video-grid" aria-label="Видео-примеры AI product videos">
+          <article class="work video-work">
+            <div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/luxury_reflection_loop.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/luxury_reflection_loop_720p_watermark.mp4" type="video/mp4"></video></div>
+            <div class="work-caption"><strong>Fashion accessories</strong><span>premium reflection loop</span></div>
+          </article>
+          <article class="work video-work">
+            <div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/golden_cleansing_oil.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/golden_cleansing_oil_720p_watermark.mp4" type="video/mp4"></video></div>
+            <div class="work-caption"><strong>Beauty oil</strong><span>clean product visual</span></div>
+          </article>
+          <article class="work video-work">
+            <div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/perfume.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/perfume_720p_watermark.mp4" type="video/mp4"></video></div>
+            <div class="work-caption"><strong>Perfume</strong><span>fragrance / luxury mood</span></div>
+          </article>
+          <article class="work video-work">
+            <div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/noname_soy_wax.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/noname_soy_wax_720p_watermark.mp4" type="video/mp4"></video></div>
+            <div class="work-caption"><strong>Home fragrance</strong><span>soy wax candle</span></div>
+          </article>
+          <article class="work video-work">
+            <div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/icon_skin_niacinamide_serum.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/icon_skin_niacinamide_serum_720p_watermark.mp4" type="video/mp4"></video></div>
+            <div class="work-caption"><strong>Skincare serum</strong><span>ICON SKIN / clean beauty</span></div>
+          </article>
+          <article class="work video-work">
+            <div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/shik_repair_serum_oil.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/shik_repair_serum_oil_720p_watermark.mp4" type="video/mp4"></video></div>
+            <div class="work-caption"><strong>Serum oil</strong><span>product texture / macro</span></div>
+          </article>
+          <article class="work video-work">
+            <div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/mist_100ml.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/mist_100ml_720p_watermark.mp4" type="video/mp4"></video></div>
+            <div class="work-caption"><strong>Beauty mist</strong><span>marketplace / social preview</span></div>
+          </article>
+          <article class="work video-work">
+            <div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/eatmy_pineapple_coconut_water.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/eatmy_pineapple_coconut_water_720p_watermark.mp4" type="video/mp4"></video></div>
+            <div class="work-caption"><strong>Bright beauty</strong><span>tropical product visual</span></div>
+          </article>
         </div>
+        <p class="download-note">Защита на сайте отключает очевидное скачивание, но публичные preview всё равно публикуются только с watermark.</p>
         <div class="actions">
-          <a class="btn primary" href="https://t.me/KVSemenov_AI" rel="noopener">Открыть портфолио @KVSemenov_AI</a>
+          <a class="btn primary" href="https://t.me/KVSemenov_AI" rel="noopener">Открыть TG-портфолио @KVSemenov_AI</a>
         </div>
       </section>
 
@@ -706,6 +812,33 @@
       </div>
     </footer>
   </div>
+
+
+  <script>
+    // Лёгкая защита от случайного скачивания и автоплей только для видимых preview.
+    document.addEventListener('contextmenu', function (event) {
+      if (event.target.closest('video')) event.preventDefault();
+    });
+    document.addEventListener('dragstart', function (event) {
+      if (event.target.closest('video, img')) event.preventDefault();
+    });
+    const previewVideos = Array.from(document.querySelectorAll('.video-work video'));
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          const video = entry.target;
+          if (entry.isIntersecting) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        });
+      }, { threshold: 0.35 });
+      previewVideos.forEach((video) => observer.observe(video));
+    } else {
+      previewVideos.forEach((video) => video.play().catch(() => {}));
+    }
+  </script>
 
   <script type="application/ld+json">
   {

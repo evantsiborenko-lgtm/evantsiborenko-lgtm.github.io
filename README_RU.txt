@@ -1,32 +1,27 @@
 # Root GitHub Pages site — KVSemenov AI product videos
 
-Этот мини-сайт нужно загрузить в репозиторий:
+Готовая обновлённая версия корневого сайта:
+https://evantsiborenko-lgtm.github.io/
 
-evantsiborenko-lgtm.github.io
-
-Назначение:
-1. Сделать корневую страницу B2B-лендингом услуги:
-   https://evantsiborenko-lgtm.github.io/
-
-2. Сохранить подтверждение Яндекс Вебмастера через meta-тег:
-   <meta name="yandex-verification" content="d38da1a6f7dc7a4b" />
-
-3. Оставить ссылку на отдельный каталог видео-открыток:
-   https://evantsiborenko-lgtm.github.io/video-greetings-site/
-
-Что изменено:
-- старый переходник на каталог открыток заменён на лендинг AI product videos;
-- добавлены блоки: оффер, портфолио, форматы, партнёрам, процесс, CTA;
-- добавлены ссылки на Telegram @KVSemenov и портфолио @KVSemenov_AI;
-- видео-открытки сохранены как отдельный проект по ссылке /video-greetings-site/;
-- sitemap.xml обновлён под новую роль корневой страницы.
-
-После публикации проверь:
-- https://evantsiborenko-lgtm.github.io/
-- https://evantsiborenko-lgtm.github.io/robots.txt
-- https://evantsiborenko-lgtm.github.io/sitemap.xml
-- ссылка на каталог видео-открыток должна вести на /video-greetings-site/
+Что внутри:
+- B2B-лендинг AI product videos на index.html;
+- встроенный hero-showreel 720p без звука с watermark @KVSemenov;
+- 8 portfolio preview-видео 720p без звука с watermark @KVSemenov;
+- poster .webp для showreel и каждого portfolio-видео;
+- отключено очевидное скачивание: нет controls, controlsList=nodownload, disablePictureInPicture, запрет contextmenu/dragstart на video/img;
+- ссылка на TG-портфолио @KVSemenov_AI;
+- ссылка на отдельный проект видео-открыток /video-greetings-site/;
+- сохранён meta-тег Яндекс Вебмастера.
 
 Важно:
-Основной сайт с открытками остаётся в отдельном репозитории video-greetings-site:
-https://evantsiborenko-lgtm.github.io/video-greetings-site/
+- публичные preview размещаются с watermark;
+- чистые версии без watermark лучше отдавать только после оплаты или для white-label партнёрских задач;
+- сайт видео-открыток в /video-greetings-site/ не трогать.
+
+Файлы для загрузки в корень репозитория evantsiborenko-lgtm.github.io:
+- index.html
+- robots.txt
+- sitemap.xml
+- README_RU.txt
+- assets/videos/*.mp4
+- assets/posters/*.webp
