@@ -1,7 +1,7 @@
-# Root GitHub Pages site — KVSemenov AI product videos
+# Root site — KVSvideo / KVSemenov AI product videos
 
 Готовая обновлённая версия корневого сайта:
-https://evantsiborenko-lgtm.github.io/
+https://kvsvideo.ru/
 
 Что внутри:
 - B2B-лендинг AI product videos на index.html;
@@ -25,3 +25,7 @@ https://evantsiborenko-lgtm.github.io/
 - README_RU.txt
 - assets/videos/*.mp4
 - assets/posters/*.webp
+
+Дополнительно:
+- файл CNAME содержит kvsvideo.ru, чтобы GitHub Pages сохранял custom domain;
+- canonical, Open Graph, robots.txt и sitemap.xml обновлены под https://kvsvideo.ru/.
