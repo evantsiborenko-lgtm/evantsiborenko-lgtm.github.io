@@ -1,31 +1,19 @@
-# Root site — KVSvideo / KVSemenov AI product videos
+KVSvideo — AI product videos / wow version
 
-Готовая обновлённая версия корневого сайта:
-https://kvsvideo.ru/
+Файлы подготовлены для корневого сайта https://kvsvideo.ru/
 
 Что внутри:
-- B2B-лендинг AI product videos на index.html;
-- встроенный hero-showreel 720p без звука с watermark @KVSemenov;
-- 8 portfolio preview-видео 720p без звука с watermark @KVSemenov;
-- poster .webp для showreel и каждого portfolio-видео;
-- отключено очевидное скачивание: нет controls, controlsList=nodownload, disablePictureInPicture, запрет contextmenu/dragstart на video/img;
-- ссылка на TG-портфолио @KVSemenov_AI;
-- ссылка на отдельный проект видео-открыток /video-greetings-site/;
-- сохранён meta-тег Яндекс Вебмастера.
+- index.html — новая premium/wow-версия B2B-лендинга
+- assets/videos/ — 720p preview MP4 без звука, с watermark
+- assets/posters/ — poster .webp для video preview
+- assets/tg-icon.png и assets/max-icon.png — иконки мессенджеров
+- robots.txt, sitemap.xml, CNAME
 
-Важно:
-- публичные preview размещаются с watermark;
-- чистые версии без watermark лучше отдавать только после оплаты или для white-label партнёрских задач;
-- сайт видео-открыток в /video-greetings-site/ не трогать.
-
-Файлы для загрузки в корень репозитория evantsiborenko-lgtm.github.io:
-- index.html
-- robots.txt
-- sitemap.xml
-- README_RU.txt
-- assets/videos/*.mp4
-- assets/posters/*.webp
-
-Дополнительно:
-- файл CNAME содержит kvsvideo.ru, чтобы GitHub Pages сохранял custom domain;
-- canonical, Open Graph, robots.txt и sitemap.xml обновлены под https://kvsvideo.ru/.
+Основные изменения версии:
+- более дорогой hero-блок с AI visual production позиционированием
+- убрана ссылка на видео-открытки из верхнего меню; оставлена только в футере как отдельный проект
+- блок Selected AI product works
+- 3 spec-case разбора без выдуманных метрик
+- блоки Для кого / Форматы / White-label / Production pipeline / Обо мне / FAQ
+- сохранены TG и MAX контакты
+- obvious-download controls отключены, video preview остаются с watermark

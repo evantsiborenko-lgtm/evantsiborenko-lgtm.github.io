@@ -3,239 +3,197 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>KVSemenov — AI product videos для брендов, WB/Ozon и рекламы</title>
-  <meta name="description" content="Короткие AI product videos 6–12 сек для брендов, карточек WB/Ozon, Reels, сайтов и рекламы. Для студий и агентств возможен white-label без watermark.">
+  <title>KVSvideo — AI product videos и коммерческий AI visual production</title>
+  <meta name="description" content="AI product videos 6–12 сек для брендов, WB/Ozon, Reels, сайтов и рекламы. Коммерческие AI-визуалы, product motion, white-label для студий и агентств.">
   <meta name="robots" content="index, follow">
-  <meta name="yandex-verification" content="d38da1a6f7dc7a4b" />
+  <meta name="yandex-verification" content="d38da1a6f7dc7a4b">
   <link rel="canonical" href="https://kvsvideo.ru/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ru_RU">
   <meta property="og:url" content="https://kvsvideo.ru/">
-  <meta property="og:title" content="KVSemenov — AI product videos для брендов и маркетплейсов">
-  <meta property="og:description" content="AI product videos 6–12 сек для WB/Ozon, Reels, сайтов, рекламы и партнёрских проектов white-label.">
-  <meta property="og:site_name" content="KVSvideo — AI product videos">
+  <meta property="og:title" content="KVSvideo — AI product videos для брендов и маркетплейсов">
+  <meta property="og:description" content="Короткие AI product videos, product motion и коммерческие AI-визуалы для WB/Ozon, Reels, сайтов, рекламы и white-label проектов.">
+  <meta property="og:site_name" content="KVSvideo — AI visual production">
   <meta property="og:image" content="https://kvsvideo.ru/assets/posters/showreel.webp">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://kvsvideo.ru/assets/posters/showreel.webp">
-  <meta name="theme-color" content="#0b1020">
+  <meta name="theme-color" content="#070812">
   <style>
     :root {
       color-scheme: dark;
-      --bg: #070a12;
-      --bg-2: #0b1020;
-      --card: rgba(255, 255, 255, 0.06);
-      --card-strong: rgba(255, 255, 255, 0.1);
-      --text: #f8fafc;
+      --bg: #050711;
+      --bg-2: #090e1d;
+      --ink: #f8fafc;
       --muted: #cbd5e1;
-      --soft: #94a3b8;
-      --accent: #facc15;
-      --accent-2: #f59e0b;
-      --line: rgba(255, 255, 255, 0.12);
-      --radius: 28px;
-      --shadow: 0 28px 90px rgba(0, 0, 0, 0.42);
+      --soft: #8fa0b7;
+      --gold: #facc15;
+      --gold-2: #f59e0b;
+      --cyan: #38bdf8;
+      --violet: #a78bfa;
+      --rose: #fb7185;
+      --line: rgba(255,255,255,.13);
+      --line-strong: rgba(255,255,255,.22);
+      --glass: rgba(255,255,255,.065);
+      --glass-2: rgba(255,255,255,.105);
+      --shadow: 0 30px 110px rgba(0,0,0,.46);
+      --radius: 30px;
+      --max: 1200px;
     }
 
     * { box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
-
     body {
       margin: 0;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
+      color: var(--ink);
       background:
-        radial-gradient(circle at 12% 0%, rgba(250, 204, 21, 0.18), transparent 32%),
-        radial-gradient(circle at 90% 16%, rgba(59, 130, 246, 0.16), transparent 34%),
-        radial-gradient(circle at 50% 100%, rgba(168, 85, 247, 0.13), transparent 36%),
-        linear-gradient(180deg, var(--bg-2), var(--bg));
+        radial-gradient(circle at 12% 0%, rgba(250,204,21,.20), transparent 31%),
+        radial-gradient(circle at 92% 12%, rgba(56,189,248,.18), transparent 34%),
+        radial-gradient(circle at 42% 96%, rgba(167,139,250,.15), transparent 34%),
+        linear-gradient(180deg, #0a1020 0%, var(--bg) 52%, #05060d 100%);
       min-height: 100vh;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      background-image:
+        linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 74px 74px;
+      mask-image: radial-gradient(circle at 50% 0%, black, transparent 72%);
+      opacity: .42;
+    }
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      background: radial-gradient(circle at 50% 35%, transparent 0 35%, rgba(0,0,0,.28) 82%);
     }
 
     a { color: inherit; }
-
-    .page {
-      width: min(1180px, calc(100% - 32px));
-      margin: 0 auto;
-    }
+    .page { width: min(var(--max), calc(100% - 32px)); margin: 0 auto; }
 
     header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 18px;
-      padding: 24px 0;
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      backdrop-filter: blur(18px);
+      padding: 18px 0;
+      backdrop-filter: blur(22px);
     }
-
     .brand {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      text-decoration: none;
-    }
-
-    .brand strong {
-      font-size: 16px;
-      letter-spacing: -0.02em;
-    }
-
-    .brand span {
-      color: var(--soft);
-      font-size: 13px;
-    }
-
-    nav {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    nav a {
-      color: var(--muted);
+      gap: 12px;
+      color: var(--ink);
       text-decoration: none;
-      font-size: 14px;
-      padding: 10px 12px;
-      border-radius: 999px;
     }
-
-    nav a:hover { background: rgba(255, 255, 255, 0.07); color: var(--text); }
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      letter-spacing: -.08em;
+      color: #111827;
+      background: linear-gradient(135deg, var(--gold), var(--cyan));
+      box-shadow: 0 16px 36px rgba(250,204,21,.18);
+    }
+    .brand-copy { display: flex; flex-direction: column; line-height: 1.08; }
+    .brand-copy strong { font-size: 16px; letter-spacing: -.02em; }
+    .brand-copy span { color: var(--soft); font-size: 12px; margin-top: 4px; }
+    nav { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 6px; }
+    nav a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 13px;
+      padding: 9px 11px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+    }
+    nav a:hover { color: var(--ink); background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.08); }
 
     .hero {
-      min-height: 72vh;
+      min-height: 84vh;
       display: grid;
-      grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.92fr);
+      grid-template-columns: minmax(0, 1.03fr) minmax(330px, .97fr);
+      gap: clamp(28px, 5vw, 70px);
       align-items: center;
-      gap: clamp(28px, 5vw, 64px);
-      padding: 42px 0 72px;
+      padding: 44px 0 76px;
     }
-
     .eyebrow {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 9px;
       margin-bottom: 18px;
       padding: 9px 13px;
-      border: 1px solid rgba(250, 204, 21, 0.28);
+      border: 1px solid rgba(250,204,21,.30);
       border-radius: 999px;
-      background: rgba(250, 204, 21, 0.08);
+      background: rgba(250,204,21,.08);
       color: #fde68a;
       font-size: 13px;
-      letter-spacing: 0.02em;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      font-weight: 750;
     }
-
     .eyebrow::before {
       content: "";
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 22px rgba(250, 204, 21, 0.9);
+      background: var(--gold);
+      box-shadow: 0 0 24px rgba(250,204,21,.95);
     }
-
     h1 {
       margin: 0;
-      font-size: clamp(42px, 7vw, 86px);
-      line-height: 0.94;
-      letter-spacing: -0.07em;
-      max-width: 850px;
+      max-width: 860px;
+      font-size: clamp(42px, 7.2vw, 88px);
+      line-height: .93;
+      letter-spacing: -.075em;
     }
-
+    .gradient-text {
+      background: linear-gradient(110deg, #fff 0%, #fde68a 34%, #7dd3fc 70%, #c4b5fd 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
     .lead {
       margin: 24px 0 0;
+      max-width: 725px;
       color: var(--muted);
-      max-width: 690px;
-      font-size: clamp(18px, 2.2vw, 23px);
-      line-height: 1.55;
+      font-size: clamp(18px, 2.1vw, 22px);
+      line-height: 1.58;
     }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 34px;
-    }
-
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
     .btn {
+      min-height: 54px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 54px;
-      padding: 0 22px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.13);
-      background: rgba(255, 255, 255, 0.07);
-      color: var(--text);
-      font-weight: 750;
-      text-decoration: none;
-      transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      background: rgba(255, 255, 255, 0.11);
-      border-color: rgba(255, 255, 255, 0.24);
-    }
-
-
-
-    .btn.with-icon {
       gap: 9px;
-      padding-left: 16px;
-    }
-
-    .messenger-icon {
-      width: 24px;
-      height: 24px;
-      border-radius: 8px;
-      object-fit: cover;
-      flex: 0 0 auto;
-      box-shadow: 0 5px 14px rgba(0,0,0,0.24);
-    }
-
-    .showreel-note {
-      margin: 14px auto 0;
-      max-width: 360px;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.45;
-      text-align: center;
-    }
-
-    .contact-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 18px;
-      align-items: center;
-    }
-
-    .contact-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 11px;
+      padding: 0 20px;
       border-radius: 999px;
-      color: var(--muted);
-      background: rgba(255,255,255,0.055);
-      border: 1px solid var(--line);
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.07);
+      color: var(--ink);
       text-decoration: none;
-      font-size: 14px;
+      font-weight: 780;
+      transition: transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
     }
-
-    .contact-link:hover { color: var(--text); background: rgba(255,255,255,0.09); }
-
-    .btn.primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: #111827;
-      border: 0;
-      box-shadow: 0 16px 38px rgba(250, 204, 21, 0.2);
-    }
-
+    .btn:hover { transform: translateY(-2px); background: rgba(255,255,255,.105); border-color: rgba(255,255,255,.24); }
+    .btn.primary { color: #111827; border: 0; background: linear-gradient(135deg, var(--gold), var(--gold-2)); box-shadow: 0 18px 46px rgba(250,204,21,.22); }
+    .btn.ghost-cyan { border-color: rgba(56,189,248,.25); background: rgba(56,189,248,.08); }
+    .messenger-icon { width: 24px; height: 24px; border-radius: 8px; object-fit: cover; flex: 0 0 auto; box-shadow: 0 5px 14px rgba(0,0,0,.25); }
     .trust {
       display: flex;
       flex-wrap: wrap;
@@ -244,330 +202,46 @@
       color: var(--soft);
       font-size: 14px;
     }
-
     .trust span {
       border: 1px solid var(--line);
       border-radius: 999px;
       padding: 8px 11px;
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(255,255,255,.045);
     }
 
-    .showcase-card {
+    .stage {
       position: relative;
-      min-height: 540px;
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-radius: 36px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.045));
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .phone {
-      width: min(310px, 86%);
-      aspect-ratio: 9 / 16;
-      margin: 16px auto 0;
-      border-radius: 34px;
-      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 42px;
+      border: 1px solid rgba(255,255,255,.16);
       background:
-        radial-gradient(circle at 45% 18%, rgba(250,204,21,0.36), transparent 19%),
-        radial-gradient(circle at 50% 58%, rgba(14,165,233,0.25), transparent 28%),
-        linear-gradient(160deg, #161b2f 0%, #0a0d18 58%, #151515 100%);
-      padding: 14px;
-      box-shadow: inset 0 0 0 8px rgba(0,0,0,0.25), 0 26px 80px rgba(0,0,0,0.35);
-      position: relative;
+        radial-gradient(circle at 30% 0%, rgba(250,204,21,.18), transparent 30%),
+        radial-gradient(circle at 100% 20%, rgba(56,189,248,.16), transparent 28%),
+        linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.045));
+      box-shadow: var(--shadow);
+      padding: 18px;
       overflow: hidden;
     }
-
-    .phone::after {
+    .stage::before {
       content: "";
       position: absolute;
-      inset: 0;
-      background: linear-gradient(110deg, transparent 0%, rgba(255,255,255,0.16) 40%, transparent 60%);
-      transform: translateX(-85%);
-      animation: sheen 6s ease-in-out infinite;
+      inset: -40%;
+      background: conic-gradient(from 180deg, transparent, rgba(250,204,21,.16), transparent, rgba(56,189,248,.15), transparent);
+      animation: rotateGlow 16s linear infinite;
+      opacity: .65;
     }
-
-    @keyframes sheen {
-      0%, 45% { transform: translateX(-85%); }
-      68%, 100% { transform: translateX(90%); }
-    }
-
-    .mock-video {
-      height: 100%;
-      border-radius: 25px;
-      border: 1px solid rgba(255,255,255,0.13);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02)),
-        radial-gradient(circle at 50% 42%, rgba(250,204,21,0.45), transparent 24%),
-        radial-gradient(circle at 50% 58%, rgba(255,255,255,0.16), transparent 25%),
-        #0b1020;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      padding: 24px;
-      position: relative;
+    @keyframes rotateGlow { to { transform: rotate(360deg); } }
+    .stage-inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr .56fr; gap: 14px; align-items: stretch; }
+    .showreel-frame {
+      border-radius: 31px;
       overflow: hidden;
-    }
-
-    .mock-product {
-      width: 126px;
-      height: 210px;
-      border-radius: 52px 52px 18px 18px;
-      background: linear-gradient(145deg, #f8fafc, #f7d36a 46%, #b77720);
-      box-shadow: 0 28px 80px rgba(245, 158, 11, 0.34);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #111827;
-      font-weight: 900;
-      letter-spacing: 0.08em;
-      position: relative;
-      z-index: 2;
-    }
-
-    .mock-product::before {
-      content: "AI";
-      position: absolute;
-      top: 38px;
-      font-size: 28px;
-    }
-
-    .mock-product::after {
-      content: "PRODUCT VIDEO";
-      position: absolute;
-      bottom: 42px;
-      width: 88px;
-      font-size: 9px;
-      line-height: 1.2;
-    }
-
-    .video-label {
-      position: absolute;
-      left: 22px;
-      right: 22px;
-      bottom: 24px;
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      color: rgba(248,250,252,0.86);
-      font-size: 12px;
-      z-index: 3;
-    }
-
-    .video-label span {
-      padding: 7px 9px;
-      border: 1px solid rgba(255,255,255,0.14);
-      border-radius: 999px;
-      background: rgba(0,0,0,0.24);
-      backdrop-filter: blur(10px);
-    }
-
-    .metrics {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-top: 18px;
-    }
-
-    .metric {
-      padding: 16px 12px;
-      border-radius: 20px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.055);
-      text-align: center;
-    }
-
-    .metric strong {
-      display: block;
-      font-size: 20px;
-      margin-bottom: 3px;
-    }
-
-    .metric span {
-      color: var(--soft);
-      font-size: 12px;
-    }
-
-    section { padding: 72px 0; }
-
-    .section-head {
-      max-width: 760px;
-      margin-bottom: 28px;
-    }
-
-    .kicker {
-      color: #fde68a;
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      font-weight: 750;
-      margin-bottom: 12px;
-    }
-
-    h2 {
-      margin: 0;
-      font-size: clamp(30px, 4.6vw, 54px);
-      line-height: 1;
-      letter-spacing: -0.045em;
-    }
-
-    .section-text {
-      color: var(--muted);
-      font-size: 18px;
-      line-height: 1.65;
-      margin: 16px 0 0;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-
-    .card {
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--card);
-      padding: 24px;
-      min-height: 100%;
-    }
-
-    .card h3 {
-      margin: 0 0 10px;
-      font-size: 21px;
-      letter-spacing: -0.025em;
-    }
-
-    .card p, .card li {
-      color: var(--muted);
-      line-height: 1.58;
-      font-size: 15.5px;
-    }
-
-    .card p { margin: 0; }
-
-    .card ul {
-      margin: 16px 0 0;
-      padding-left: 18px;
-    }
-
-    .price {
-      margin: 18px 0 0;
-      font-size: 27px;
-      font-weight: 850;
-      letter-spacing: -0.04em;
-      color: #fde68a;
-    }
-
-    .portfolio {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-    }
-
-    .work {
-      min-height: 180px;
-      border-radius: 26px;
-      padding: 18px;
-      border: 1px solid var(--line);
-      background:
-        radial-gradient(circle at 80% 0%, rgba(250, 204, 21, 0.16), transparent 34%),
-        rgba(255,255,255,0.055);
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .work::before {
-      content: "";
-      position: absolute;
-      width: 170px;
-      height: 170px;
-      border-radius: 50%;
-      right: -54px;
-      top: -56px;
-      background: rgba(255,255,255,0.08);
-    }
-
-    .work strong, .work span { position: relative; z-index: 1; }
-    .work strong { font-size: 18px; margin-bottom: 6px; }
-    .work span { color: var(--soft); font-size: 14px; line-height: 1.45; }
-
-    .process {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-    }
-
-    .step {
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 20px;
-      background: rgba(255,255,255,0.045);
-    }
-
-    .step b {
-      display: inline-flex;
-      width: 36px;
-      height: 36px;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      background: rgba(250,204,21,0.16);
-      color: #fde68a;
-      margin-bottom: 16px;
-    }
-
-    .step strong { display: block; margin-bottom: 8px; }
-    .step span { color: var(--muted); line-height: 1.55; font-size: 14px; }
-
-    .cta {
-      border: 1px solid rgba(250,204,21,0.26);
-      background:
-        radial-gradient(circle at 15% 0%, rgba(250,204,21,0.2), transparent 28%),
-        linear-gradient(145deg, rgba(255,255,255,0.11), rgba(255,255,255,0.045));
-      border-radius: 36px;
-      padding: clamp(28px, 6vw, 56px);
-      box-shadow: var(--shadow);
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: center;
-      gap: 28px;
-    }
-
-    .cta h2 { max-width: 720px; }
-    .cta p { color: var(--muted); font-size: 18px; line-height: 1.6; margin: 16px 0 0; max-width: 760px; }
-
-    footer {
-      padding: 36px 0 54px;
-      color: var(--soft);
-      font-size: 14px;
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-      border-top: 1px solid var(--line);
-    }
-
-    footer a { color: var(--muted); text-decoration: none; }
-    footer a:hover { color: var(--text); }
-
-
-
-    .hero-video-wrap {
-      height: 100%;
-      border-radius: 25px;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.13);
       background: #050711;
+      border: 1px solid rgba(255,255,255,.16);
+      aspect-ratio: 9 / 16;
+      min-height: 540px;
       position: relative;
+      box-shadow: inset 0 0 0 8px rgba(0,0,0,.22), 0 26px 70px rgba(0,0,0,.32);
     }
-
-    .hero-video-wrap video,
-    .work-video video {
+    .showreel-frame video, .work-video video, .case-media video {
       display: block;
       width: 100%;
       height: 100%;
@@ -575,96 +249,279 @@
       user-select: none;
       -webkit-user-drag: none;
     }
-
-    .hero-video-wrap::after,
-    .work-video::after {
+    .showreel-frame::after, .work-video::after, .case-media::after {
       content: "";
       position: absolute;
       inset: 0;
       pointer-events: none;
-      background: linear-gradient(180deg, transparent 62%, rgba(0,0,0,0.38));
+      background: linear-gradient(180deg, transparent 58%, rgba(0,0,0,.44));
     }
-
-    .portfolio.video-grid {
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-    }
-
-    .work.video-work {
-      padding: 0;
-      min-height: 0;
-      aspect-ratio: 9 / 16;
-      background: rgba(255,255,255,0.055);
-      box-shadow: 0 22px 70px rgba(0,0,0,0.24);
-    }
-
-    .work.video-work::before { display: none; }
-
-    .work-video {
+    .video-label {
       position: absolute;
-      inset: 0;
-      overflow: hidden;
-      border-radius: 26px;
-      background: #050711;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 12px;
+      color: rgba(248,250,252,.9);
     }
+    .video-label span {
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.34);
+      backdrop-filter: blur(12px);
+    }
+    .side-stack { display: grid; gap: 14px; }
+    .mini-panel {
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,.26);
+      border-radius: 26px;
+      padding: 18px;
+      min-height: 0;
+    }
+    .mini-panel small { color: #fde68a; text-transform: uppercase; letter-spacing: .12em; font-weight: 780; }
+    .mini-panel strong { display: block; margin-top: 10px; font-size: 25px; line-height: 1; letter-spacing: -.045em; }
+    .mini-panel p { margin: 10px 0 0; color: var(--muted); line-height: 1.5; font-size: 14px; }
+    .before-after { display: grid; gap: 10px; }
+    .ba-card {
+      min-height: 104px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.13);
+      background: rgba(255,255,255,.055);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+      position: relative;
+      overflow: hidden;
+    }
+    .ba-card.after {
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 50% 20%, rgba(250,204,21,.24), transparent 38%),
+        rgba(255,255,255,.08);
+    }
+    .ba-card b { display: block; color: #fff; font-size: 15px; margin-bottom: 4px; }
 
+    section { padding: 78px 0; }
+    .section-head { max-width: 790px; margin-bottom: 30px; }
+    .kicker { color: #fde68a; font-size: 13px; text-transform: uppercase; letter-spacing: .17em; font-weight: 800; margin-bottom: 12px; }
+    h2 { margin: 0; font-size: clamp(32px, 4.7vw, 56px); line-height: 1; letter-spacing: -.052em; }
+    .section-text { color: var(--muted); font-size: 18px; line-height: 1.64; margin: 16px 0 0; }
+
+    .portfolio { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .work {
+      position: relative;
+      aspect-ratio: 9 / 16;
+      min-height: 0;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.055);
+      box-shadow: 0 22px 70px rgba(0,0,0,.24);
+    }
+    .work-video { position: absolute; inset: 0; overflow: hidden; background: #050711; }
     .work-caption {
       position: absolute;
       left: 12px;
       right: 12px;
       bottom: 12px;
       z-index: 2;
-      padding: 10px 11px;
+      padding: 11px 12px;
       border-radius: 18px;
-      background: rgba(0,0,0,0.42);
-      border: 1px solid rgba(255,255,255,0.12);
-      backdrop-filter: blur(12px);
+      background: rgba(0,0,0,.45);
+      border: 1px solid rgba(255,255,255,.13);
+      backdrop-filter: blur(14px);
     }
+    .work-caption strong { display: block; font-size: 15px; margin-bottom: 3px; }
+    .work-caption span { display: block; font-size: 12px; color: rgba(226,232,240,.86); line-height: 1.35; }
 
-    .work-caption strong { display: block; font-size: 15px; margin: 0 0 3px; }
-    .work-caption span { display: block; font-size: 12px; color: rgba(226,232,240,0.86); }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .grid.two { grid-template-columns: repeat(2, 1fr); }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.078), rgba(255,255,255,.045));
+      padding: 25px;
+      min-height: 100%;
+    }
+    .card.highlight { border-color: rgba(250,204,21,.28); background: linear-gradient(180deg, rgba(250,204,21,.11), rgba(255,255,255,.045)); }
+    .card h3 { margin: 0 0 10px; font-size: 22px; letter-spacing: -.03em; }
+    .card p, .card li { color: var(--muted); line-height: 1.58; font-size: 15.5px; }
+    .card p { margin: 0; }
+    .card ul { margin: 16px 0 0; padding-left: 18px; }
+    .price { margin-top: 18px; color: #fde68a; font-weight: 900; font-size: 27px; letter-spacing: -.045em; }
+    .tag { display: inline-flex; margin-bottom: 13px; padding: 7px 10px; border-radius: 999px; color: #fde68a; background: rgba(250,204,21,.1); border: 1px solid rgba(250,204,21,.22); font-size: 12px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
 
-    .download-note {
-      margin-top: 14px;
+    .case-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .case-card {
+      border: 1px solid var(--line);
+      border-radius: 32px;
+      overflow: hidden;
+      background: rgba(255,255,255,.055);
+      box-shadow: 0 22px 70px rgba(0,0,0,.22);
+    }
+    .case-media { aspect-ratio: 16 / 10; position: relative; background: #050711; }
+    .case-body { padding: 22px; }
+    .case-body h3 { margin: 0 0 14px; font-size: 22px; letter-spacing: -.03em; }
+    .case-line { display: grid; gap: 4px; margin: 12px 0; }
+    .case-line b { color: #fff; font-size: 13px; }
+    .case-line span { color: var(--muted); line-height: 1.48; font-size: 14px; }
+
+    .audience { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .audience .card { padding: 22px; }
+    .audience .card h3 { font-size: 20px; }
+
+    .process { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+    .step {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 18px;
+      background: rgba(255,255,255,.045);
+    }
+    .step b {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      margin-bottom: 15px;
+      color: #fde68a;
+      background: rgba(250,204,21,.15);
+    }
+    .step strong { display: block; margin-bottom: 8px; font-size: 15px; }
+    .step span { color: var(--muted); line-height: 1.5; font-size: 13.5px; }
+
+    .about {
+      display: grid;
+      grid-template-columns: .82fr 1.18fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+    .portrait-card {
+      min-height: 360px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      border-radius: 36px;
+      border: 1px solid rgba(250,204,21,.24);
+      background:
+        radial-gradient(circle at 50% 22%, rgba(250,204,21,.22), transparent 30%),
+        radial-gradient(circle at 50% 85%, rgba(56,189,248,.14), transparent 32%),
+        rgba(255,255,255,.055);
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
+    .portrait-mark {
+      width: 120px;
+      height: 120px;
+      border-radius: 36px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 22px;
+      font-size: 34px;
+      font-weight: 950;
+      letter-spacing: -.1em;
+      color: #111827;
+      background: linear-gradient(135deg, var(--gold), var(--cyan));
+    }
+    .portrait-card strong { display: block; font-size: 25px; letter-spacing: -.04em; }
+    .portrait-card span { display: block; margin-top: 8px; color: var(--muted); line-height: 1.45; }
+
+    .faq { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    details {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255,255,255,.05);
+      padding: 18px 20px;
+    }
+    summary { cursor: pointer; font-weight: 800; letter-spacing: -.015em; }
+    details p { color: var(--muted); line-height: 1.58; margin: 12px 0 0; font-size: 15px; }
+
+    .cta {
+      border: 1px solid rgba(250,204,21,.30);
+      border-radius: 40px;
+      padding: clamp(30px, 6vw, 58px);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 28px;
+      background:
+        radial-gradient(circle at 15% 0%, rgba(250,204,21,.22), transparent 31%),
+        radial-gradient(circle at 90% 80%, rgba(56,189,248,.15), transparent 34%),
+        linear-gradient(145deg, rgba(255,255,255,.12), rgba(255,255,255,.045));
+      box-shadow: var(--shadow);
+    }
+    .cta p { margin: 16px 0 0; color: var(--muted); font-size: 18px; line-height: 1.6; max-width: 760px; }
+
+    footer {
+      padding: 38px 0 56px;
+      border-top: 1px solid var(--line);
       color: var(--soft);
-      font-size: 13px;
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
     }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--ink); }
 
-    @media (max-width: 900px) {
-      header { align-items: flex-start; position: static; }
-      nav { display: none; }
-      .hero { grid-template-columns: 1fr; padding-top: 24px; }
-      .showcase-card { min-height: auto; }
-      .grid, .portfolio, .portfolio.video-grid { grid-template-columns: 1fr; }
-      .process { grid-template-columns: repeat(2, 1fr); }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .stage::before { animation: none; }
+    }
+    @media (max-width: 1040px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .stage-inner { grid-template-columns: 1fr; }
+      .showreel-frame { width: min(360px, 100%); margin: 0 auto; min-height: auto; }
+      .side-stack { grid-template-columns: repeat(3, 1fr); }
+      .portfolio { grid-template-columns: repeat(2, 1fr); }
+      .process { grid-template-columns: repeat(3, 1fr); }
+      .audience { grid-template-columns: repeat(2, 1fr); }
+      .case-grid, .grid { grid-template-columns: 1fr; }
+      .about { grid-template-columns: 1fr; }
       .cta { grid-template-columns: 1fr; }
       .cta .actions { margin-top: 0; }
     }
-
-    @media (max-width: 560px) {
-      .page { width: min(100% - 22px, 1180px); }
-      header { padding: 18px 0; }
+    @media (max-width: 720px) {
+      .page { width: min(100% - 22px, var(--max)); }
+      header { position: static; padding: 16px 0; }
+      nav { display: none; }
+      .hero { padding-top: 28px; }
       .actions { flex-direction: column; }
       .btn { width: 100%; }
-      .metrics { grid-template-columns: 1fr; }
-      .process { grid-template-columns: 1fr; }
-      section { padding: 52px 0; }
-      .phone { width: 100%; }
+      .side-stack, .portfolio, .process, .audience, .faq { grid-template-columns: 1fr; }
+      section { padding: 56px 0; }
+      .showreel-frame { border-radius: 27px; }
+      .stage { border-radius: 32px; padding: 12px; }
+      h1 { font-size: clamp(38px, 13vw, 60px); }
     }
   </style>
 </head>
 <body>
   <div class="page">
     <header>
-      <a class="brand" href="/" aria-label="KVSemenov AI product videos">
-        <strong>KVSemenov</strong>
-        <span>AI product videos · @KVSemenov</span>
+      <a class="brand" href="/" aria-label="KVSvideo — AI visual production">
+        <span class="brand-mark">KVS</span>
+        <span class="brand-copy">
+          <strong>KVSvideo</strong>
+          <span>AI product videos · @KVSemenov</span>
+        </span>
       </a>
       <nav aria-label="Навигация">
-        <a href="#portfolio">Портфолио</a>
+        <a href="#portfolio">Работы</a>
+        <a href="#cases">Разборы</a>
         <a href="#formats">Форматы</a>
-        <a href="#partners">Партнёрам</a>
-        <a href="/video-greetings-site/">Видео-открытки</a>
+        <a href="#process">Процесс</a>
+        <a href="#faq">FAQ</a>
         <a href="https://t.me/KVSemenov" rel="noopener">TG</a>
         <a href="https://max.ru/u/f9LHodD0cOJlDpukwqptJu22mt7WP9gY3Hf1QqJlId29eI5iof0XN7XmUnI" rel="noopener">MAX</a>
       </nav>
@@ -673,135 +530,152 @@
     <main>
       <section class="hero" aria-label="AI product videos">
         <div>
-          <div class="eyebrow">Короткие AI-видео для товаров</div>
-          <h1>AI product videos для брендов, WB/Ozon и рекламы</h1>
+          <div class="eyebrow">AI visual production / product motion</div>
+          <h1><span class="gradient-text">AI product videos</span>, которые превращают статичный товар в живую презентацию</h1>
           <p class="lead">
-            Короткие AI product videos, которые можно сразу использовать в карточке товара, Reels
-            или презентации продукта. Для студий, агентств и фотографов возможен white-label — без watermark.
+            Короткие коммерческие AI-видео для карточек WB/Ozon, Reels, сайтов, презентаций и рекламы.
+            Фокус — читаемый продукт, стабильная геометрия, свет, материал и визуальная идея, которую можно реально использовать.
           </p>
           <div class="actions">
-            <a class="btn primary" href="#portfolio">Смотреть портфолио</a>
-            <a class="btn with-icon" href="https://t.me/KVSemenov_AI" rel="noopener"><img class="messenger-icon" src="assets/tg-icon.png" alt="">Больше работ в Telegram</a>
-            <a class="btn" href="/video-greetings-site/">Видео-открытки</a>
-          </div>
-          <div class="contact-row" aria-label="Контакты">
-            <a class="contact-link" href="https://t.me/KVSemenov" rel="noopener"><img class="messenger-icon" src="assets/tg-icon.png" alt="">Написать в TG</a>
-            <a class="contact-link" href="https://max.ru/u/f9LHodD0cOJlDpukwqptJu22mt7WP9gY3Hf1QqJlId29eI5iof0XN7XmUnI" rel="noopener"><img class="messenger-icon" src="assets/max-icon.png" alt="">Написать в MAX</a>
+            <a class="btn primary" href="#portfolio">Смотреть работы</a>
+            <a class="btn ghost-cyan" href="#formats">Форматы и цены</a>
+            <a class="btn" href="https://t.me/KVSemenov" rel="noopener"><img class="messenger-icon" src="assets/tg-icon.png" alt="">Обсудить задачу</a>
           </div>
           <div class="trust" aria-label="Ключевые условия">
             <span>6–12 сек</span>
-            <span>WB/Ozon · Reels · сайт</span>
-            <span>white-label для партнёров</span>
+            <span>MP4 для WB/Ozon · Reels · сайта</span>
+            <span>white-label без watermark</span>
             <span>самозанятый · чек</span>
           </div>
         </div>
 
-        <aside class="showcase-card" aria-label="Пример визуального формата">
-          <div class="phone">
-            <div class="hero-video-wrap">
-              <video autoplay muted loop playsinline preload="metadata" poster="assets/posters/showreel.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false" aria-label="Showreel AI product videos KVSemenov">
+        <aside class="stage" id="showreel" aria-label="Showreel AI product videos">
+          <div class="stage-inner">
+            <div class="showreel-frame">
+              <video autoplay muted loop playsinline preload="metadata" poster="assets/posters/showreel.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false" aria-label="Showreel KVSvideo AI product videos">
                 <source src="assets/videos/showreel_720p_watermark.mp4" type="video/mp4">
               </video>
-              <div class="video-label">
-                <span>showreel</span>
-                <span>720p preview</span>
+              <div class="video-label"><span>Showreel</span><span>selected AI works</span></div>
+            </div>
+            <div class="side-stack">
+              <div class="mini-panel">
+                <small>from static</small>
+                <strong>Фото продукта</strong>
+                <p>Исходник, карточка, упаковка, текстура, референс.</p>
+              </div>
+              <div class="mini-panel">
+                <small>to motion</small>
+                <strong>AI product video</strong>
+                <p>Движение камеры, свет, атмосфера, финальный MP4.</p>
+              </div>
+              <div class="mini-panel before-after">
+                <div class="ba-card"><b>До</b>статичный товар на карточке</div>
+                <div class="ba-card after"><b>После</b>товар в движении: для карточки, Reels или презентации</div>
               </div>
             </div>
-          </div>
-          <p class="showreel-note">Короткая нарезка примеров: beauty, fragrance, candles, accessories.</p>
-          <div class="metrics">
-            <div class="metric"><strong>6–12</strong><span>секунд</span></div>
-            <div class="metric"><strong>3</strong><span>формата услуги</span></div>
-            <div class="metric"><strong>MP4</strong><span>готовый файл</span></div>
           </div>
         </aside>
       </section>
 
       <section id="portfolio">
         <div class="section-head">
-          <div class="kicker">Портфолио</div>
-          <h2>Примеры коротких product videos</h2>
+          <div class="kicker">Selected AI product works</div>
+          <h2>Портфолио не про “нейросеточный эффект”, а про продукт в кадре</h2>
           <p class="section-text">
-            720p-preview без звука: beauty, fragrance, candles, skincare, mist и fashion accessories. Чистые версии без watermark — для оплаченных и партнёрских white-label проектов.
+            Preview-версии 720p без звука, с аккуратным watermark. Чистые MP4 без watermark — после оплаты или для партнёрских white-label задач.
           </p>
         </div>
-        <div class="portfolio video-grid" aria-label="Видео-примеры AI product videos">
-          <article class="work video-work">
-            <div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/luxury_reflection_loop.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/luxury_reflection_loop_720p_watermark.mp4" type="video/mp4"></video></div>
-            <div class="work-caption"><strong>Fashion accessories</strong><span>premium reflection loop</span></div>
-          </article>
-          <article class="work video-work">
-            <div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/golden_cleansing_oil.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/golden_cleansing_oil_720p_watermark.mp4" type="video/mp4"></video></div>
-            <div class="work-caption"><strong>Beauty oil</strong><span>clean product visual</span></div>
-          </article>
-          <article class="work video-work">
-            <div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/perfume.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/perfume_720p_watermark.mp4" type="video/mp4"></video></div>
-            <div class="work-caption"><strong>Perfume</strong><span>fragrance / luxury mood</span></div>
-          </article>
-          <article class="work video-work">
-            <div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/noname_soy_wax.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/noname_soy_wax_720p_watermark.mp4" type="video/mp4"></video></div>
-            <div class="work-caption"><strong>Home fragrance</strong><span>soy wax candle</span></div>
-          </article>
-          <article class="work video-work">
-            <div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/icon_skin_niacinamide_serum.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/icon_skin_niacinamide_serum_720p_watermark.mp4" type="video/mp4"></video></div>
-            <div class="work-caption"><strong>Skincare serum</strong><span>ICON SKIN / clean beauty</span></div>
-          </article>
-          <article class="work video-work">
-            <div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/shik_repair_serum_oil.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/shik_repair_serum_oil_720p_watermark.mp4" type="video/mp4"></video></div>
-            <div class="work-caption"><strong>Serum oil</strong><span>product texture / macro</span></div>
-          </article>
-          <article class="work video-work">
-            <div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/mist_100ml.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/mist_100ml_720p_watermark.mp4" type="video/mp4"></video></div>
-            <div class="work-caption"><strong>Beauty mist</strong><span>marketplace / social preview</span></div>
-          </article>
-          <article class="work video-work">
-            <div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/eatmy_pineapple_coconut_water.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/eatmy_pineapple_coconut_water_720p_watermark.mp4" type="video/mp4"></video></div>
-            <div class="work-caption"><strong>Bright beauty</strong><span>tropical product visual</span></div>
-          </article>
+        <div class="portfolio" aria-label="Видео-примеры AI product videos">
+          <article class="work"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/luxury_reflection_loop.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/luxury_reflection_loop_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Luxury Reflection Loop</strong><span>fashion accessory / premium reflection / product focus</span></div></article>
+          <article class="work"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/golden_cleansing_oil.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/golden_cleansing_oil_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Golden Cleansing Oil</strong><span>beauty oil / warm light / clean commercial motion</span></div></article>
+          <article class="work"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/perfume.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/perfume_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Perfume Concept</strong><span>fragrance / glass reflections / quiet luxury mood</span></div></article>
+          <article class="work"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/noname_soy_wax.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/noname_soy_wax_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Soy Wax Candle</strong><span>home fragrance / wooden wick / warm minimalism</span></div></article>
+          <article class="work"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/icon_skin_niacinamide_serum.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/icon_skin_niacinamide_serum_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Skincare Serum</strong><span>clean beauty / stable package / product readability</span></div></article>
+          <article class="work"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/shik_repair_serum_oil.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/shik_repair_serum_oil_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Repair Serum Oil</strong><span>macro texture / premium beauty visual</span></div></article>
+          <article class="work"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/mist_100ml.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/mist_100ml_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Beauty Mist</strong><span>marketplace / product presentation / social preview</span></div></article>
+          <article class="work"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/eatmy_pineapple_coconut_water.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/eatmy_pineapple_coconut_water_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Bright Beauty Visual</strong><span>tropical color / energetic product mood</span></div></article>
         </div>
         <div class="actions">
-          <a class="btn primary with-icon" href="https://t.me/KVSemenov_AI" rel="noopener"><img class="messenger-icon" src="assets/tg-icon.png" alt="">Больше работ в Telegram</a>
+          <a class="btn primary" href="https://t.me/KVSemenov_AI" rel="noopener"><img class="messenger-icon" src="assets/tg-icon.png" alt="">Больше работ в Telegram</a>
+        </div>
+      </section>
+
+      <section id="cases">
+        <div class="section-head">
+          <div class="kicker">Spec concepts</div>
+          <h2>Как я собираю визуальную идею, а не просто “оживляю фото”</h2>
+          <p class="section-text">Ниже — демонстрационные разборы. Это не клиентские кейсы с метриками, а честные spec-концепты: задача, визуальное решение и где такой ролик можно использовать.</p>
+        </div>
+        <div class="case-grid">
+          <article class="case-card">
+            <div class="case-media"><video muted loop playsinline preload="metadata" poster="assets/posters/golden_cleansing_oil.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/golden_cleansing_oil_720p_watermark.mp4" type="video/mp4"></video></div>
+            <div class="case-body">
+              <h3>Beauty oil / premium clean visual</h3>
+              <div class="case-line"><b>Задача</b><span>Сделать товар “дороже” через свет, стекло, мягкое движение и ощущение ухода.</span></div>
+              <div class="case-line"><b>Решение</b><span>Тёплая палитра, крупный герой-продукт, минимум лишних объектов, коммерческий clean beauty mood.</span></div>
+              <div class="case-line"><b>Использование</b><span>Карточка товара, Reels, сайт, презентация линейки.</span></div>
+            </div>
+          </article>
+          <article class="case-card">
+            <div class="case-media"><video muted loop playsinline preload="metadata" poster="assets/posters/noname_soy_wax.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/noname_soy_wax_720p_watermark.mp4" type="video/mp4"></video></div>
+            <div class="case-body">
+              <h3>Home fragrance / quiet luxury</h3>
+              <div class="case-line"><b>Задача</b><span>Показать свечу не как предмет, а как атмосферу дома и спокойного премиального ритуала.</span></div>
+              <div class="case-line"><b>Решение</b><span>Натуральный свет, спокойная композиция, акцент на воске, фитиле и мягком ощущении тепла.</span></div>
+              <div class="case-line"><b>Использование</b><span>Сайт бренда, карточка маркетплейса, соцсети, seasonal campaign.</span></div>
+            </div>
+          </article>
+          <article class="case-card">
+            <div class="case-media"><video muted loop playsinline preload="metadata" poster="assets/posters/luxury_reflection_loop.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/luxury_reflection_loop_720p_watermark.mp4" type="video/mp4"></video></div>
+            <div class="case-body">
+              <h3>Fashion accessory / reflective loop</h3>
+              <div class="case-line"><b>Задача</b><span>Дать аксессуару ощущение fashion-shoot и premium product motion без живой съёмки.</span></div>
+              <div class="case-line"><b>Решение</b><span>Глянцевые отражения, controlled highlights, медленный loop и фокус на форме объекта.</span></div>
+              <div class="case-line"><b>Использование</b><span>Reels, landing, product teaser, презентация для клиента студии.</span></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="audience">
+        <div class="section-head">
+          <div class="kicker">Для кого</div>
+          <h2>Разные задачи — один короткий визуальный формат</h2>
+        </div>
+        <div class="audience">
+          <article class="card"><h3>Бренды</h3><p>Ролики для сайта, Reels, рекламы, презентации продукта или запуска новой линейки.</p></article>
+          <article class="card"><h3>WB/Ozon команды</h3><p>Короткие product videos для карточек, где товар нужно показать живее, чем на статичном фото.</p></article>
+          <article class="card"><h3>Студии и агентства</h3><p>White-label AI-видео как дополнительная услуга для ваших клиентов.</p></article>
+          <article class="card"><h3>Фотографы</h3><p>Оживление готовых предметных фото и возможность расширить чек без новой съёмки.</p></article>
         </div>
       </section>
 
       <section id="formats">
         <div class="section-head">
           <div class="kicker">Форматы</div>
-          <h2>Можно начать с простого теста</h2>
-          <p class="section-text">
-            Цена зависит от исходников, количества сцен, текста, музыки, сложности продукта и нужных форматов.
-            Ниже — рабочие ориентиры для старта.
-          </p>
+          <h2>Три уровня входа: от теста до имиджевого ролика</h2>
+          <p class="section-text">Цены ниже — ориентиры. Точная стоимость зависит от исходников, количества сцен, сложности продукта, текста, музыки и нужных форматов.</p>
         </div>
         <div class="grid">
           <article class="card">
+            <span class="tag">Test</span>
             <h3>Loop / оживление продукта</h3>
-            <p>Короткий зацикленный ролик 6–8 сек по готовому фото или продуктовой визуализации. Одна сцена, один акцент.</p>
-            <ul>
-              <li>для карточек и быстрых тестов;</li>
-              <li>без сложного монтажа;</li>
-              <li>подходит для партнёров как входной формат.</li>
-            </ul>
+            <p>6–8 сек, одна сцена, короткий зацикленный ролик по готовому фото или продуктовой визуализации.</p>
+            <ul><li>быстрый входной тест;</li><li>для карточек и соцсетей;</li><li>без сложного монтажа.</li></ul>
             <div class="price">от 3 000–4 000 ₽</div>
           </article>
-          <article class="card">
+          <article class="card highlight">
+            <span class="tag">Core</span>
             <h3>AI product video</h3>
-            <p>Ролик 8–12 сек с движением камеры, светом, атмосферой, музыкой и простым монтажом.</p>
-            <ul>
-              <li>для Reels, сайта, презентации;</li>
-              <li>можно адаптировать под WB/Ozon;</li>
-              <li>финальный MP4-файл.</li>
-            </ul>
+            <p>8–12 сек: движение камеры, свет, атмосфера, музыка, простой монтаж и финальный MP4.</p>
+            <ul><li>для WB/Ozon, Reels, сайта;</li><li>акцент на читаемом продукте;</li><li>можно адаптировать под партнёра.</li></ul>
             <div class="price">от 5 000 ₽</div>
           </article>
           <article class="card">
+            <span class="tag">Image</span>
             <h3>Имиджевый ролик</h3>
-            <p>15–20 сек и больше: несколько AI-сцен, монтаж, музыка, титры или текстовые акценты при необходимости.</p>
-            <ul>
-              <li>для брендов и агентств;</li>
-              <li>несколько сцен и настроений;</li>
-              <li>стоимость считается по задаче.</li>
-            </ul>
+            <p>15–20 сек и больше: несколько AI-сцен, монтаж, музыка, титры или текстовые акценты.</p>
+            <ul><li>для брендов и агентств;</li><li>несколько сцен и настроений;</li><li>стоимость считается по ТЗ.</li></ul>
             <div class="price">от 8 000–12 000 ₽+</div>
           </article>
         </div>
@@ -809,78 +683,101 @@
 
       <section id="partners">
         <div class="section-head">
-          <div class="kicker">Для студий и агентств</div>
-          <h2>Можно использовать как доп.услугу для ваших клиентов</h2>
-          <p class="section-text">
-            Если вы делаете карточки, предметную съёмку, контент для маркетплейсов или ведёте бренды,
-            AI-видео можно добавить к вашему чеку как отдельный визуальный формат.
-          </p>
+          <div class="kicker">White-label</div>
+          <h2>Для студий, агентств и фотографов — как доп.услуга для ваших клиентов</h2>
+          <p class="section-text">Вы приносите продукт, фото, ссылку на карточку или клиентский бриф. Я собираю AI-видео, которое можно передать клиенту под вашим брендом.</p>
         </div>
         <div class="grid">
-          <article class="card">
-            <h3>White-label</h3>
-            <p>Для партнёрских проектов могу отдавать ролики без watermark, чтобы вы показывали их клиенту от имени своей студии.</p>
-          </article>
-          <article class="card">
-            <h3>Пакеты под серию</h3>
-            <p>Если нужно несколько роликов под одного клиента или линейку товаров, можно считать пакетно — дешевле за ролик.</p>
-          </article>
-          <article class="card">
-            <h3>Без лишних обещаний</h3>
-            <p>Не обещаю “гарантированный рост продаж”. Задача ролика — аккуратно показать продукт в движении и усилить визуальную подачу.</p>
-          </article>
+          <article class="card"><h3>Без watermark</h3><p>Для партнёрских проектов финальные версии можно отдавать без моего watermark, под вашу коммуникацию с клиентом.</p></article>
+          <article class="card"><h3>Пакетно дешевле</h3><p>Если нужно несколько роликов под одного клиента или линейку товаров, можно считать пакетно — ниже цена за единицу.</p></article>
+          <article class="card"><h3>Официально</h3><p>Работаю как самозанятый, могу предоставить чек. Оплата — по согласованному этапу или тестовому ролику.</p></article>
         </div>
       </section>
 
-      <section>
+      <section id="process">
         <div class="section-head">
-          <div class="kicker">Процесс</div>
-          <h2>Как обычно проходит работа</h2>
+          <div class="kicker">Production pipeline</div>
+          <h2>Процесс выглядит проще для клиента, но внутри есть контроль AI-рисков</h2>
         </div>
         <div class="process">
-          <div class="step"><b>1</b><strong>Исходники</strong><span>Фото товара, ссылка на карточку, референс или короткое описание задачи.</span></div>
-          <div class="step"><b>2</b><strong>Идея</strong><span>Подбираю простой визуальный ход: движение, свет, фон, финальный кадр.</span></div>
-          <div class="step"><b>3</b><strong>AI-видео</strong><span>Генерация сцен, отбор удачных дублей, контроль геометрии и читаемости продукта.</span></div>
-          <div class="step"><b>4</b><strong>Монтаж</strong><span>Сборка, музыка, титры при необходимости и финальный MP4 под нужный формат.</span></div>
+          <div class="step"><b>1</b><strong>Brief</strong><span>Фото товара, карточка, задача, референс, формат.</span></div>
+          <div class="step"><b>2</b><strong>Visual concept</strong><span>Свет, фон, движение, настроение, финальный кадр.</span></div>
+          <div class="step"><b>3</b><strong>AI generation</strong><span>Генерация сцен и отбор дублей без явных дефектов.</span></div>
+          <div class="step"><b>4</b><strong>Product control</strong><span>Геометрия, этикетка, материал, отсутствие лишних объектов.</span></div>
+          <div class="step"><b>5</b><strong>Edit & polish</strong><span>Монтаж, ритм, цвет, музыка или титры при необходимости.</span></div>
+          <div class="step"><b>6</b><strong>Delivery</strong><span>Preview с watermark, финальный MP4 после оплаты или этапа.</span></div>
+        </div>
+      </section>
+
+      <section id="about">
+        <div class="section-head">
+          <div class="kicker">AI Visual Creator</div>
+          <h2>Кто делает ролики</h2>
+        </div>
+        <div class="about">
+          <div class="portrait-card">
+            <div>
+              <div class="portrait-mark">KVS</div>
+              <strong>Константин Семёнов</strong>
+              <span>@KVSemenov<br>AI product videos / product motion / visual concepts</span>
+            </div>
+          </div>
+          <div class="grid two">
+            <article class="card"><h3>Не просто “оживить фото”</h3><p>Моя задача — собрать короткий коммерческий визуал: понятный продукт, стабильная форма, аккуратный свет, атмосфера и финальный файл, который можно использовать в реальной коммуникации.</p></article>
+            <article class="card"><h3>Практичный AI-creating</h3><p>Я не обещаю “магический рост продаж”. Я делаю визуальный формат, который помогает товару выглядеть живее в карточке, Reels, презентации или на сайте.</p></article>
+            <article class="card"><h3>Для партнёров</h3><p>Можно работать white-label: без watermark, без публичного упоминания, под ваш клиентский проект.</p></article>
+            <article class="card"><h3>Официальная работа</h3><p>Работаю как самозанятый, могу предоставить чек. Условия, этапы и финальные версии согласуются до старта.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq">
+        <div class="section-head">
+          <div class="kicker">FAQ</div>
+          <h2>Коротко о том, что обычно спрашивают до старта</h2>
+        </div>
+        <div class="faq">
+          <details open><summary>Что нужно от клиента?</summary><p>Фото товара, ссылка на карточку или сайт, задача ролика, желаемый формат и 1–2 референса по стилю. Если референса нет — предложу визуальное направление сам.</p></details>
+          <details><summary>Можно сделать видео только по фото товара?</summary><p>Да. Для простого loop или короткого product video часто достаточно одного хорошего фото. Чем лучше исходник, тем выше шанс получить стабильный результат.</p></details>
+          <details><summary>Что если результат не понравится?</summary><p>На старте лучше делать короткий тестовый формат. В рамках согласованной задачи возможны технические правки; полная смена концепции считается отдельно.</p></details>
+          <details><summary>Почему preview с watermark?</summary><p>Публичные примеры и предварительные версии защищаю watermark. Чистый MP4 передаю после оплаты или по согласованному партнёрскому этапу.</p></details>
+          <details><summary>Можно без watermark для агентства?</summary><p>Да. Для white-label проектов можно передавать финальные ролики без watermark, чтобы студия показывала их клиенту в своей коммуникации.</p></details>
+          <details><summary>Какие форматы можно получить?</summary><p>Обычно MP4 в 9:16, 1:1 или 16:9. Для сайта и preview можно подготовить облегчённые версии, для клиента — финальный файл в согласованном формате.</p></details>
         </div>
       </section>
 
       <section class="cta" aria-label="Связаться">
         <div>
           <h2>Можно начать с одного тестового ролика</h2>
-          <p>
-            Пришлите фото продукта, ссылку на карточку или пример ролика, который нравится.
-            Я посмотрю и скажу, какой формат лучше сделать и сколько это будет стоить.
-          </p>
+          <p>Пришлите фото продукта, ссылку на карточку или пример ролика, который нравится. Я посмотрю и скажу, какой формат лучше сделать и сколько это будет стоить.</p>
         </div>
         <div class="actions">
-          <a class="btn primary with-icon" href="https://t.me/KVSemenov" rel="noopener"><img class="messenger-icon" src="assets/tg-icon.png" alt="">Написать в TG</a>
-          <a class="btn with-icon" href="https://max.ru/u/f9LHodD0cOJlDpukwqptJu22mt7WP9gY3Hf1QqJlId29eI5iof0XN7XmUnI" rel="noopener"><img class="messenger-icon" src="assets/max-icon.png" alt="">Написать в MAX</a>
+          <a class="btn primary" href="https://t.me/KVSemenov" rel="noopener"><img class="messenger-icon" src="assets/tg-icon.png" alt="">Написать в TG</a>
+          <a class="btn" href="https://max.ru/u/f9LHodD0cOJlDpukwqptJu22mt7WP9gY3Hf1QqJlId29eI5iof0XN7XmUnI" rel="noopener"><img class="messenger-icon" src="assets/max-icon.png" alt="">Написать в MAX</a>
         </div>
       </section>
     </main>
 
     <footer>
-      <div>© KVSemenov · AI product videos</div>
+      <div>© KVSvideo · AI product videos · Константин Семёнов</div>
       <div>
         <a href="https://t.me/KVSemenov" rel="noopener">Telegram</a> ·
         <a href="https://max.ru/u/f9LHodD0cOJlDpukwqptJu22mt7WP9gY3Hf1QqJlId29eI5iof0XN7XmUnI" rel="noopener">MAX</a> ·
         <a href="https://t.me/KVSemenov_AI" rel="noopener">Портфолио</a> ·
-        <a href="/video-greetings-site/">Видео-открытки</a>
+        <a href="/video-greetings-site/">Отдельный проект: видео-открытки</a>
       </div>
     </footer>
   </div>
 
-
   <script>
-    // Лёгкая защита от случайного скачивания и автоплей только для видимых preview.
     document.addEventListener('contextmenu', function (event) {
       if (event.target.closest('video')) event.preventDefault();
     });
     document.addEventListener('dragstart', function (event) {
       if (event.target.closest('video, img')) event.preventDefault();
     });
-    const previewVideos = Array.from(document.querySelectorAll('.video-work video'));
+
+    const previewVideos = Array.from(document.querySelectorAll('.work video, .case-media video'));
     if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
@@ -891,7 +788,7 @@
             video.pause();
           }
         });
-      }, { threshold: 0.35 });
+      }, { threshold: 0.34 });
       previewVideos.forEach((video) => observer.observe(video));
     } else {
       previewVideos.forEach((video) => video.play().catch(() => {}));
@@ -902,11 +799,16 @@
   {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
-    "name": "KVSemenov AI product videos",
+    "name": "KVSvideo — AI product videos",
     "url": "https://kvsvideo.ru/",
     "image": "https://kvsvideo.ru/assets/posters/showreel.webp",
-    "description": "Короткие AI product videos 6–12 сек для брендов, WB/Ozon, Reels, сайтов, рекламы и партнёрских white-label проектов.",
+    "description": "AI product videos 6–12 сек, product motion и коммерческий AI visual production для брендов, WB/Ozon, Reels, сайтов, рекламы и white-label проектов.",
     "areaServed": "RU",
+    "founder": {
+      "@type": "Person",
+      "name": "Константин Семёнов",
+      "sameAs": "https://t.me/KVSemenov"
+    },
     "sameAs": [
       "https://t.me/KVSemenov",
       "https://max.ru/u/f9LHodD0cOJlDpukwqptJu22mt7WP9gY3Hf1QqJlId29eI5iof0XN7XmUnI",
@@ -917,21 +819,13 @@
         "@type": "Offer",
         "name": "Loop / оживление продукта",
         "priceCurrency": "RUB",
-        "priceSpecification": {
-          "@type": "PriceSpecification",
-          "priceCurrency": "RUB",
-          "minPrice": 3000
-        }
+        "priceSpecification": { "@type": "PriceSpecification", "priceCurrency": "RUB", "minPrice": 3000 }
       },
       {
         "@type": "Offer",
         "name": "AI product video",
         "priceCurrency": "RUB",
-        "priceSpecification": {
-          "@type": "PriceSpecification",
-          "priceCurrency": "RUB",
-          "minPrice": 5000
-        }
+        "priceSpecification": { "@type": "PriceSpecification", "priceCurrency": "RUB", "minPrice": 5000 }
       }
     ]
   }
