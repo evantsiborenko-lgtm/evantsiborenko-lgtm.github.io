@@ -230,14 +230,15 @@
       opacity: .65;
     }
     @keyframes rotateGlow { to { transform: rotate(360deg); } }
-    .stage-inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr .56fr; gap: 14px; align-items: stretch; }
+    .stage-inner { position: relative; z-index: 1; display: block; }
     .showreel-frame {
+      width: min(380px, 100%);
+      margin: 0 auto;
       border-radius: 31px;
       overflow: hidden;
       background: #050711;
       border: 1px solid rgba(255,255,255,.16);
       aspect-ratio: 9 / 16;
-      min-height: 540px;
       position: relative;
       box-shadow: inset 0 0 0 8px rgba(0,0,0,.22), 0 26px 70px rgba(0,0,0,.32);
     }
@@ -275,20 +276,45 @@
       background: rgba(0,0,0,.34);
       backdrop-filter: blur(12px);
     }
-    .side-stack { display: grid; gap: 14px; }
+    .sound-toggle {
+      position: absolute;
+      right: 18px;
+      top: 18px;
+      z-index: 3;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.42);
+      color: rgba(248,250,252,.92);
+      border-radius: 999px;
+      padding: 9px 12px;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 760;
+      cursor: pointer;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 12px 28px rgba(0,0,0,.25);
+    }
+    .sound-toggle:hover { background: rgba(255,255,255,.12); }
+    .sound-note {
+      margin-top: 14px;
+      color: var(--soft);
+      font-size: 13px;
+      line-height: 1.45;
+      text-align: center;
+    }
+    .side-stack { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
     .mini-panel {
       border: 1px solid var(--line);
       background: rgba(0,0,0,.26);
-      border-radius: 26px;
-      padding: 18px;
+      border-radius: 22px;
+      padding: 14px;
       min-height: 0;
     }
-    .mini-panel small { color: #fde68a; text-transform: uppercase; letter-spacing: .12em; font-weight: 780; }
-    .mini-panel strong { display: block; margin-top: 10px; font-size: 25px; line-height: 1; letter-spacing: -.045em; }
-    .mini-panel p { margin: 10px 0 0; color: var(--muted); line-height: 1.5; font-size: 14px; }
+    .mini-panel small { color: #fde68a; text-transform: uppercase; letter-spacing: .1em; font-weight: 780; font-size: 11px; }
+    .mini-panel strong { display: block; margin-top: 8px; font-size: clamp(17px, 1.55vw, 22px); line-height: 1; letter-spacing: -.045em; }
+    .mini-panel p { margin: 8px 0 0; color: var(--muted); line-height: 1.45; font-size: 12.5px; }
     .before-after { display: grid; gap: 10px; }
     .ba-card {
-      min-height: 104px;
+      min-height: 82px;
       display: grid;
       place-items: center;
       text-align: center;
@@ -481,7 +507,8 @@
     @media (max-width: 1040px) {
       .hero { grid-template-columns: 1fr; min-height: auto; }
       .stage-inner { grid-template-columns: 1fr; }
-      .showreel-frame { width: min(360px, 100%); margin: 0 auto; min-height: auto; }
+      .showreel-frame { width: min(360px, 100%); margin: 0 auto; }
+      .side-stack { grid-template-columns: 1fr; }
       .side-stack { grid-template-columns: repeat(3, 1fr); }
       .portfolio { grid-template-columns: repeat(2, 1fr); }
       .process { grid-template-columns: repeat(3, 1fr); }
@@ -552,9 +579,10 @@
         <aside class="stage" id="showreel" aria-label="Showreel AI product videos">
           <div class="stage-inner">
             <div class="showreel-frame">
-              <video autoplay muted loop playsinline preload="metadata" poster="assets/posters/showreel.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false" aria-label="Showreel KVSvideo AI product videos">
-                <source src="assets/videos/showreel_720p_watermark.mp4" type="video/mp4">
+              <video id="heroShowreel" autoplay muted loop playsinline preload="metadata" poster="assets/posters/showreel.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false" aria-label="Showreel KVSvideo AI product videos">
+                <source src="assets/videos/showreel_720p_watermark_sound.mp4" type="video/mp4">
               </video>
+              <button class="sound-toggle" type="button" id="soundToggle" aria-pressed="false">🔇 Звук</button>
               <div class="video-label"><span>Showreel</span><span>selected AI works</span></div>
             </div>
             <div class="side-stack">
@@ -570,9 +598,10 @@
               </div>
               <div class="mini-panel before-after">
                 <div class="ba-card"><b>До</b>статичный товар на карточке</div>
-                <div class="ba-card after"><b>После</b>товар в движении: для карточки, Reels или презентации</div>
+                <div class="ba-card after"><b>После</b>товар в движении: карточка, Reels, презентация</div>
               </div>
             </div>
+            <div class="sound-note">Showreel можно посмотреть с мягкой ambient-музыкой. Остальные preview на странице — без звука.</div>
           </div>
         </aside>
       </section>
@@ -776,6 +805,19 @@
     document.addEventListener('dragstart', function (event) {
       if (event.target.closest('video, img')) event.preventDefault();
     });
+
+    const heroShowreel = document.getElementById('heroShowreel');
+    const soundToggle = document.getElementById('soundToggle');
+    if (heroShowreel && soundToggle) {
+      soundToggle.addEventListener('click', function () {
+        const willUnmute = heroShowreel.muted;
+        heroShowreel.muted = !willUnmute;
+        heroShowreel.volume = willUnmute ? 0.55 : 0;
+        heroShowreel.play().catch(() => {});
+        soundToggle.textContent = willUnmute ? '🔊 Звук включён' : '🔇 Звук';
+        soundToggle.setAttribute('aria-pressed', willUnmute ? 'true' : 'false');
+      });
+    }
 
     const previewVideos = Array.from(document.querySelectorAll('.work video, .case-media video'));
     if ('IntersectionObserver' in window) {
