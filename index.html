@@ -18,6 +18,21 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://kvsvideo.ru/assets/posters/showreel.webp">
   <meta name="theme-color" content="#070812">
+
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=109744286', 'ym');
+
+    ym(109744286, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/109744286" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
   <style>
     :root {
       color-scheme: dark;
@@ -564,9 +579,9 @@
             Фокус — читаемый продукт, стабильная геометрия, свет, материал и визуальная идея, которую можно реально использовать.
           </p>
           <div class="actions">
-            <a class="btn primary" href="#portfolio">Смотреть работы</a>
-            <a class="btn ghost-cyan" href="#formats">Форматы и цены</a>
-            <a class="btn" href="https://t.me/KVSemenov" rel="noopener"><img class="messenger-icon" src="assets/tg-icon.png" alt="">Обсудить задачу</a>
+            <a class="btn primary" href="#portfolio" data-ym-goal="click_portfolio_site">Смотреть работы</a>
+            <a class="btn ghost-cyan" href="#formats" data-ym-goal="click_formats">Форматы и цены</a>
+            <a class="btn" href="https://t.me/KVSemenov" rel="noopener" data-ym-goal="click_main_cta"><img class="messenger-icon" src="assets/tg-icon.png" alt="">Обсудить задачу</a>
           </div>
           <div class="trust" aria-label="Ключевые условия">
             <span>6–12 сек</span>
@@ -625,7 +640,7 @@
           <article class="work"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/eatmy_pineapple_coconut_water.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/eatmy_pineapple_coconut_water_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Bright Beauty Visual</strong><span>tropical color / energetic product mood</span></div></article>
         </div>
         <div class="actions">
-          <a class="btn primary" href="https://t.me/KVSemenov_AI" rel="noopener"><img class="messenger-icon" src="assets/tg-icon.png" alt="">Больше работ в Telegram</a>
+          <a class="btn primary" href="https://t.me/KVSemenov_AI" rel="noopener" data-ym-goal="click_portfolio_tg"><img class="messenger-icon" src="assets/tg-icon.png" alt="">Больше работ в Telegram</a>
         </div>
       </section>
 
@@ -781,8 +796,8 @@
           <p>Пришлите фото продукта, ссылку на карточку или пример ролика, который нравится. Я посмотрю и скажу, какой формат лучше сделать и сколько это будет стоить.</p>
         </div>
         <div class="actions">
-          <a class="btn primary" href="https://t.me/KVSemenov" rel="noopener"><img class="messenger-icon" src="assets/tg-icon.png" alt="">Написать в TG</a>
-          <a class="btn" href="https://max.ru/u/f9LHodD0cOJlDpukwqptJu22mt7WP9gY3Hf1QqJlId29eI5iof0XN7XmUnI" rel="noopener"><img class="messenger-icon" src="assets/max-icon.png" alt="">Написать в MAX</a>
+          <a class="btn primary" href="https://t.me/KVSemenov" rel="noopener" data-ym-goal="click_tg"><img class="messenger-icon" src="assets/tg-icon.png" alt="">Написать в TG</a>
+          <a class="btn" href="https://max.ru/u/f9LHodD0cOJlDpukwqptJu22mt7WP9gY3Hf1QqJlId29eI5iof0XN7XmUnI" rel="noopener" data-ym-goal="click_max"><img class="messenger-icon" src="assets/max-icon.png" alt="">Написать в MAX</a>
         </div>
       </section>
     </main>
@@ -799,6 +814,24 @@
   </div>
 
   <script>
+    function kvsReachGoal(goalId) {
+      if (window.ym && goalId) {
+        try { window.ym(109744286, 'reachGoal', goalId); } catch (e) {}
+      }
+    }
+
+    document.addEventListener('click', function (event) {
+      const goalElement = event.target.closest('[data-ym-goal]');
+      if (goalElement) kvsReachGoal(goalElement.getAttribute('data-ym-goal'));
+
+      const link = event.target.closest('a[href]');
+      if (!link) return;
+      const href = link.getAttribute('href') || '';
+      if (href.includes('t.me/KVSemenov_AI')) kvsReachGoal('click_portfolio_tg');
+      else if (href.includes('t.me/KVSemenov')) kvsReachGoal('click_tg');
+      else if (href.includes('max.ru/u/')) kvsReachGoal('click_max');
+    });
+
     document.addEventListener('contextmenu', function (event) {
       if (event.target.closest('video')) event.preventDefault();
     });
@@ -816,6 +849,7 @@
         heroShowreel.play().catch(() => {});
         soundToggle.textContent = willUnmute ? '🔊 Звук включён' : '🔇 Звук';
         soundToggle.setAttribute('aria-pressed', willUnmute ? 'true' : 'false');
+        if (willUnmute) kvsReachGoal('showreel_sound_on');
       });
     }
 

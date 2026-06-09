@@ -17,3 +17,8 @@ KVSvideo — AI product videos / wow version
 - блоки Для кого / Форматы / White-label / Production pipeline / Обо мне / FAQ
 - сохранены TG и MAX контакты
 - obvious-download controls отключены, video preview остаются с watermark
+
+
+Обновление 2026-06-09:
+- Добавлен счётчик Яндекс.Метрики 109744286.
+- Добавлены reachGoal-события для TG, MAX, портфолио, переходов по странице и включения звука showreel.
