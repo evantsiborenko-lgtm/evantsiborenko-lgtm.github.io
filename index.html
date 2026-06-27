@@ -6,6 +6,10 @@
   <title>AI-видео и визуал для карточек WB/Ozon, сайтов и рекламы — KVSvideo</title>
   <meta name="description" content="AI product videos 6–12 сек для карточек WB/Ozon, Reels, сайтов и рекламы. Из фото товара — готовый коммерческий ролик, AI-сцена и визуал для карточки. Для селлеров, брендов, студий и предметных фотографов. White-label доступен.">
   <meta name="robots" content="index, follow">
+  <link rel="icon" href="assets/logo/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/logo/favicon_32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/logo/favicon_180.png">
+  <link rel="preload" as="image" href="assets/logo/logo_header_site.webp">
   <meta name="keywords" content="AI-видео для товара, AI product video, видео для карточки товара, видео для WB, видео для Ozon, визуал для маркетплейсов, карточки WB/Ozon, AI-визуал для товара, product video для сайта и рекламы, white-label AI-видео для студий">
   <meta name="yandex-verification" content="d38da1a6f7dc7a4b">
   <link rel="canonical" href="https://kvsvideo.ru/">
@@ -128,6 +132,129 @@
     .brand-copy { display: flex; flex-direction: column; line-height: 1.08; }
     .brand-copy strong { font-size: 16px; letter-spacing: -.02em; }
     .brand-copy span { color: var(--soft); font-size: 12px; margin-top: 4px; }
+
+    /* v6 premium motion + logo polish */
+    .brand { min-width: 0; }
+    .brand-logo {
+      display: block;
+      width: clamp(168px, 15vw, 225px);
+      height: auto;
+      filter: drop-shadow(0 10px 24px rgba(0,0,0,.34));
+      transform: translateZ(0);
+    }
+    .brand-mark, .brand-copy { display: none; }
+
+    .motion-section { scroll-margin-top: 96px; }
+    .hero {
+      transform-origin: center top;
+      transform: scale(var(--hero-scale, 1));
+      transition: transform .45s ease, opacity .45s ease;
+      will-change: transform;
+    }
+    .hero .eyebrow,
+    .hero h1,
+    .hero .lead,
+    .hero .value-line,
+    .hero .audience-line,
+    .hero .actions,
+    .hero .trust,
+    .hero .stage {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .82s ease, transform .82s cubic-bezier(.2,.7,.2,1);
+    }
+    body.is-loaded .hero .eyebrow { opacity: 1; transform: translateY(0); transition-delay: .06s; }
+    body.is-loaded .hero h1 { opacity: 1; transform: translateY(0); transition-delay: .14s; }
+    body.is-loaded .hero .lead { opacity: 1; transform: translateY(0); transition-delay: .22s; }
+    body.is-loaded .hero .value-line { opacity: 1; transform: translateY(0); transition-delay: .30s; }
+    body.is-loaded .hero .audience-line { opacity: 1; transform: translateY(0); transition-delay: .36s; }
+    body.is-loaded .hero .actions { opacity: 1; transform: translateY(0); transition-delay: .44s; }
+    body.is-loaded .hero .trust { opacity: 1; transform: translateY(0); transition-delay: .52s; }
+    body.is-loaded .hero .stage { opacity: 1; transform: translateY(0); transition-delay: .34s; }
+
+    .showreel-frame {
+      animation: showreelBreath 7.5s ease-in-out infinite;
+      will-change: transform;
+    }
+    @keyframes showreelBreath {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-7px) scale(1.012); }
+    }
+    .mini-panel, .ba-card {
+      opacity: 0;
+      transform: translateY(14px) scale(.98);
+      transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1), border-color .35s ease, background .35s ease;
+    }
+    body.is-loaded .mini-panel:nth-child(1) { opacity: 1; transform: translateY(0) scale(1); transition-delay: .64s; }
+    body.is-loaded .mini-panel:nth-child(2) { opacity: 1; transform: translateY(0) scale(1); transition-delay: .74s; }
+    body.is-loaded .mini-panel.before-after { opacity: 1; transform: translateY(0) scale(1); transition-delay: .84s; }
+    body.is-loaded .ba-card { opacity: 1; transform: translateY(0) scale(1); transition-delay: .96s; }
+    body.is-loaded .ba-card.after { transition-delay: 1.06s; }
+
+    .deliverables .card,
+    #formats .grid > .card,
+    .process .step,
+    .portfolio .work {
+      transition: transform .48s cubic-bezier(.2,.7,.2,1), opacity .48s ease, filter .48s ease, border-color .48s ease, background .48s ease, box-shadow .48s ease;
+      will-change: transform, opacity;
+    }
+    #deliverables.motion-live .deliverables .card,
+    #formats.motion-live .grid > .card,
+    #process.motion-live .step,
+    #portfolio.motion-live .work {
+      opacity: .66;
+      filter: saturate(.78) brightness(.92);
+      transform: translateY(6px) scale(.985);
+    }
+    #deliverables.motion-live .deliverables .card.is-active,
+    #formats.motion-live .grid > .card.is-active,
+    #process.motion-live .step.is-active,
+    #portfolio.motion-live .work.is-active {
+      opacity: 1;
+      filter: saturate(1.05) brightness(1.04);
+      transform: translateY(-4px) scale(1.035);
+      border-color: rgba(250,204,21,.42);
+      box-shadow: 0 28px 80px rgba(0,0,0,.36), 0 0 0 1px rgba(250,204,21,.10) inset;
+      z-index: 2;
+    }
+    #deliverables .card h3, #deliverables .card p,
+    #formats .card h3, #formats .card p, #formats .card ul, #formats .card .price,
+    .process .step strong, .process .step span {
+      transition: opacity .45s ease, transform .45s ease;
+    }
+    #deliverables.motion-live .card:not(.is-active) p,
+    #formats.motion-live .card:not(.is-active) ul,
+    #formats.motion-live .card:not(.is-active) .price,
+    .process.motion-live .step:not(.is-active) span {
+      opacity: .62;
+      transform: translateY(4px);
+    }
+    #deliverables.motion-live .card.is-active h3,
+    #deliverables.motion-live .card.is-active p,
+    #formats.motion-live .card.is-active h3,
+    #formats.motion-live .card.is-active p,
+    #formats.motion-live .card.is-active ul,
+    #formats.motion-live .card.is-active .price,
+    .process.motion-live .step.is-active strong,
+    .process.motion-live .step.is-active span {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .process .step b { transition: background .35s ease, color .35s ease, box-shadow .35s ease, transform .35s ease; }
+    .process .step.is-active b {
+      color: #111827;
+      background: linear-gradient(135deg, #f2d184, #c89b3c);
+      box-shadow: 0 0 28px rgba(250,204,21,.35);
+      transform: scale(1.08);
+    }
+    .portfolio .work-caption { transition: transform .42s ease, opacity .42s ease, background .42s ease, border-color .42s ease; }
+    #portfolio.motion-live .work:not(.is-active) .work-caption { opacity: .72; transform: translateY(6px); }
+    #portfolio.motion-live .work.is-active .work-caption {
+      background: rgba(0,0,0,.60);
+      border-color: rgba(250,204,21,.30);
+      transform: translateY(0);
+    }
+
     nav { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 6px; }
     nav a {
       text-decoration: none;
@@ -582,6 +709,9 @@
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       .stage::before { animation: none; }
+
+      .showreel-frame { animation: none; }
+      .hero, .hero .eyebrow, .hero h1, .hero .lead, .hero .value-line, .hero .audience-line, .hero .actions, .hero .trust, .hero .stage, .mini-panel, .ba-card, .deliverables .card, #formats .grid > .card, .process .step, .portfolio .work { transition: none !important; transform: none !important; opacity: 1 !important; filter: none !important; }
     }
     @media (max-width: 1040px) {
       .hero { grid-template-columns: 1fr; min-height: auto; }
@@ -599,6 +729,8 @@
     }
     @media (max-width: 720px) {
       .page { width: min(100% - 22px, var(--max)); }
+      .brand-logo { width: 176px; }
+      #deliverables.motion-live .deliverables .card.is-active, #formats.motion-live .grid > .card.is-active, #process.motion-live .step.is-active, #portfolio.motion-live .work.is-active { transform: translateY(-2px) scale(1.012); }
       header { position: static; padding: 16px 0; }
       nav { display: none; }
       .hero { padding-top: 28px; }
@@ -615,12 +747,8 @@
 <body>
   <div class="page">
     <header>
-      <a class="brand" href="/" aria-label="KVSvideo — AI visual production">
-        <span class="brand-mark">KVS</span>
-        <span class="brand-copy">
-          <strong>KVSvideo</strong>
-          <span>AI product videos · @KVSemenov</span>
-        </span>
+      <a class="brand" href="/" aria-label="KVSvideo — AI product videos">
+        <img class="brand-logo" src="assets/logo/logo_header_site.webp" alt="KVSvideo" width="420" height="103">
       </a>
       <nav aria-label="Навигация">
         <a href="#portfolio">Работы</a>
@@ -635,9 +763,9 @@
     </header>
 
     <main>
-      <section class="hero" aria-label="AI-видео и визуал для карточек WB/Ozon">
+      <section class="hero motion-section" id="hero" aria-label="AI-видео и визуал для карточек WB/Ozon">
         <div>
-          <div class="eyebrow">AI product videos / visual kits for marketplace</div>
+          <div class="eyebrow">AI-видео / visual kits для товаров</div>
           <h1><span class="gradient-text">AI-видео и визуал</span> для карточек WB/Ozon</h1>
           <p class="lead">
             Короткие product videos 6–12 сек, AI-сцены и визуальные материалы для карточек, рекламы, Reels и сайтов.
@@ -670,16 +798,16 @@
                 <source src="assets/videos/showreel_720p_watermark_sound.mp4" type="video/mp4">
               </video>
               <button class="sound-toggle" type="button" id="soundToggle" aria-pressed="false">🔇 Звук</button>
-              <div class="video-label"><span>Showreel</span><span>selected AI works</span></div>
+              <div class="video-label"><span>Showreel</span><span>портфолио</span></div>
             </div>
             <div class="side-stack">
               <div class="mini-panel">
-                <small>from static</small>
+                <small>из фото</small>
                 <strong>Фото товара</strong>
                 <p>Исходник, карточка, упаковка, фактура, референс.</p>
               </div>
               <div class="mini-panel">
-                <small>to motion</small>
+                <small>в движение</small>
                 <strong>Коммерческий ролик</strong>
                 <p>AI-сцена, движение, монтаж, финальный MP4.</p>
               </div>
@@ -693,7 +821,7 @@
         </aside>
       </section>
 
-      <section id="deliverables">
+      <section id="deliverables" class="motion-section">
         <div class="section-head">
           <div class="kicker">Что получает клиент</div>
           <h2>Не “ролик ради ролика”, а визуальный материал для продаж</h2>
@@ -707,9 +835,9 @@
         </div>
       </section>
 
-      <section id="portfolio">
+      <section id="portfolio" class="motion-section">
         <div class="section-head">
-          <div class="kicker">Selected AI product works</div>
+          <div class="kicker">Портфолио</div>
           <h2>Портфолио: товар в кадре, свет, движение и коммерческий visual</h2>
           <p class="section-text">
             Preview-версии 720p, с аккуратным watermark. Чистые MP4 без watermark — после оплаты или для партнёрских white-label задач.
@@ -732,7 +860,7 @@
 
       <section id="cases">
         <div class="section-head">
-          <div class="kicker">Spec concepts</div>
+          <div class="kicker">Демонстрационные концепты</div>
           <h2>Как я собираю визуальную идею, а не просто “оживляю фото”</h2>
           <p class="section-text">Ниже — демонстрационные разборы. Это не клиентские кейсы с метриками, а честные spec-концепты: задача, визуальное решение и где такой ролик можно использовать.</p>
         </div>
@@ -784,7 +912,7 @@
 
 
       
-      <section id="formats">
+      <section id="formats" class="motion-section">
         <div class="section-head">
           <div class="kicker">Форматы работы</div>
           <h2>Понятные продуктовые форматы вместо абстрактного “от…”</h2>
@@ -870,9 +998,9 @@
 
 
       
-      <section id="process">
+      <section id="process" class="motion-section">
         <div class="section-head">
-          <div class="kicker">Production pipeline</div>
+          <div class="kicker">Процесс</div>
           <h2>Как это работает</h2>
           <p class="section-text">Простой процесс для клиента. Внутри — контроль AI-рисков, деталей товара и финальной пригодности материала.</p>
         </div>
@@ -891,7 +1019,7 @@
 
       <section id="about">
         <div class="section-head">
-          <div class="kicker">AI Visual Creator</div>
+          <div class="kicker">Автор проекта</div>
           <h2>Кто делает AI-видео и визуальную упаковку</h2>
         </div>
         <div class="about">
@@ -904,7 +1032,7 @@
           </div>
           <div class="grid two">
             <article class="card"><h3>Не просто “оживить фото”</h3><p>Моя задача — собрать короткий коммерческий визуал: понятный продукт, стабильная форма, аккуратный свет, атмосфера и финальный файл, который можно использовать в реальной коммуникации.</p></article>
-            <article class="card"><h3>Практичный AI-creating</h3><p>Я не обещаю “взрывной рост продаж”. Я делаю визуальный формат, который помогает товару выглядеть дороже, заметнее и понятнее в карточке, Reels, презентации или на сайте.</p></article>
+            <article class="card"><h3>Практичный AI-подход</h3><p>Я не обещаю “взрывной рост продаж”. Я делаю визуальный формат, который помогает товару выглядеть дороже, заметнее и понятнее в карточке, Reels, презентации или на сайте.</p></article>
             <article class="card"><h3>Для партнёров</h3><p>Можно работать white-label: без watermark, без публичного упоминания, под ваш клиентский проект.</p></article>
             <article class="card"><h3>Официальная работа</h3><p>Работаю как самозанятый, могу предоставить чек. Условия, этапы и финальные версии согласуются до старта.</p></article>
           </div>
@@ -1012,22 +1140,85 @@
       });
     }
 
-    const previewVideos = Array.from(document.querySelectorAll('.work video, .case-media video'));
+    document.body.classList.add('is-loaded');
+
+    const caseVideos = Array.from(document.querySelectorAll('.case-media video'));
     if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           const video = entry.target;
-          if (entry.isIntersecting) {
-            video.play().catch(() => {});
-          } else {
-            video.pause();
-          }
+          if (entry.isIntersecting) video.play().catch(() => {});
+          else video.pause();
         });
       }, { threshold: 0.34 });
-      previewVideos.forEach((video) => observer.observe(video));
+      caseVideos.forEach((video) => observer.observe(video));
     } else {
-      previewVideos.forEach((video) => video.play().catch(() => {}));
+      caseVideos.forEach((video) => video.play().catch(() => {}));
     }
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const hero = document.querySelector('.hero');
+    const motionSections = Array.from(document.querySelectorAll('#deliverables, #portfolio, #formats, #process'));
+
+    function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
+
+    function setActiveByScroll(section, selector) {
+      if (!section) return;
+      const items = Array.from(section.querySelectorAll(selector));
+      if (!items.length) return;
+      const rect = section.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      const live = rect.top < vh * 0.78 && rect.bottom > vh * 0.22;
+      section.classList.toggle('motion-live', live);
+      if (!live) return;
+      const progress = clamp((vh * 0.58 - rect.top) / Math.max(rect.height - vh * 0.25, 1), 0, 1);
+      const activeIndex = clamp(Math.round(progress * (items.length - 1)), 0, items.length - 1);
+      items.forEach((item, index) => item.classList.toggle('is-active', index === activeIndex));
+    }
+
+    function updatePortfolioVideos() {
+      const portfolio = document.getElementById('portfolio');
+      if (!portfolio) return;
+      const works = Array.from(portfolio.querySelectorAll('.work'));
+      works.forEach((work) => {
+        const video = work.querySelector('video');
+        if (!video) return;
+        if (work.classList.contains('is-active') && portfolio.classList.contains('motion-live')) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      });
+    }
+
+    let ticking = false;
+    function updateMotion() {
+      ticking = false;
+      if (prefersReducedMotion) return;
+
+      if (hero) {
+        const y = window.scrollY || document.documentElement.scrollTop || 0;
+        const scale = clamp(1 - y / 7000, 0.965, 1);
+        hero.style.setProperty('--hero-scale', scale.toFixed(4));
+      }
+
+      setActiveByScroll(document.getElementById('deliverables'), '.deliverables .card');
+      setActiveByScroll(document.getElementById('portfolio'), '.work');
+      setActiveByScroll(document.getElementById('formats'), '.grid > .card');
+      setActiveByScroll(document.getElementById('process'), '.step');
+      updatePortfolioVideos();
+    }
+
+    function requestMotionUpdate() {
+      if (!ticking) {
+        ticking = true;
+        window.requestAnimationFrame(updateMotion);
+      }
+    }
+
+    window.addEventListener('scroll', requestMotionUpdate, { passive: true });
+    window.addEventListener('resize', requestMotionUpdate);
+    updateMotion();
   </script>
 
   <script type="application/ld+json">

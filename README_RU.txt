@@ -29,3 +29,15 @@ KVSvideo — AI product videos / wow version
 - добавлены продуктовые форматы Product Loop / Marketplace Video / Visual Kit / Series / White-label;
 - добавлены сроки, условия работы, расширенный FAQ и блок контроля AI-рисков;
 - сохранены портфолио, showreel, TG/MAX, Метрика и текущие assets.
+
+
+Обновление v6 Premium Motion Polish:
+- добавлен новый логотип KVSvideo в assets/logo;
+- исправлена header/watermark-версия логотипа: wordmark сдвинут чуть левее, правый край сохранён;
+- подключены favicon.ico и favicon PNG;
+- hero получил плавное появление и лёгкое уменьшение при скролле;
+- showreel получил мягкое дыхание;
+- карточки deliverables, портфолио, форматы и процесс получили scroll-active динамику;
+- portfolio теперь акцентирует активную работу и проигрывает активное видео;
+- гибридные англоязычные headings заменены на русские;
+- сохранена поддержка prefers-reduced-motion.
