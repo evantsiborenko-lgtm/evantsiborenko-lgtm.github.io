@@ -107,8 +107,12 @@
       align-items: center;
       justify-content: space-between;
       gap: 18px;
-      padding: 18px 0;
-      backdrop-filter: blur(22px);
+      padding: 12px 0;
+      min-height: 70px;
+      background: linear-gradient(180deg, rgba(9,11,20,.96), rgba(9,11,20,.82));
+      border-bottom: 1px solid rgba(255,255,255,.055);
+      box-shadow: 0 18px 44px rgba(0,0,0,.24);
+      backdrop-filter: blur(18px);
     }
     .brand {
       display: inline-flex;
@@ -137,14 +141,15 @@
     .brand { min-width: 0; }
     .brand-logo {
       display: block;
-      width: clamp(168px, 15vw, 225px);
+      width: clamp(148px, 12.5vw, 194px);
       height: auto;
       filter: drop-shadow(0 10px 24px rgba(0,0,0,.34));
       transform: translateZ(0);
     }
     .brand-mark, .brand-copy { display: none; }
 
-    .motion-section { scroll-margin-top: 96px; }
+    .motion-section { scroll-margin-top: 112px; }
+    html { scroll-padding-top: 92px; }
     .hero {
       transform-origin: center top;
       transform: scale(var(--hero-scale, 1));
@@ -202,19 +207,19 @@
     #formats.motion-live .grid > .card,
     #process.motion-live .step,
     #portfolio.motion-live .work {
-      opacity: .66;
-      filter: saturate(.78) brightness(.92);
-      transform: translateY(6px) scale(.985);
+      opacity: .84;
+      filter: saturate(.90) brightness(.96);
+      transform: translateY(2px) scale(.995);
     }
     #deliverables.motion-live .deliverables .card.is-active,
     #formats.motion-live .grid > .card.is-active,
     #process.motion-live .step.is-active,
     #portfolio.motion-live .work.is-active {
       opacity: 1;
-      filter: saturate(1.05) brightness(1.04);
-      transform: translateY(-4px) scale(1.035);
-      border-color: rgba(250,204,21,.42);
-      box-shadow: 0 28px 80px rgba(0,0,0,.36), 0 0 0 1px rgba(250,204,21,.10) inset;
+      filter: saturate(1.04) brightness(1.03);
+      transform: translateY(-4px) scale(1.018);
+      border-color: rgba(250,204,21,.40);
+      box-shadow: 0 22px 64px rgba(0,0,0,.30), 0 0 0 1px rgba(250,204,21,.10) inset;
       z-index: 2;
     }
     #deliverables .card h3, #deliverables .card p,
@@ -226,8 +231,8 @@
     #formats.motion-live .card:not(.is-active) ul,
     #formats.motion-live .card:not(.is-active) .price,
     .process.motion-live .step:not(.is-active) span {
-      opacity: .62;
-      transform: translateY(4px);
+      opacity: .76;
+      transform: translateY(0);
     }
     #deliverables.motion-live .card.is-active h3,
     #deliverables.motion-live .card.is-active p,
@@ -731,7 +736,7 @@
       .page { width: min(100% - 22px, var(--max)); }
       .brand-logo { width: 176px; }
       #deliverables.motion-live .deliverables .card.is-active, #formats.motion-live .grid > .card.is-active, #process.motion-live .step.is-active, #portfolio.motion-live .work.is-active { transform: translateY(-2px) scale(1.012); }
-      header { position: static; padding: 16px 0; }
+      header { position: static; padding: 14px 0; min-height: auto; }
       nav { display: none; }
       .hero { padding-top: 28px; }
       .actions { flex-direction: column; }
@@ -1162,18 +1167,58 @@
 
     function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
 
-    function setActiveByScroll(section, selector) {
+    function getHeaderHeight() {
+      const header = document.querySelector('header');
+      return header ? Math.round(header.getBoundingClientRect().height) : 0;
+    }
+
+    function setActiveByProgress(section, selector) {
       if (!section) return;
       const items = Array.from(section.querySelectorAll(selector));
       if (!items.length) return;
       const rect = section.getBoundingClientRect();
       const vh = window.innerHeight || document.documentElement.clientHeight;
-      const live = rect.top < vh * 0.78 && rect.bottom > vh * 0.22;
+      const headerH = getHeaderHeight();
+      const live = rect.top < vh * 0.82 && rect.bottom > headerH + vh * 0.12;
       section.classList.toggle('motion-live', live);
-      if (!live) return;
-      const progress = clamp((vh * 0.58 - rect.top) / Math.max(rect.height - vh * 0.25, 1), 0, 1);
+      if (!live) {
+        items.forEach((item) => item.classList.remove('is-active'));
+        return;
+      }
+      const progress = clamp((vh * 0.54 - rect.top) / Math.max(rect.height - vh * 0.36, 1), 0, 1);
       const activeIndex = clamp(Math.round(progress * (items.length - 1)), 0, items.length - 1);
       items.forEach((item, index) => item.classList.toggle('is-active', index === activeIndex));
+    }
+
+    function setActiveByFocusLine(section, selector, focusRatio = 0.50) {
+      if (!section) return;
+      const items = Array.from(section.querySelectorAll(selector));
+      if (!items.length) return;
+      const sectionRect = section.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      const headerH = getHeaderHeight();
+      const live = sectionRect.top < vh * 0.86 && sectionRect.bottom > headerH + vh * 0.16;
+      section.classList.toggle('motion-live', live);
+      if (!live) {
+        items.forEach((item) => item.classList.remove('is-active'));
+        return;
+      }
+
+      const focusY = headerH + (vh - headerH) * focusRatio;
+      let bestIndex = 0;
+      let bestScore = Infinity;
+      items.forEach((item, index) => {
+        const r = item.getBoundingClientRect();
+        const centerY = (r.top + r.bottom) / 2;
+        const visible = Math.max(0, Math.min(r.bottom, vh) - Math.max(r.top, headerH));
+        const visibilityPenalty = visible > 20 ? 0 : 1000;
+        const score = Math.abs(centerY - focusY) + visibilityPenalty;
+        if (score < bestScore) {
+          bestScore = score;
+          bestIndex = index;
+        }
+      });
+      items.forEach((item, index) => item.classList.toggle('is-active', index === bestIndex));
     }
 
     function updatePortfolioVideos() {
@@ -1202,10 +1247,10 @@
         hero.style.setProperty('--hero-scale', scale.toFixed(4));
       }
 
-      setActiveByScroll(document.getElementById('deliverables'), '.deliverables .card');
-      setActiveByScroll(document.getElementById('portfolio'), '.work');
-      setActiveByScroll(document.getElementById('formats'), '.grid > .card');
-      setActiveByScroll(document.getElementById('process'), '.step');
+      setActiveByProgress(document.getElementById('deliverables'), '.deliverables .card');
+      setActiveByFocusLine(document.getElementById('portfolio'), '.work', 0.52);
+      setActiveByFocusLine(document.getElementById('formats'), '.grid > .card', 0.52);
+      setActiveByFocusLine(document.getElementById('process'), '.step', 0.52);
       updatePortfolioVideos();
     }
 
