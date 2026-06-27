@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="ru">
+<!-- KVSvideo v6.2 hover_logo_fix -->
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -107,11 +108,11 @@
       align-items: center;
       justify-content: space-between;
       gap: 18px;
-      padding: 12px 0;
-      min-height: 70px;
-      background: linear-gradient(180deg, rgba(9,11,20,.96), rgba(9,11,20,.82));
+      padding: 8px 0;
+      min-height: 58px;
+      background: linear-gradient(180deg, rgba(9,11,20,.98), rgba(9,11,20,.92));
       border-bottom: 1px solid rgba(255,255,255,.055);
-      box-shadow: 0 18px 44px rgba(0,0,0,.24);
+      box-shadow: 0 14px 34px rgba(0,0,0,.22);
       backdrop-filter: blur(18px);
     }
     .brand {
@@ -141,15 +142,15 @@
     .brand { min-width: 0; }
     .brand-logo {
       display: block;
-      width: clamp(148px, 12.5vw, 194px);
+      width: clamp(132px, 11vw, 170px);
       height: auto;
       filter: drop-shadow(0 10px 24px rgba(0,0,0,.34));
       transform: translateZ(0);
     }
     .brand-mark, .brand-copy { display: none; }
 
-    .motion-section { scroll-margin-top: 112px; }
-    html { scroll-padding-top: 92px; }
+    .motion-section { scroll-margin-top: 92px; }
+    html { scroll-padding-top: 74px; }
     .hero {
       transform-origin: center top;
       transform: scale(var(--hero-scale, 1));
@@ -246,6 +247,93 @@
       transform: translateY(0);
     }
     .process .step b { transition: background .35s ease, color .35s ease, box-shadow .35s ease, transform .35s ease; }
+
+
+    /* v6.2 hover-first premium motion: no more out-of-sync scroll switching */
+    #deliverables .deliverables .card,
+    #formats .grid > .card,
+    #process .step,
+    #portfolio .work,
+    .audience .card,
+    .about .card {
+      position: relative;
+      transition: transform .42s cubic-bezier(.2,.7,.2,1), opacity .42s ease, filter .42s ease, border-color .42s ease, background .42s ease, box-shadow .42s ease;
+      will-change: transform;
+    }
+    #deliverables .deliverables .card::after,
+    #formats .grid > .card::after,
+    #process .step::after,
+    #portfolio .work::after,
+    .audience .card::after,
+    .about .card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      opacity: 0;
+      background: radial-gradient(circle at 24% 0%, rgba(250,204,21,.16), transparent 34%);
+      transition: opacity .42s ease;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      #deliverables .deliverables:hover .card:not(:hover),
+      #formats .grid:hover > .card:not(:hover),
+      #process .process:hover .step:not(:hover),
+      #portfolio .portfolio:hover .work:not(:hover) {
+        opacity: .78;
+        filter: saturate(.88) brightness(.90);
+      }
+      #deliverables .deliverables .card:hover,
+      #formats .grid > .card:hover,
+      #process .step:hover,
+      #portfolio .work:hover,
+      .audience .card:hover,
+      .about .card:hover {
+        opacity: 1;
+        filter: saturate(1.06) brightness(1.04);
+        transform: translateY(-8px) scale(1.022);
+        border-color: rgba(250,204,21,.42);
+        box-shadow: 0 26px 76px rgba(0,0,0,.34), 0 0 0 1px rgba(250,204,21,.11) inset;
+        z-index: 3;
+      }
+      #deliverables .deliverables .card:hover::after,
+      #formats .grid > .card:hover::after,
+      #process .step:hover::after,
+      #portfolio .work:hover::after,
+      .audience .card:hover::after,
+      .about .card:hover::after { opacity: 1; }
+      #formats .grid > .card.highlight:hover {
+        transform: translateY(-10px) scale(1.028);
+      }
+      #process .step:hover b {
+        color: #111827;
+        background: linear-gradient(135deg, #f2d184, #c89b3c);
+        box-shadow: 0 12px 30px rgba(250,204,21,.20);
+        transform: translateY(-2px);
+      }
+      #portfolio .work:hover .work-caption strong,
+      #formats .grid > .card:hover h3,
+      #deliverables .deliverables .card:hover h3,
+      #process .step:hover strong {
+        color: #fff;
+      }
+    }
+
+    #deliverables.motion-live .deliverables .card,
+    #formats.motion-live .grid > .card,
+    #process.motion-live .step,
+    #portfolio.motion-live .work,
+    #deliverables.motion-live .deliverables .card.is-active,
+    #formats.motion-live .grid > .card.is-active,
+    #process.motion-live .step.is-active,
+    #portfolio.motion-live .work.is-active {
+      opacity: 1;
+      filter: none;
+      transform: none;
+      box-shadow: inherit;
+    }
+
     .process .step.is-active b {
       color: #111827;
       background: linear-gradient(135deg, #f2d184, #c89b3c);
@@ -606,6 +694,16 @@
       color: #111827;
       background: linear-gradient(135deg, var(--gold), var(--cyan));
     }
+
+    .portrait-logo {
+      width: 124px;
+      height: 124px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto 22px;
+      filter: drop-shadow(0 18px 34px rgba(0,0,0,.34));
+    }
+
     .portrait-card strong { display: block; font-size: 25px; letter-spacing: -.04em; }
     .portrait-card span { display: block; margin-top: 8px; color: var(--muted); line-height: 1.45; }
 
@@ -734,7 +832,7 @@
     }
     @media (max-width: 720px) {
       .page { width: min(100% - 22px, var(--max)); }
-      .brand-logo { width: 176px; }
+      .brand-logo { width: 152px; }
       #deliverables.motion-live .deliverables .card.is-active, #formats.motion-live .grid > .card.is-active, #process.motion-live .step.is-active, #portfolio.motion-live .work.is-active { transform: translateY(-2px) scale(1.012); }
       header { position: static; padding: 14px 0; min-height: auto; }
       nav { display: none; }
@@ -1030,7 +1128,7 @@
         <div class="about">
           <div class="portrait-card">
             <div>
-              <div class="portrait-mark">KVS</div>
+              <img class="portrait-logo" src="assets/logo/logo_compact_icon.png" alt="KVSvideo">
               <strong>Константин Семёнов</strong>
               <span>@KVSemenov<br>AI product videos / product motion / visual concepts</span>
             </div>
@@ -1147,123 +1245,54 @@
 
     document.body.classList.add('is-loaded');
 
-    const caseVideos = Array.from(document.querySelectorAll('.case-media video'));
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          const video = entry.target;
-          if (entry.isIntersecting) video.play().catch(() => {});
-          else video.pause();
-        });
-      }, { threshold: 0.34 });
-      caseVideos.forEach((video) => observer.observe(video));
-    } else {
-      caseVideos.forEach((video) => video.play().catch(() => {}));
-    }
-
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const hero = document.querySelector('.hero');
-    const motionSections = Array.from(document.querySelectorAll('#deliverables, #portfolio, #formats, #process'));
 
     function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
 
-    function getHeaderHeight() {
-      const header = document.querySelector('header');
-      return header ? Math.round(header.getBoundingClientRect().height) : 0;
-    }
-
-    function setActiveByProgress(section, selector) {
-      if (!section) return;
-      const items = Array.from(section.querySelectorAll(selector));
-      if (!items.length) return;
-      const rect = section.getBoundingClientRect();
-      const vh = window.innerHeight || document.documentElement.clientHeight;
-      const headerH = getHeaderHeight();
-      const live = rect.top < vh * 0.82 && rect.bottom > headerH + vh * 0.12;
-      section.classList.toggle('motion-live', live);
-      if (!live) {
-        items.forEach((item) => item.classList.remove('is-active'));
-        return;
-      }
-      const progress = clamp((vh * 0.54 - rect.top) / Math.max(rect.height - vh * 0.36, 1), 0, 1);
-      const activeIndex = clamp(Math.round(progress * (items.length - 1)), 0, items.length - 1);
-      items.forEach((item, index) => item.classList.toggle('is-active', index === activeIndex));
-    }
-
-    function setActiveByFocusLine(section, selector, focusRatio = 0.50) {
-      if (!section) return;
-      const items = Array.from(section.querySelectorAll(selector));
-      if (!items.length) return;
-      const sectionRect = section.getBoundingClientRect();
-      const vh = window.innerHeight || document.documentElement.clientHeight;
-      const headerH = getHeaderHeight();
-      const live = sectionRect.top < vh * 0.86 && sectionRect.bottom > headerH + vh * 0.16;
-      section.classList.toggle('motion-live', live);
-      if (!live) {
-        items.forEach((item) => item.classList.remove('is-active'));
-        return;
-      }
-
-      const focusY = headerH + (vh - headerH) * focusRatio;
-      let bestIndex = 0;
-      let bestScore = Infinity;
-      items.forEach((item, index) => {
-        const r = item.getBoundingClientRect();
-        const centerY = (r.top + r.bottom) / 2;
-        const visible = Math.max(0, Math.min(r.bottom, vh) - Math.max(r.top, headerH));
-        const visibilityPenalty = visible > 20 ? 0 : 1000;
-        const score = Math.abs(centerY - focusY) + visibilityPenalty;
-        if (score < bestScore) {
-          bestScore = score;
-          bestIndex = index;
-        }
-      });
-      items.forEach((item, index) => item.classList.toggle('is-active', index === bestIndex));
-    }
-
-    function updatePortfolioVideos() {
-      const portfolio = document.getElementById('portfolio');
-      if (!portfolio) return;
-      const works = Array.from(portfolio.querySelectorAll('.work'));
-      works.forEach((work) => {
-        const video = work.querySelector('video');
-        if (!video) return;
-        if (work.classList.contains('is-active') && portfolio.classList.contains('motion-live')) {
-          video.play().catch(() => {});
-        } else {
-          video.pause();
-        }
-      });
-    }
-
+    // Keep only a very soft global hero scale on scroll. Card motion is now hover-based,
+    // because scroll-driven active states looked out of sync on desktop.
     let ticking = false;
-    function updateMotion() {
+    function updateHeroMotion() {
       ticking = false;
-      if (prefersReducedMotion) return;
-
-      if (hero) {
-        const y = window.scrollY || document.documentElement.scrollTop || 0;
-        const scale = clamp(1 - y / 7000, 0.965, 1);
-        hero.style.setProperty('--hero-scale', scale.toFixed(4));
-      }
-
-      setActiveByProgress(document.getElementById('deliverables'), '.deliverables .card');
-      setActiveByFocusLine(document.getElementById('portfolio'), '.work', 0.52);
-      setActiveByFocusLine(document.getElementById('formats'), '.grid > .card', 0.52);
-      setActiveByFocusLine(document.getElementById('process'), '.step', 0.52);
-      updatePortfolioVideos();
+      if (prefersReducedMotion || !hero) return;
+      const y = window.scrollY || document.documentElement.scrollTop || 0;
+      const scale = clamp(1 - y / 9000, 0.982, 1);
+      hero.style.setProperty('--hero-scale', scale.toFixed(4));
     }
-
-    function requestMotionUpdate() {
+    function requestHeroMotionUpdate() {
       if (!ticking) {
         ticking = true;
-        window.requestAnimationFrame(updateMotion);
+        window.requestAnimationFrame(updateHeroMotion);
       }
     }
+    window.addEventListener('scroll', requestHeroMotionUpdate, { passive: true });
+    window.addEventListener('resize', requestHeroMotionUpdate);
+    updateHeroMotion();
 
-    window.addEventListener('scroll', requestMotionUpdate, { passive: true });
-    window.addEventListener('resize', requestMotionUpdate);
-    updateMotion();
+    // Portfolio videos: play on hover/focus, not by scroll. This makes the motion deliberate.
+    const portfolioWorks = Array.from(document.querySelectorAll('#portfolio .work'));
+    portfolioWorks.forEach((work) => {
+      const video = work.querySelector('video');
+      if (!video) return;
+      video.pause();
+      video.currentTime = 0;
+      const play = () => { if (!prefersReducedMotion) video.play().catch(() => {}); };
+      const stop = () => { video.pause(); };
+      work.addEventListener('mouseenter', play);
+      work.addEventListener('mouseleave', stop);
+      work.addEventListener('focusin', play);
+      work.addEventListener('focusout', stop);
+      work.addEventListener('touchstart', () => {
+        portfolioWorks.forEach((other) => {
+          if (other !== work) {
+            const otherVideo = other.querySelector('video');
+            if (otherVideo) otherVideo.pause();
+          }
+        });
+        play();
+      }, { passive: true });
+    });
   </script>
 
   <script type="application/ld+json">

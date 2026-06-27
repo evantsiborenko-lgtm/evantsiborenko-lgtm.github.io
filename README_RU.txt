@@ -49,3 +49,11 @@ KVSvideo — AI product videos / wow version
 - снижено затемнение неактивных карточек, чтобы блоки не выглядели «сломавшимися» при прокрутке;
 - уменьшен scale активных карточек: движение стало спокойнее и ближе к premium-motion;
 - сохранены новые логотипы, favicon и watermark assets.
+
+
+Обновление v6.2:
+- scroll-driven карточки заменены на hover-first premium motion;
+- портфолио запускает видео при наведении/focus, а не по скроллу;
+- уменьшена высота sticky header;
+- в блоке автора заменён старый градиентный знак на новый KVS compact icon;
+- сохранены favicon и logo assets.
