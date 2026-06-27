@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ru">
-<!-- KVSvideo v6.3 hover_video_cases_fix -->
+<!-- KVSvideo v6.4 ambient_music_full_header -->
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -108,9 +108,12 @@
       align-items: center;
       justify-content: space-between;
       gap: 18px;
-      padding: 8px 0;
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+      padding: 8px max(16px, calc((100vw - var(--max)) / 2));
       min-height: 58px;
-      background: linear-gradient(180deg, rgba(9,11,20,.98), rgba(9,11,20,.92));
+      background: linear-gradient(180deg, rgba(9,11,20,.985), rgba(9,11,20,.94));
       border-bottom: 1px solid rgba(255,255,255,.055);
       box-shadow: 0 14px 34px rgba(0,0,0,.22);
       backdrop-filter: blur(18px);
@@ -543,6 +546,43 @@
       line-height: 1.45;
       text-align: center;
     }
+    .ambient-toggle {
+      position: fixed;
+      right: max(18px, calc((100vw - var(--max)) / 2));
+      bottom: 20px;
+      z-index: 60;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      border: 1px solid rgba(250,204,21,.32);
+      background: rgba(6,8,15,.72);
+      color: #f5f2ea;
+      border-radius: 999px;
+      padding: 11px 14px;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 780;
+      cursor: pointer;
+      box-shadow: 0 18px 42px rgba(0,0,0,.34);
+      backdrop-filter: blur(18px);
+      transition: transform .25s ease, border-color .25s ease, background .25s ease, opacity .25s ease;
+    }
+    .ambient-toggle span {
+      display: grid;
+      place-items: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      color: #111827;
+      background: linear-gradient(135deg, #f2d184, #c89b3c);
+      box-shadow: 0 0 22px rgba(250,204,21,.18);
+    }
+    .ambient-toggle:hover,
+    .ambient-toggle[aria-pressed="true"] {
+      transform: translateY(-2px);
+      border-color: rgba(250,204,21,.56);
+      background: rgba(10,12,20,.86);
+    }
     .side-stack { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
     .mini-panel {
       border: 1px solid var(--line);
@@ -843,7 +883,8 @@
       .page { width: min(100% - 22px, var(--max)); }
       .brand-logo { width: 152px; }
       #deliverables.motion-live .deliverables .card.is-active, #formats.motion-live .grid > .card.is-active, #process.motion-live .step.is-active, #portfolio.motion-live .work.is-active { transform: translateY(-2px) scale(1.012); }
-      header { position: static; padding: 14px 0; min-height: auto; }
+      header { position: static; width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); padding: 14px 16px; min-height: auto; }
+      .ambient-toggle { right: 14px; bottom: 14px; padding: 10px 12px; }
       nav { display: none; }
       .hero { padding-top: 28px; }
       .actions { flex-direction: column; }
@@ -873,6 +914,9 @@
         <a href="https://max.ru/u/f9LHodD0cOJlDpukwqptJu22mt7WP9gY3Hf1QqJlId29eI5iof0XN7XmUnI" rel="noopener">MAX</a>
       </nav>
     </header>
+
+    <audio id="siteAmbient" loop preload="metadata" src="assets/audio/A_Ribbon_Untied.mp3"></audio>
+    <button class="ambient-toggle" type="button" id="ambientToggle" aria-pressed="false" aria-label="Включить фоновую музыку"><span>♪</span><b>Музыка</b></button>
 
     <main>
       <section class="hero motion-section" id="hero" aria-label="AI-видео и визуал для карточек WB/Ozon">
@@ -928,7 +972,7 @@
                 <div class="ba-card after"><b>После</b>ролик или visual kit: карточка, Reels, сайт, реклама</div>
               </div>
             </div>
-            <div class="sound-note">Showreel можно посмотреть с мягкой ambient-музыкой. Остальные preview на странице — без звука.</div>
+            <div class="sound-note">Фоновая музыка включается отдельной кнопкой и играет тихо. Preview-ролики запускаются по наведению.</div>
           </div>
         </aside>
       </section>
@@ -1245,10 +1289,33 @@
         const willUnmute = heroShowreel.muted;
         heroShowreel.muted = !willUnmute;
         heroShowreel.volume = willUnmute ? 0.55 : 0;
+        if (siteAmbient && !siteAmbient.paused) siteAmbient.volume = willUnmute ? 0.08 : ambientBaseVolume;
         heroShowreel.play().catch(() => {});
         soundToggle.textContent = willUnmute ? '🔊 Звук включён' : '🔇 Звук';
         soundToggle.setAttribute('aria-pressed', willUnmute ? 'true' : 'false');
         if (willUnmute) kvsReachGoal('showreel_sound_on');
+      });
+    }
+
+    const siteAmbient = document.getElementById('siteAmbient');
+    const ambientToggle = document.getElementById('ambientToggle');
+    const ambientBaseVolume = 0.2;
+    if (siteAmbient && ambientToggle) {
+      siteAmbient.volume = ambientBaseVolume;
+      ambientToggle.addEventListener('click', function () {
+        if (siteAmbient.paused) {
+          siteAmbient.volume = ambientBaseVolume;
+          siteAmbient.play().then(() => {
+            ambientToggle.innerHTML = '<span>♪</span><b>Музыка включена</b>';
+            ambientToggle.setAttribute('aria-pressed', 'true');
+            kvsReachGoal('ambient_music_on');
+          }).catch(() => {});
+        } else {
+          siteAmbient.pause();
+          ambientToggle.innerHTML = '<span>♪</span><b>Музыка</b>';
+          ambientToggle.setAttribute('aria-pressed', 'false');
+          kvsReachGoal('ambient_music_off');
+        }
       });
     }
 
