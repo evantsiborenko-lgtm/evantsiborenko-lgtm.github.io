@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ru">
-<!-- KVSvideo v6.2 hover_logo_fix -->
+<!-- KVSvideo v6.3 hover_video_cases_fix -->
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -254,6 +254,7 @@
     #formats .grid > .card,
     #process .step,
     #portfolio .work,
+    #cases .case-card,
     .audience .card,
     .about .card {
       position: relative;
@@ -264,6 +265,7 @@
     #formats .grid > .card::after,
     #process .step::after,
     #portfolio .work::after,
+    #cases .case-card::after,
     .audience .card::after,
     .about .card::after {
       content: "";
@@ -280,7 +282,8 @@
       #deliverables .deliverables:hover .card:not(:hover),
       #formats .grid:hover > .card:not(:hover),
       #process .process:hover .step:not(:hover),
-      #portfolio .portfolio:hover .work:not(:hover) {
+      #portfolio .portfolio:hover .work:not(:hover),
+      #cases .case-grid:hover .case-card:not(:hover) {
         opacity: .78;
         filter: saturate(.88) brightness(.90);
       }
@@ -288,6 +291,7 @@
       #formats .grid > .card:hover,
       #process .step:hover,
       #portfolio .work:hover,
+      #cases .case-card:hover,
       .audience .card:hover,
       .about .card:hover {
         opacity: 1;
@@ -301,6 +305,7 @@
       #formats .grid > .card:hover::after,
       #process .step:hover::after,
       #portfolio .work:hover::after,
+      #cases .case-card:hover::after,
       .audience .card:hover::after,
       .about .card:hover::after { opacity: 1; }
       #formats .grid > .card.highlight:hover {
@@ -313,6 +318,7 @@
         transform: translateY(-2px);
       }
       #portfolio .work:hover .work-caption strong,
+      #cases .case-card:hover h3,
       #formats .grid > .card:hover h3,
       #deliverables .deliverables .card:hover h3,
       #process .step:hover strong {
@@ -630,6 +636,9 @@
       box-shadow: 0 22px 70px rgba(0,0,0,.22);
     }
     .case-media { aspect-ratio: 16 / 10; position: relative; background: #050711; }
+    .case-card .case-media video { transform: scale(1.012); transition: transform .62s cubic-bezier(.2,.7,.2,1), filter .62s ease; }
+    .case-card:hover .case-media video, .case-card.is-playing .case-media video { transform: scale(1.045); filter: saturate(1.06) brightness(1.04); }
+    .case-card.is-playing { border-color: rgba(250,204,21,.42); }
     .case-body { padding: 22px; }
     .case-body h3 { margin: 0 0 14px; font-size: 22px; letter-spacing: -.03em; }
     .case-line { display: grid; gap: 4px; margin: 12px 0; }
@@ -814,7 +823,7 @@
       .stage::before { animation: none; }
 
       .showreel-frame { animation: none; }
-      .hero, .hero .eyebrow, .hero h1, .hero .lead, .hero .value-line, .hero .audience-line, .hero .actions, .hero .trust, .hero .stage, .mini-panel, .ba-card, .deliverables .card, #formats .grid > .card, .process .step, .portfolio .work { transition: none !important; transform: none !important; opacity: 1 !important; filter: none !important; }
+      .hero, .hero .eyebrow, .hero h1, .hero .lead, .hero .value-line, .hero .audience-line, .hero .actions, .hero .trust, .hero .stage, .mini-panel, .ba-card, .deliverables .card, #formats .grid > .card, .process .step, .portfolio .work, .case-card { transition: none !important; transform: none !important; opacity: 1 !important; filter: none !important; }
     }
     @media (max-width: 1040px) {
       .hero { grid-template-columns: 1fr; min-height: auto; }
@@ -947,14 +956,14 @@
           </p>
         </div>
         <div class="portfolio" aria-label="Видео-примеры AI product videos">
-          <article class="work"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/luxury_reflection_loop.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/luxury_reflection_loop_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Luxury Reflection Loop</strong><span>fashion accessory / premium reflection / product focus</span></div></article>
-          <article class="work"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/golden_cleansing_oil.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/golden_cleansing_oil_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Golden Cleansing Oil</strong><span>beauty oil / warm light / clean commercial motion</span></div></article>
-          <article class="work"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/perfume.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/perfume_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Perfume Concept</strong><span>fragrance / glass reflections / quiet luxury mood</span></div></article>
-          <article class="work"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/noname_soy_wax.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/noname_soy_wax_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Soy Wax Candle</strong><span>home fragrance / wooden wick / warm minimalism</span></div></article>
-          <article class="work"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/icon_skin_niacinamide_serum.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/icon_skin_niacinamide_serum_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Skincare Serum</strong><span>clean beauty / stable package / product readability</span></div></article>
-          <article class="work"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/shik_repair_serum_oil.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/shik_repair_serum_oil_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Repair Serum Oil</strong><span>macro texture / premium beauty visual</span></div></article>
-          <article class="work"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/mist_100ml.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/mist_100ml_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Beauty Mist</strong><span>marketplace / product presentation / social preview</span></div></article>
-          <article class="work"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/eatmy_pineapple_coconut_water.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/eatmy_pineapple_coconut_water_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Bright Beauty Visual</strong><span>tropical color / energetic product mood</span></div></article>
+          <article class="work" tabindex="0"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/luxury_reflection_loop.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/luxury_reflection_loop_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Luxury Reflection Loop</strong><span>fashion accessory / premium reflection / product focus</span></div></article>
+          <article class="work" tabindex="0"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/golden_cleansing_oil.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/golden_cleansing_oil_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Golden Cleansing Oil</strong><span>beauty oil / warm light / clean commercial motion</span></div></article>
+          <article class="work" tabindex="0"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/perfume.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/perfume_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Perfume Concept</strong><span>fragrance / glass reflections / quiet luxury mood</span></div></article>
+          <article class="work" tabindex="0"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/noname_soy_wax.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/noname_soy_wax_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Soy Wax Candle</strong><span>home fragrance / wooden wick / warm minimalism</span></div></article>
+          <article class="work" tabindex="0"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/icon_skin_niacinamide_serum.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/icon_skin_niacinamide_serum_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Skincare Serum</strong><span>clean beauty / stable package / product readability</span></div></article>
+          <article class="work" tabindex="0"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/shik_repair_serum_oil.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/shik_repair_serum_oil_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Repair Serum Oil</strong><span>macro texture / premium beauty visual</span></div></article>
+          <article class="work" tabindex="0"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/mist_100ml.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/mist_100ml_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Beauty Mist</strong><span>marketplace / product presentation / social preview</span></div></article>
+          <article class="work" tabindex="0"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/eatmy_pineapple_coconut_water.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/eatmy_pineapple_coconut_water_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Bright Beauty Visual</strong><span>tropical color / energetic product mood</span></div></article>
         </div>
         <div class="actions">
           <a class="btn primary" href="https://t.me/KVSemenov_AI" rel="noopener" data-ym-goal="click_portfolio_tg"><img class="messenger-icon" src="assets/tg-icon.png" alt="">Больше работ в Telegram</a>
@@ -968,7 +977,7 @@
           <p class="section-text">Ниже — демонстрационные разборы. Это не клиентские кейсы с метриками, а честные spec-концепты: задача, визуальное решение и где такой ролик можно использовать.</p>
         </div>
         <div class="case-grid">
-          <article class="case-card">
+          <article class="case-card" tabindex="0">
             <div class="case-media"><video muted loop playsinline preload="metadata" poster="assets/posters/golden_cleansing_oil.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/golden_cleansing_oil_720p_watermark.mp4" type="video/mp4"></video></div>
             <div class="case-body">
               <h3>Beauty oil / premium clean visual</h3>
@@ -977,7 +986,7 @@
               <div class="case-line"><b>Использование</b><span>Карточка товара, Reels, сайт, презентация линейки.</span></div>
             </div>
           </article>
-          <article class="case-card">
+          <article class="case-card" tabindex="0">
             <div class="case-media"><video muted loop playsinline preload="metadata" poster="assets/posters/noname_soy_wax.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/noname_soy_wax_720p_watermark.mp4" type="video/mp4"></video></div>
             <div class="case-body">
               <h3>Home fragrance / quiet luxury</h3>
@@ -986,7 +995,7 @@
               <div class="case-line"><b>Использование</b><span>Сайт бренда, карточка маркетплейса, соцсети, seasonal campaign.</span></div>
             </div>
           </article>
-          <article class="case-card">
+          <article class="case-card" tabindex="0">
             <div class="case-media"><video muted loop playsinline preload="metadata" poster="assets/posters/luxury_reflection_loop.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/luxury_reflection_loop_720p_watermark.mp4" type="video/mp4"></video></div>
             <div class="case-body">
               <h3>Fashion accessory / reflective loop</h3>
@@ -1270,29 +1279,52 @@
     window.addEventListener('resize', requestHeroMotionUpdate);
     updateHeroMotion();
 
-    // Portfolio videos: play on hover/focus, not by scroll. This makes the motion deliberate.
-    const portfolioWorks = Array.from(document.querySelectorAll('#portfolio .work'));
-    portfolioWorks.forEach((work) => {
-      const video = work.querySelector('video');
-      if (!video) return;
-      video.pause();
-      video.currentTime = 0;
-      const play = () => { if (!prefersReducedMotion) video.play().catch(() => {}); };
-      const stop = () => { video.pause(); };
-      work.addEventListener('mouseenter', play);
-      work.addEventListener('mouseleave', stop);
-      work.addEventListener('focusin', play);
-      work.addEventListener('focusout', stop);
-      work.addEventListener('touchstart', () => {
-        portfolioWorks.forEach((other) => {
-          if (other !== work) {
-            const otherVideo = other.querySelector('video');
-            if (otherVideo) otherVideo.pause();
+    // Premium hover video playback.
+    // Videos stay poster-still by default and start deliberately on hover/focus/tap.
+    function setupHoverVideos(selector) {
+      const items = Array.from(document.querySelectorAll(selector));
+      const stopAllExcept = (activeItem) => {
+        items.forEach((item) => {
+          if (item === activeItem) return;
+          const otherVideo = item.querySelector('video');
+          if (otherVideo) {
+            otherVideo.pause();
+            item.classList.remove('is-playing');
           }
         });
-        play();
-      }, { passive: true });
-    });
+      };
+
+      items.forEach((item) => {
+        const video = item.querySelector('video');
+        if (!video) return;
+        video.muted = true;
+        video.playsInline = true;
+        video.pause();
+        video.currentTime = 0;
+
+        const play = () => {
+          if (prefersReducedMotion) return;
+          stopAllExcept(item);
+          item.classList.add('is-playing');
+          video.play().catch(() => {});
+        };
+        const stop = () => {
+          video.pause();
+          item.classList.remove('is-playing');
+        };
+
+        item.addEventListener('pointerenter', play);
+        item.addEventListener('pointerleave', stop);
+        item.addEventListener('mouseenter', play);
+        item.addEventListener('mouseleave', stop);
+        item.addEventListener('focusin', play);
+        item.addEventListener('focusout', stop);
+        item.addEventListener('touchstart', play, { passive: true });
+      });
+    }
+
+    setupHoverVideos('#portfolio .work');
+    setupHoverVideos('#cases .case-card');
   </script>
 
   <script type="application/ld+json">
