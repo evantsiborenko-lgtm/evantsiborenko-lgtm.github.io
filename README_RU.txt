@@ -10,7 +10,7 @@ KVSvideo — AI product videos / wow version
 - robots.txt, sitemap.xml, CNAME
 
 Основные изменения версии:
-- более дорогой hero-блок с AI visual production позиционированием
+- hero-блок с понятным оффером: AI-видео и визуал для карточек WB/Ozon
 - убрана ссылка на видео-открытки из верхнего меню; оставлена только в футере как отдельный проект
 - блок Selected AI product works
 - 3 spec-case разбора без выдуманных метрик
@@ -22,3 +22,10 @@ KVSvideo — AI product videos / wow version
 Обновление 2026-06-09:
 - Добавлен счётчик Яндекс.Метрики 109744286.
 - Добавлены reachGoal-события для TG, MAX, портфолио, переходов по странице и включения звука showreel.
+
+
+Обновление 2026-06-27:
+- усилен SEO title/description под WB/Ozon, product video и white-label;
+- добавлены продуктовые форматы Product Loop / Marketplace Video / Visual Kit / Series / White-label;
+- добавлены сроки, условия работы, расширенный FAQ и блок контроля AI-рисков;
+- сохранены портфолио, showreel, TG/MAX, Метрика и текущие assets.
