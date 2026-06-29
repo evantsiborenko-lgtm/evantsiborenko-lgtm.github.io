@@ -105,3 +105,9 @@ KVSvideo — AI product videos / wow version
 - добавлены оптимизированные PNG/WebP 1x и 2x;
 - исходная clean-версия логотипа оставлена в assets/logo как backup;
 - favicon не менялся: для малых размеров оставлена более простая версия.
+
+
+Обновление v6.10:
+- заменён логотип в карточке автора на premium gold compact-версию;
+- добавлены logo_compact_icon_premium_gold.webp/png и @2x версии;
+- увеличен размер .portrait-logo до 132px для сохранения визуального масштаба.
