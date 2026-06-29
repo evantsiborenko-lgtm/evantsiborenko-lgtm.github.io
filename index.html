@@ -922,6 +922,48 @@
       .stage { border-radius: 32px; padding: 12px; }
       h1 { font-size: clamp(38px, 13vw, 60px); }
     }
+
+    /* v6.8: tablet portrait sticky header fix.
+       Some portrait tablets fall into the <=720px CSS-width bucket,
+       so this rule is placed after the mobile block and restores sticky behavior. */
+    @media (min-width: 600px) and (max-width: 1100px) and (orientation: portrait) {
+      html { scroll-padding-top: 66px; }
+      .motion-section { scroll-margin-top: 82px; }
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 60;
+        display: flex;
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        padding: 7px clamp(16px, 3vw, 28px);
+        min-height: 54px;
+        gap: 10px;
+        background: linear-gradient(180deg, rgba(9,11,20,.992), rgba(9,11,20,.965));
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+      }
+      .brand-logo { width: clamp(122px, 20vw, 152px); }
+      nav {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: flex-end;
+        gap: 2px;
+        min-width: 0;
+      }
+      nav a {
+        font-size: 12px;
+        padding: 7px 7px;
+      }
+      nav a[href*="t.me"],
+      nav a[href*="max.ru"] { display: none; }
+    }
+
+    @media (max-width: 599px) {
+      header { position: static; }
+    }
+
   </style>
 </head>
 <body>
@@ -1176,7 +1218,7 @@
         <div class="section-head">
           <div class="kicker">White-label</div>
           <h2>Надстройка для студий карточек, агентств и фотографов</h2>
-          <p class="section-text">Вы приносите продукт, фото, ссылку на карточку или клиентский бриф. Я собираю AI-видео или visual kit, который можно передать клиенту под вашим брендом.</p>
+          <p class="section-text">Вы присылаете материалы по товару: фото, ссылку на карточку или клиентский бриф. Я собираю AI-видео или visual kit, который можно передать клиенту под вашим брендом.</p>
         </div>
         <div class="grid">
           <article class="card"><h3>Новая услуга без штата</h3><p>Можно добавить AI-видео к карточкам WB/Ozon, предметной съёмке или дизайну без отдельного motion/AI-специалиста.</p></article>
