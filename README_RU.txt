@@ -77,3 +77,11 @@ KVSvideo — AI product videos / wow version
 - Трек A_Ribbon_Untied.mp3 теперь подключён как Showreel-эмбиент через кнопку "Звук" на showreel.
 - Видео showreel использует silent MP4, а музыка идёт отдельным audio-слоем на громкости 7%.
 - Полноширинная чёрная шапка сохранена.
+
+
+Обновление v6.6 polish:
+- favicon заменён на тёмную версию для лучшей читаемости во вкладке браузера;
+- кнопка showreel-звука: '🔇 Звук' / '🔊 Звук';
+- добавлен tablet portrait polish для sticky-header;
+- усилен контраст hero-бейджа;
+- добавлены CTA в Series / SKU Pack и White-label.

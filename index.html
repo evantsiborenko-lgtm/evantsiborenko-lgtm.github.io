@@ -1,15 +1,15 @@
 <!doctype html>
 <html lang="ru">
-<!-- KVSvideo v6.5 showreel_ambient_audio -->
+<!-- KVSvideo v6.6 polish: tablet header, dark favicon, sound button, CTA polish -->
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AI-видео и визуал для карточек WB/Ozon, сайтов и рекламы — KVSvideo</title>
   <meta name="description" content="AI product videos 6–12 сек для карточек WB/Ozon, Reels, сайтов и рекламы. Из фото товара — готовый коммерческий ролик, AI-сцена и визуал для карточки. Для селлеров, брендов, студий и предметных фотографов. White-label доступен.">
   <meta name="robots" content="index, follow">
-  <link rel="icon" href="assets/logo/favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/logo/favicon_32.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/logo/favicon_180.png">
+  <link rel="icon" href="assets/logo/favicon_dark.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/logo/favicon_dark_32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/logo/favicon_dark_180.png">
   <link rel="preload" as="image" href="assets/logo/logo_header_site.webp">
   <meta name="keywords" content="AI-видео для товара, AI product video, видео для карточки товара, видео для WB, видео для Ozon, визуал для маркетплейсов, карточки WB/Ozon, AI-визуал для товара, product video для сайта и рекламы, white-label AI-видео для студий">
   <meta name="yandex-verification" content="d38da1a6f7dc7a4b">
@@ -381,23 +381,24 @@
       align-items: center;
       gap: 9px;
       margin-bottom: 18px;
-      padding: 9px 13px;
-      border: 1px solid rgba(250,204,21,.30);
+      padding: 9px 14px;
+      border: 1px solid rgba(242,209,132,.44);
       border-radius: 999px;
-      background: rgba(250,204,21,.08);
-      color: #fde68a;
+      background: linear-gradient(135deg, rgba(214,168,79,.20), rgba(250,204,21,.10));
+      color: #f8e7b0;
       font-size: 13px;
-      letter-spacing: .04em;
+      letter-spacing: .055em;
       text-transform: uppercase;
-      font-weight: 750;
+      font-weight: 820;
+      box-shadow: 0 14px 34px rgba(0,0,0,.16), 0 0 0 1px rgba(255,255,255,.035) inset;
     }
     .eyebrow::before {
       content: "";
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: var(--gold);
-      box-shadow: 0 0 24px rgba(250,204,21,.95);
+      background: #f2d184;
+      box-shadow: 0 0 20px rgba(242,209,132,.72);
     }
     h1 {
       margin: 0;
@@ -539,6 +540,11 @@
       box-shadow: 0 12px 28px rgba(0,0,0,.25);
     }
     .sound-toggle:hover { background: rgba(255,255,255,.12); }
+    .sound-toggle[aria-pressed="true"] {
+      color: #fde68a;
+      border-color: rgba(242,209,132,.38);
+      background: rgba(242,209,132,.10);
+    }
     .sound-note {
       margin-top: 14px;
       color: var(--soft);
@@ -778,6 +784,28 @@
       line-height: 1.62;
     }
     .format-note b, .ai-note b, .legal-note b { color: #fde68a; }
+    .format-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      margin-top: 16px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(242,209,132,.32);
+      background: rgba(242,209,132,.08);
+      color: #fde68a;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 850;
+      letter-spacing: .01em;
+      transition: transform .22s ease, background .22s ease, border-color .22s ease;
+    }
+    .format-cta:hover {
+      transform: translateY(-2px);
+      background: rgba(242,209,132,.14);
+      border-color: rgba(242,209,132,.52);
+    }
     .timing-table {
       width: 100%;
       border-collapse: collapse;
@@ -827,6 +855,33 @@
 
       .showreel-frame { animation: none; }
       .hero, .hero .eyebrow, .hero h1, .hero .lead, .hero .value-line, .hero .audience-line, .hero .actions, .hero .trust, .hero .stage, .mini-panel, .ba-card, .deliverables .card, #formats .grid > .card, .process .step, .portfolio .work, .case-card { transition: none !important; transform: none !important; opacity: 1 !important; filter: none !important; }
+    }
+
+    @media (min-width: 721px) and (max-width: 1100px) and (orientation: portrait) {
+      html { scroll-padding-top: 68px; }
+      .motion-section { scroll-margin-top: 82px; }
+      header {
+        position: sticky;
+        top: 0;
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        padding: 7px clamp(18px, 3vw, 28px);
+        min-height: 54px;
+        gap: 10px;
+      }
+      .brand-logo { width: clamp(122px, 18vw, 148px); }
+      nav {
+        flex-wrap: nowrap;
+        gap: 2px;
+        min-width: 0;
+      }
+      nav a {
+        font-size: 12px;
+        padding: 7px 7px;
+      }
+      nav a[href*="t.me"],
+      nav a[href*="max.ru"] { display: none; }
     }
     @media (max-width: 1040px) {
       .hero { grid-template-columns: 1fr; min-height: auto; }
@@ -914,7 +969,7 @@
               <video id="heroShowreel" autoplay muted loop playsinline preload="metadata" poster="assets/posters/showreel.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false" aria-label="Showreel KVSvideo AI product videos">
                 <source src="assets/videos/showreel_720p_watermark.mp4" type="video/mp4">
               </video>
-              <button class="sound-toggle" type="button" id="soundToggle" aria-pressed="false">🔇 Звук</button>
+              <button class="sound-toggle" type="button" id="soundToggle" aria-pressed="false" aria-label="Включить звук showreel">🔇 Звук</button>
               <div class="video-label"><span>Showreel</span><span>портфолио</span></div>
             </div>
             <div class="side-stack">
@@ -1066,6 +1121,7 @@
             <p>Серия роликов или визуалов для нескольких товаров или SKU. Подходит для запуска линейки, пополнения каталога и регулярного потока задач.</p>
             <ul><li>пакетная оценка по объёму;</li><li>единая визуальная система;</li><li>ниже цена за единицу при серии.</li></ul>
             <div class="price">по объёму</div>
+            <a class="format-cta" href="https://t.me/KVSemenov" rel="noopener" data-ym-goal="click_series_sku_cta">Обсудить серию SKU</a>
           </article>
           <article class="card">
             <span class="tag">Партнёрам</span>
@@ -1073,6 +1129,7 @@
             <p>Для студий карточек, маркетплейс-агентств, дизайнеров и предметных фотографов. Финальные ролики и визуалы — без watermark.</p>
             <ul><li>под ваш бренд и клиентский проект;</li><li>без публичного упоминания KVSvideo;</li><li>условия — по объёму и регулярности.</li></ul>
             <div class="price">по договорённости</div>
+            <a class="format-cta" href="https://t.me/KVSemenov" rel="noopener" data-ym-goal="click_whitelabel_cta">Запросить white-label</a>
           </article>
         </div>
         <div class="format-note"><b>Важно:</b> цены ориентировочные. Работа стартует после согласования задачи и предоплаты. Итог зависит от исходников, сложности товара, количества сцен и форматов.</div>
@@ -1264,14 +1321,16 @@
         if (willPlayAmbient) {
           showreelAmbient.volume = showreelAmbientVolume;
           showreelAmbient.play().then(() => {
-            soundToggle.textContent = '🔊 Эмбиент включён';
+            soundToggle.textContent = '🔊 Звук';
             soundToggle.setAttribute('aria-pressed', 'true');
+            soundToggle.setAttribute('aria-label', 'Выключить звук showreel');
             kvsReachGoal('showreel_sound_on');
           }).catch(() => {});
         } else {
           showreelAmbient.pause();
           soundToggle.textContent = '🔇 Звук';
           soundToggle.setAttribute('aria-pressed', 'false');
+          soundToggle.setAttribute('aria-label', 'Включить звук showreel');
           kvsReachGoal('showreel_sound_off');
         }
       });
