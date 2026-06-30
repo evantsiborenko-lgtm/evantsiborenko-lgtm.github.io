@@ -950,7 +950,8 @@
     }
     .cinematic-stage {
       position: relative;
-      min-height: clamp(500px, 66vh, 620px);
+      aspect-ratio: 16 / 10;
+      min-height: auto;
       border-radius: 34px;
       overflow: hidden;
       border: 1px solid rgba(250,204,21,.18);
@@ -1057,34 +1058,30 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: 61% 52%;
+      object-position: 50% 50%;
       opacity: 0;
-      transform: scale(1.09);
+      transform: scale(1.035);
       filter: saturate(.88) brightness(.78);
       transition: opacity .7s ease, transform 1.2s cubic-bezier(.2,.7,.2,1), filter .7s ease;
       z-index: 0;
       will-change: transform, opacity;
     }
-    .cinematic-scene-asset[data-scene-asset="1"],
-    .cinematic-scene-asset[data-scene-asset="3"] { object-position: 60% 54%; }
-    .cinematic-scene-asset[data-scene-asset="2"],
-    .cinematic-scene-asset[data-scene-asset="5"] { object-position: 59% 48%; }
-    .cinematic-scene-asset[data-scene-asset="4"],
-    .cinematic-scene-asset[data-scene-asset="7"] { object-position: 61% 48%; }
-    .cinematic-scene-asset[data-scene-asset="6"] { object-position: 61% 47%; }
     .cinematic-scene-asset.is-active {
       opacity: .98;
-      transform: scale(1.01);
+      transform: scale(1);
       filter: saturate(1) brightness(.95);
     }
     .cinematic-progress {
       position: absolute;
-      right: 22px;
-      bottom: 24px;
+      right: 18px;
+      bottom: 22px;
       display: grid;
-      gap: 10px;
+      gap: 9px;
       z-index: 6;
+      opacity: .72;
+      transition: opacity .25s ease;
     }
+    .cinematic-stage:hover .cinematic-progress { opacity: .95; }
     .cinematic-progress button {
       width: 12px;
       height: 12px;
@@ -1424,7 +1421,7 @@
       .portfolio-stage-caption { width: min(390px, calc(100% - 44px)); }
       .cinematic-shell { grid-template-columns: 1fr; }
       .cinematic-stage-wrap { position: static; }
-      .cinematic-stage { min-height: 620px; }
+      .cinematic-stage { aspect-ratio: 16 / 10; min-height: auto; }
       .cinematic-step { min-height: 280px; }
       .audience, .deliverables { grid-template-columns: repeat(2, 1fr); }
       .case-grid, .grid, .conditions-grid { grid-template-columns: 1fr; }
