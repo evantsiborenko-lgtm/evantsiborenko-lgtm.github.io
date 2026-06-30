@@ -587,6 +587,83 @@
     .ba-card b { display: block; color: #fff; font-size: 15px; margin-bottom: 4px; }
 
     section { padding: 78px 0; }
+
+
+    /* v6.11 depth visuals: premium parallax product layer */
+    .depth-section {
+      position: relative;
+      isolation: isolate;
+      overflow: clip;
+    }
+    .depth-section > *:not(.depth-visual) {
+      position: relative;
+      z-index: 2;
+    }
+    .depth-visual {
+      position: absolute;
+      pointer-events: none;
+      z-index: 0;
+      width: min(980px, 76vw);
+      height: min(550px, 43vw);
+      min-height: 360px;
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+      opacity: .18;
+      mix-blend-mode: screen;
+      filter: saturate(.98) contrast(1.06) brightness(.82);
+      transform: translate3d(0, var(--depth-y, 0px), 0) scale(var(--depth-scale, 1));
+      will-change: transform;
+      -webkit-mask-image: radial-gradient(ellipse at center, #000 0%, rgba(0,0,0,.95) 46%, transparent 77%);
+      mask-image: radial-gradient(ellipse at center, #000 0%, rgba(0,0,0,.95) 46%, transparent 77%);
+    }
+    .depth-visual::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 62% 44%, rgba(242,209,132,.09), transparent 34%);
+      pointer-events: none;
+    }
+    .depth-visual--bottle { background-image: url("assets/depth/depth_bottle.webp"); }
+    .depth-visual--watch { background-image: url("assets/depth/depth_watch.webp"); }
+    .depth-visual--pen { background-image: url("assets/depth/depth_pen.webp"); }
+    .depth-visual--decanter { background-image: url("assets/depth/depth_decanter.webp"); }
+
+    #deliverables .depth-visual {
+      top: -72px;
+      right: -260px;
+      width: min(1040px, 78vw);
+      --depth-scale: 1.08;
+      opacity: .145;
+    }
+    #portfolio .depth-visual {
+      top: -92px;
+      right: -190px;
+      width: min(1050px, 76vw);
+      --depth-scale: 1.04;
+      opacity: .18;
+    }
+    #cases .depth-visual {
+      top: -34px;
+      right: -230px;
+      width: min(980px, 72vw);
+      --depth-scale: 1.02;
+      opacity: .13;
+    }
+    #partners .depth-visual {
+      top: -70px;
+      right: -220px;
+      width: min(1030px, 74vw);
+      --depth-scale: 1.04;
+      opacity: .135;
+    }
+    #conditions .depth-visual {
+      top: -120px;
+      right: -250px;
+      width: min(1040px, 76vw);
+      --depth-scale: 1.06;
+      opacity: .14;
+    }
     .section-head { max-width: 790px; margin-bottom: 30px; }
     .kicker { color: #fde68a; font-size: 13px; text-transform: uppercase; letter-spacing: .17em; font-weight: 800; margin-bottom: 12px; }
     h2 { margin: 0; font-size: clamp(32px, 4.7vw, 56px); line-height: 1; letter-spacing: -.052em; }
@@ -863,6 +940,8 @@
       html { scroll-behavior: auto; }
       .stage::before { animation: none; }
 
+      .depth-visual { transform: none !important; opacity: .10 !important; }
+
       .showreel-frame { animation: none; }
       .hero, .hero .eyebrow, .hero h1, .hero .lead, .hero .value-line, .hero .audience-line, .hero .actions, .hero .trust, .hero .stage, .mini-panel, .ba-card, .deliverables .card, #formats .grid > .card, .process .step, .portfolio .work, .case-card { transition: none !important; transform: none !important; opacity: 1 !important; filter: none !important; }
     }
@@ -906,6 +985,8 @@
       .about { grid-template-columns: 1fr; }
       .cta { grid-template-columns: 1fr; }
       .cta .actions { margin-top: 0; }
+
+      .depth-visual { opacity: .10; right: -34vw !important; width: 92vw !important; }
     }
     @media (max-width: 720px) {
       .page { width: min(100% - 22px, var(--max)); }
@@ -918,6 +999,10 @@
       .btn { width: 100%; }
       .side-stack, .portfolio, .process, .audience, .deliverables, .faq, .conditions-grid { grid-template-columns: 1fr; }
       section { padding: 56px 0; }
+
+      .depth-visual {
+        display: none;
+      }
       .showreel-frame { border-radius: 27px; }
       .stage { border-radius: 32px; padding: 12px; }
       h1 { font-size: clamp(38px, 13vw, 60px); }
@@ -1045,7 +1130,8 @@
         </aside>
       </section>
 
-      <section id="deliverables" class="motion-section">
+      <section id="deliverables" class="motion-section depth-section">
+        <div class="depth-visual depth-visual--bottle" data-depth-speed="0.065" aria-hidden="true"></div>
         <div class="section-head">
           <div class="kicker">Что получает клиент</div>
           <h2>Не “ролик ради ролика”, а визуальный материал для продаж</h2>
@@ -1059,7 +1145,8 @@
         </div>
       </section>
 
-      <section id="portfolio" class="motion-section">
+      <section id="portfolio" class="motion-section depth-section">
+        <div class="depth-visual depth-visual--watch" data-depth-speed="0.095" aria-hidden="true"></div>
         <div class="section-head">
           <div class="kicker">Портфолио</div>
           <h2>Портфолио: товар в кадре, свет, движение и коммерческий visual</h2>
@@ -1082,7 +1169,8 @@
         </div>
       </section>
 
-      <section id="cases">
+      <section id="cases" class="depth-section">
+        <div class="depth-visual depth-visual--bottle" data-depth-speed="0.075" aria-hidden="true"></div>
         <div class="section-head">
           <div class="kicker">Демонстрационные концепты</div>
           <h2>Как я собираю визуальную идею, а не просто “оживляю фото”</h2>
@@ -1214,7 +1302,8 @@
 
 
       
-      <section id="partners">
+      <section id="partners" class="depth-section">
+        <div class="depth-visual depth-visual--pen" data-depth-speed="0.085" aria-hidden="true"></div>
         <div class="section-head">
           <div class="kicker">White-label</div>
           <h2>Надстройка для студий карточек, агентств и фотографов</h2>
@@ -1291,7 +1380,8 @@
 
 
 
-      <section id="conditions">
+      <section id="conditions" class="depth-section">
+        <div class="depth-visual depth-visual--decanter" data-depth-speed="0.075" aria-hidden="true"></div>
         <div class="section-head">
           <div class="kicker">Условия</div>
           <h2>Как я работаю</h2>
@@ -1419,6 +1509,38 @@
     window.addEventListener('scroll', requestHeroMotionUpdate, { passive: true });
     window.addEventListener('resize', requestHeroMotionUpdate);
     updateHeroMotion();
+
+
+    // v6.11: slow premium product backgrounds for depth.
+    const depthVisuals = Array.from(document.querySelectorAll('.depth-visual'));
+    let depthTicking = false;
+    function updateDepthVisuals() {
+      depthTicking = false;
+      if (prefersReducedMotion || !depthVisuals.length || window.innerWidth < 721) {
+        depthVisuals.forEach((visual) => visual.style.setProperty('--depth-y', '0px'));
+        return;
+      }
+      const viewportCenter = window.innerHeight / 2;
+      depthVisuals.forEach((visual) => {
+        const section = visual.closest('.depth-section') || visual.parentElement;
+        if (!section) return;
+        const rect = section.getBoundingClientRect();
+        if (rect.bottom < -260 || rect.top > window.innerHeight + 260) return;
+        const sectionCenter = rect.top + rect.height / 2;
+        const speed = parseFloat(visual.dataset.depthSpeed || '0.08');
+        const y = clamp((viewportCenter - sectionCenter) * speed, -74, 74);
+        visual.style.setProperty('--depth-y', y.toFixed(1) + 'px');
+      });
+    }
+    function requestDepthVisualUpdate() {
+      if (!depthTicking) {
+        depthTicking = true;
+        window.requestAnimationFrame(updateDepthVisuals);
+      }
+    }
+    window.addEventListener('scroll', requestDepthVisualUpdate, { passive: true });
+    window.addEventListener('resize', requestDepthVisualUpdate);
+    updateDepthVisuals();
 
     // Premium hover video playback.
     // Videos stay poster-still by default and start deliberately on hover/focus/tap.
