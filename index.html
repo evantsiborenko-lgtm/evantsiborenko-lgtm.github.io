@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ru">
-<!-- KVSvideo v6.15 cinematic portfolio/process polish -->
+<!-- KVSvideo v6.17 premium section leveling: audience, formats, timing, CTA -->
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -914,6 +914,192 @@
     .price { margin-top: 18px; color: #fde68a; font-weight: 900; font-size: 27px; letter-spacing: -.045em; }
     .tag { display: inline-flex; margin-bottom: 13px; padding: 7px 10px; border-radius: 999px; color: #fde68a; background: rgba(250,204,21,.1); border: 1px solid rgba(250,204,21,.22); font-size: 12px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
 
+
+    /* v6.17: level non-cinematic sections up to Portfolio/Process quality */
+    .premium-band {
+      position: relative;
+      padding: clamp(54px, 6vw, 86px) clamp(18px, 3vw, 34px);
+      margin: clamp(24px, 4vw, 46px) 0;
+      border-radius: clamp(30px, 4vw, 46px);
+      border: 1px solid rgba(255,255,255,.085);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(250,204,21,.115), transparent 28%),
+        radial-gradient(circle at 86% 18%, rgba(56,189,248,.075), transparent 32%),
+        linear-gradient(180deg, rgba(255,255,255,.036), rgba(255,255,255,.018));
+      box-shadow: 0 32px 120px rgba(0,0,0,.22), inset 0 0 0 1px rgba(255,255,255,.018);
+      overflow: clip;
+      isolation: isolate;
+    }
+    .premium-band::before,
+    .premium-band::after {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .premium-band::before {
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.026) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(circle at 50% 0%, black, transparent 76%);
+      opacity: .58;
+    }
+    .premium-band::after {
+      right: clamp(18px, 4vw, 54px);
+      top: clamp(18px, 4vw, 54px);
+      width: 140px;
+      height: 86px;
+      border-top: 2px solid rgba(242,209,132,.36);
+      border-right: 2px solid rgba(242,209,132,.36);
+      opacity: .62;
+      filter: drop-shadow(0 0 18px rgba(250,204,21,.10));
+    }
+    .premium-band > *:not(.depth-visual) { position: relative; z-index: 2; }
+    .premium-band .section-head { margin-bottom: clamp(26px, 3.8vw, 44px); }
+
+    .audience-cinematic .audience {
+      counter-reset: audienceCard;
+      gap: 18px;
+    }
+    .audience-cinematic .card,
+    .formats-cinematic .card,
+    .partner-cinematic .card,
+    .about-cinematic .card,
+    .conditions-cinematic .condition-card,
+    .faq-cinematic details {
+      position: relative;
+      overflow: hidden;
+      border-color: rgba(255,255,255,.12);
+      background:
+        linear-gradient(180deg, rgba(22,25,42,.72), rgba(10,12,23,.62));
+      box-shadow: 0 20px 62px rgba(0,0,0,.18), inset 0 0 0 1px rgba(255,255,255,.018);
+    }
+    .audience-cinematic .card::before {
+      counter-increment: audienceCard;
+      content: "0" counter(audienceCard);
+      display: inline-grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      margin-bottom: 18px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(242,209,132,.96), rgba(190,137,36,.92));
+      color: #121827;
+      font-weight: 950;
+      letter-spacing: -.03em;
+      box-shadow: 0 18px 34px rgba(250,204,21,.18);
+    }
+    .audience-cinematic .card h3 {
+      min-height: 48px;
+      font-size: clamp(21px, 2vw, 25px);
+    }
+    .audience-cinematic .card p { font-size: 15px; }
+
+    .formats-cinematic .grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      align-items: stretch;
+    }
+    .formats-cinematic .grid > .card {
+      min-height: 410px;
+      display: flex;
+      flex-direction: column;
+      border-radius: 34px;
+      padding: 28px 26px;
+    }
+    .formats-cinematic .grid > .card::before {
+      content: "";
+      position: absolute;
+      left: 22px;
+      right: 22px;
+      top: 0;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(242,209,132,0), rgba(242,209,132,.58), rgba(242,209,132,0));
+      opacity: .5;
+    }
+    .formats-cinematic .card.highlight {
+      border-color: rgba(250,204,21,.36);
+      background:
+        radial-gradient(circle at 25% 0%, rgba(250,204,21,.18), transparent 35%),
+        linear-gradient(180deg, rgba(33,27,13,.76), rgba(12,14,24,.70));
+      box-shadow: 0 26px 88px rgba(0,0,0,.26), inset 0 0 0 1px rgba(250,204,21,.08);
+    }
+    .formats-cinematic .price {
+      margin-top: auto;
+      padding-top: 20px;
+      color: #f8e7b0;
+      text-shadow: 0 0 22px rgba(250,204,21,.18);
+    }
+    .formats-cinematic .format-note {
+      margin-top: 22px;
+      border-color: rgba(250,204,21,.24);
+      background: linear-gradient(180deg, rgba(32,25,7,.42), rgba(10,12,22,.64));
+    }
+
+    .timing-cinematic .timing-table {
+      position: relative;
+      z-index: 2;
+      border-radius: 34px;
+      overflow: hidden;
+      box-shadow: 0 28px 84px rgba(0,0,0,.25), inset 0 0 0 1px rgba(255,255,255,.03);
+      background: linear-gradient(180deg, rgba(255,255,255,.065), rgba(255,255,255,.032));
+    }
+    .timing-cinematic .timing-table th,
+    .timing-cinematic .timing-table td {
+      border-color: rgba(255,255,255,.10);
+    }
+    .timing-cinematic .timing-table td:nth-child(2) {
+      color: #f8e7b0;
+      font-weight: 900;
+    }
+    .timing-cinematic .legal-note,
+    .conditions-cinematic .condition-card {
+      border-color: rgba(250,204,21,.18);
+      background: linear-gradient(180deg, rgba(32,25,7,.28), rgba(10,12,22,.62));
+    }
+
+    .partner-cinematic .grid,
+    .about-cinematic .about,
+    .faq-cinematic .faq,
+    .conditions-cinematic .conditions-grid { position: relative; z-index: 2; }
+    .partner-cinematic .card h3,
+    .about-cinematic .card h3,
+    .conditions-cinematic .condition-card b { color: #fff; }
+    .about-cinematic .portrait-card {
+      border-color: rgba(250,204,21,.30);
+      background:
+        radial-gradient(circle at 50% 20%, rgba(250,204,21,.25), transparent 31%),
+        radial-gradient(circle at 50% 85%, rgba(56,189,248,.11), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,.058), rgba(255,255,255,.032));
+      box-shadow: 0 30px 100px rgba(0,0,0,.25);
+    }
+
+    .final-cinematic {
+      position: relative;
+      overflow: clip;
+      padding: clamp(34px, 5vw, 62px);
+      border-radius: clamp(30px, 4vw, 46px);
+      border: 1px solid rgba(250,204,21,.28);
+      background:
+        radial-gradient(circle at 12% 18%, rgba(250,204,21,.16), transparent 32%),
+        radial-gradient(circle at 85% 50%, rgba(56,189,248,.10), transparent 32%),
+        linear-gradient(135deg, rgba(32,25,7,.54), rgba(13,15,29,.76));
+      box-shadow: 0 32px 120px rgba(0,0,0,.28), inset 0 0 0 1px rgba(255,255,255,.03);
+    }
+    .final-cinematic::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(90deg, rgba(5,7,17,.94), rgba(5,7,17,.58) 55%, rgba(5,7,17,.72));
+      z-index: 1;
+    }
+    .final-cinematic > *:not(.depth-visual) { position: relative; z-index: 2; }
+    .final-cinematic h2 { max-width: 780px; }
+    .final-cinematic .actions { align-content: center; }
+
     .case-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
     .case-card {
       border: 1px solid var(--line);
@@ -1408,6 +1594,11 @@
       nav a[href*="t.me"],
       nav a[href*="max.ru"] { display: none; }
     }
+    @media (max-width: 1100px) {
+      .formats-cinematic .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .formats-cinematic .grid > .card { min-height: auto; }
+      .premium-band { padding: 54px 22px; }
+    }
     @media (max-width: 1040px) {
       .hero { grid-template-columns: 1fr; min-height: auto; }
       .stage-inner { grid-template-columns: 1fr; }
@@ -1433,6 +1624,12 @@
     }
     @media (max-width: 720px) {
       .page { width: min(100% - 22px, var(--max)); }
+      .premium-band { padding: 44px 16px; border-radius: 28px; margin: 18px 0 28px; }
+      .premium-band::after { width: 82px; height: 54px; opacity: .38; }
+      .formats-cinematic .grid { grid-template-columns: 1fr; }
+      .formats-cinematic .grid > .card { min-height: auto; padding: 22px 18px; border-radius: 26px; }
+      .audience-cinematic .card::before { width: 38px; height: 38px; margin-bottom: 14px; }
+      .final-cinematic { padding: 42px 18px; border-radius: 28px; }
       .brand-logo { width: 152px; }
       #deliverables.motion-live .deliverables .card.is-active, #formats.motion-live .grid > .card.is-active, #process.motion-live .step.is-active, #portfolio.motion-live .work.is-active { transform: translateY(-2px) scale(1.012); }
       header { position: static; width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); padding: 14px 16px; min-height: auto; }
@@ -1709,7 +1906,8 @@
       </section>
 
       
-      <section id="audience">
+      <section id="audience" class="premium-band audience-cinematic depth-section">
+        <div class="depth-visual depth-visual--pen" data-depth-speed="0.055" aria-hidden="true"></div>
         <div class="section-head">
           <div class="kicker">Для кого</div>
           <h2>Кому это подойдёт</h2>
@@ -1725,7 +1923,8 @@
 
 
       
-      <section id="formats" class="motion-section">
+      <section id="formats" class="motion-section premium-band formats-cinematic depth-section">
+        <div class="depth-visual depth-visual--watch" data-depth-speed="0.050" aria-hidden="true"></div>
         <div class="section-head">
           <div class="kicker">Форматы работы</div>
           <h2>Понятные форматы работы и ориентиры по стоимости</h2>
@@ -1782,7 +1981,7 @@
       </section>
 
 
-      <section id="timing">
+      <section id="timing" class="premium-band timing-cinematic">
         <div class="section-head">
           <div class="kicker">Сроки</div>
           <h2>Понятный производственный цикл</h2>
@@ -1803,7 +2002,7 @@
 
 
       
-      <section id="partners" class="depth-section">
+      <section id="partners" class="premium-band partner-cinematic depth-section">
         <div class="depth-visual depth-visual--pen" data-depth-speed="0.085" aria-hidden="true"></div>
         <div class="section-head">
           <div class="kicker">White-label</div>
@@ -1909,7 +2108,7 @@
       </section>
 
 
-      <section id="about">
+      <section id="about" class="premium-band about-cinematic">
         <div class="section-head">
           <div class="kicker">Автор проекта</div>
           <h2>Кто делает AI-видео и визуальную упаковку</h2>
@@ -1932,7 +2131,7 @@
       </section>
 
       
-      <section id="faq">
+      <section id="faq" class="premium-band faq-cinematic">
         <div class="section-head">
           <div class="kicker">FAQ</div>
           <h2>Частые вопросы</h2>
@@ -1952,7 +2151,7 @@
 
 
 
-      <section id="conditions" class="depth-section">
+      <section id="conditions" class="premium-band conditions-cinematic depth-section">
         <div class="depth-visual depth-visual--decanter" data-depth-speed="0.075" aria-hidden="true"></div>
         <div class="section-head">
           <div class="kicker">Условия</div>
@@ -1968,7 +2167,8 @@
       </section>
 
       
-      <section class="cta" aria-label="Связаться">
+      <section class="cta final-cinematic depth-section" aria-label="Связаться">
+        <div class="depth-visual depth-visual--decanter" data-depth-speed="0.060" aria-hidden="true"></div>
         <div>
           <h2>Готовы сделать ролик для вашего товара?</h2>
           <p>Напишите в Telegram — разберём задачу, оценим товар, формат и срок. Обычно отвечаю в течение дня. Для студий и фотографов можно сразу обсудить white-label.</p>
