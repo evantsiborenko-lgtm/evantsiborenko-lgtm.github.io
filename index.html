@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ru">
-<!-- KVSvideo v6.6 polish: tablet header, dark favicon, sound button, CTA polish -->
+<!-- KVSvideo v6.12 smart header: hide on scroll down, show on scroll up -->
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -117,6 +117,20 @@
       border-bottom: 1px solid rgba(255,255,255,.055);
       box-shadow: 0 14px 34px rgba(0,0,0,.22);
       backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      transform: translateY(0);
+      opacity: 1;
+      will-change: transform, opacity, min-height, padding;
+      transition: transform .62s cubic-bezier(.22,.8,.18,1), opacity .42s ease, background .32s ease, box-shadow .32s ease;
+    }
+    body.header-hidden header {
+      transform: translateY(calc(-100% - 10px));
+      opacity: .985;
+      box-shadow: none;
+    }
+    body.header-compact header {
+      background: linear-gradient(180deg, rgba(7,9,18,.992), rgba(7,9,18,.91));
+      box-shadow: 0 10px 28px rgba(0,0,0,.18);
     }
     .brand {
       display: inline-flex;
@@ -939,6 +953,7 @@
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       .stage::before { animation: none; }
+      header { transition: none !important; transform: none !important; }
 
       .depth-visual { transform: none !important; opacity: .10 !important; }
 
@@ -1046,7 +1061,8 @@
     }
 
     @media (max-width: 599px) {
-      header { position: static; }
+      header { position: static; transform: none !important; opacity: 1 !important; }
+      body.header-hidden header { transform: none !important; opacity: 1 !important; }
     }
 
   </style>
@@ -1489,6 +1505,44 @@
     const hero = document.querySelector('.hero');
 
     function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
+
+    // v6.12: smart header. It softly leaves the screen while scrolling down
+    // and returns as soon as the user scrolls upward. Kept disabled on narrow phones.
+    const siteHeader = document.querySelector('header');
+    let lastHeaderScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+    let headerTicking = false;
+    function updateSmartHeader() {
+      headerTicking = false;
+      if (!siteHeader || prefersReducedMotion || window.innerWidth < 600) {
+        document.body.classList.remove('header-hidden', 'header-compact');
+        return;
+      }
+
+      const currentY = Math.max(0, window.scrollY || document.documentElement.scrollTop || 0);
+      const delta = currentY - lastHeaderScrollY;
+      const nearTop = currentY < 72;
+
+      document.body.classList.toggle('header-compact', currentY > 48);
+
+      if (nearTop) {
+        document.body.classList.remove('header-hidden');
+      } else if (delta > 7 && currentY > 160) {
+        document.body.classList.add('header-hidden');
+      } else if (delta < -2) {
+        document.body.classList.remove('header-hidden');
+      }
+
+      lastHeaderScrollY = currentY;
+    }
+    function requestSmartHeaderUpdate() {
+      if (!headerTicking) {
+        headerTicking = true;
+        window.requestAnimationFrame(updateSmartHeader);
+      }
+    }
+    window.addEventListener('scroll', requestSmartHeaderUpdate, { passive: true });
+    window.addEventListener('resize', requestSmartHeaderUpdate);
+    updateSmartHeader();
 
     // Keep only a very soft global hero scale on scroll. Card motion is now hover-based,
     // because scroll-driven active states looked out of sync on desktop.
