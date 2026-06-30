@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ru">
-<!-- KVSvideo v6.17 premium section leveling: audience, formats, timing, CTA -->
+<!-- KVSvideo v6.18 Hero Cinematic Upgrade -->
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,6 +11,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="assets/logo/favicon_dark_32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/logo/favicon_dark_180.png">
   <link rel="preload" as="image" href="assets/logo/logo_header_site_premium_gold.webp">
+  <link rel="preload" as="image" href="assets/depth/depth_bottle_1280.webp">
   <meta name="keywords" content="AI-видео для товара, AI product video, видео для карточки товара, видео для WB, видео для Ozon, визуал для маркетплейсов, карточки WB/Ozon, AI-визуал для товара, product video для сайта и рекламы, white-label AI-видео для студий">
   <meta name="yandex-verification" content="d38da1a6f7dc7a4b">
   <link rel="canonical" href="https://kvsvideo.ru/">
@@ -382,13 +383,45 @@
     }
     nav a:hover { color: var(--ink); background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.08); }
 
+    /* v6.18: cinematic first screen */
     .hero {
-      min-height: 84vh;
+      min-height: calc(100vh - 58px);
       display: grid;
-      grid-template-columns: minmax(0, 1.03fr) minmax(330px, .97fr);
+      grid-template-columns: minmax(0, .92fr) minmax(420px, 1.08fr);
       gap: clamp(28px, 5vw, 70px);
       align-items: center;
-      padding: 44px 0 76px;
+      padding: 56px 0 84px;
+      position: relative;
+      isolation: isolate;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: -56px -10vw -84px;
+      z-index: -2;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 68% 35%, rgba(242,209,132,.18), transparent 28%),
+        radial-gradient(circle at 92% 18%, rgba(56,189,248,.09), transparent 32%),
+        linear-gradient(90deg, rgba(5,7,17,.06), rgba(5,7,17,.34));
+      opacity: .94;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: -56px -10vw -84px;
+      z-index: -1;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.024) 1px, transparent 1px);
+      background-size: 86px 86px;
+      mask-image: radial-gradient(circle at 66% 35%, black, transparent 70%);
+      opacity: .45;
+    }
+    .hero-copy {
+      position: relative;
+      z-index: 3;
     }
     .eyebrow {
       display: inline-flex;
@@ -471,36 +504,151 @@
 
     .stage {
       position: relative;
-      border-radius: 42px;
-      border: 1px solid rgba(255,255,255,.16);
+      min-height: clamp(610px, 76vh, 780px);
+      border-radius: 46px;
+      border: 1px solid rgba(242,209,132,.26);
       background:
-        radial-gradient(circle at 30% 0%, rgba(250,204,21,.18), transparent 30%),
-        radial-gradient(circle at 100% 20%, rgba(56,189,248,.16), transparent 28%),
-        linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.045));
-      box-shadow: var(--shadow);
-      padding: 18px;
+        radial-gradient(circle at 22% 8%, rgba(250,204,21,.18), transparent 30%),
+        radial-gradient(circle at 92% 20%, rgba(56,189,248,.12), transparent 28%),
+        linear-gradient(180deg, rgba(18,20,32,.92), rgba(6,8,16,.92));
+      box-shadow: 0 42px 140px rgba(0,0,0,.52), inset 0 0 0 1px rgba(255,255,255,.04);
+      padding: clamp(14px, 2vw, 20px);
       overflow: hidden;
+      isolation: isolate;
     }
     .stage::before {
       content: "";
       position: absolute;
-      inset: -40%;
-      background: conic-gradient(from 180deg, transparent, rgba(250,204,21,.16), transparent, rgba(56,189,248,.15), transparent);
-      animation: rotateGlow 16s linear infinite;
-      opacity: .65;
+      inset: -38%;
+      background: conic-gradient(from 170deg, transparent, rgba(250,204,21,.18), transparent, rgba(56,189,248,.12), transparent);
+      animation: rotateGlow 18s linear infinite;
+      opacity: .58;
+      z-index: 0;
+    }
+    .stage::after {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border-radius: 34px;
+      pointer-events: none;
+      border: 1px solid rgba(255,255,255,.10);
+      background:
+        linear-gradient(rgba(255,255,255,.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: linear-gradient(180deg, black, transparent 90%);
+      opacity: .62;
+      z-index: 2;
     }
     @keyframes rotateGlow { to { transform: rotate(360deg); } }
-    .stage-inner { position: relative; z-index: 1; display: block; }
+    .stage-inner {
+      position: relative;
+      z-index: 3;
+      min-height: calc(clamp(610px, 76vh, 780px) - clamp(28px, 4vw, 40px));
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto auto;
+      gap: 14px;
+    }
+    .hero-cinematic-backdrop {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .hero-cinematic-backdrop img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 61% 50%;
+      opacity: .70;
+      filter: saturate(.98) brightness(.88) contrast(1.04);
+      transform: scale(1.015);
+    }
+    .hero-cinematic-backdrop::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(5,7,17,.78) 0%, rgba(5,7,17,.35) 42%, rgba(5,7,17,.62) 100%),
+        linear-gradient(180deg, rgba(5,7,17,.10), rgba(5,7,17,.76));
+    }
+    .hero-studio-layout {
+      position: relative;
+      z-index: 4;
+      min-height: 100%;
+      display: grid;
+      grid-template-columns: minmax(0, .96fr) minmax(200px, .48fr);
+      gap: clamp(14px, 2.4vw, 24px);
+      align-items: end;
+      padding: clamp(12px, 2vw, 18px);
+    }
+    .hero-cinema-card {
+      align-self: end;
+      max-width: 430px;
+      padding: 22px;
+      border-radius: 28px;
+      border: 1px solid rgba(255,255,255,.13);
+      background: linear-gradient(180deg, rgba(8,11,20,.78), rgba(8,10,18,.88));
+      box-shadow: 0 28px 80px rgba(0,0,0,.34);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .hero-cinema-card small {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: #f8e7b0;
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .hero-cinema-card small::before {
+      content: "";
+      width: 30px;
+      height: 1px;
+      background: rgba(250,204,21,.64);
+    }
+    .hero-cinema-card strong {
+      display: block;
+      margin-top: 12px;
+      font-size: clamp(28px, 3.1vw, 43px);
+      line-height: .94;
+      letter-spacing: -.055em;
+    }
+    .hero-cinema-card p {
+      margin: 14px 0 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 15px;
+      max-width: 38ch;
+    }
+    .hero-signal-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 16px;
+    }
+    .hero-signal-row span {
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.055);
+      color: #e5edf7;
+      font-size: 12px;
+      font-weight: 760;
+    }
     .showreel-frame {
-      width: min(380px, 100%);
-      margin: 0 auto;
+      width: min(250px, 100%);
+      justify-self: end;
+      margin: 0;
       border-radius: 31px;
       overflow: hidden;
       background: #050711;
-      border: 1px solid rgba(255,255,255,.16);
+      border: 1px solid rgba(255,255,255,.18);
       aspect-ratio: 9 / 16;
       position: relative;
-      box-shadow: inset 0 0 0 8px rgba(0,0,0,.22), 0 26px 70px rgba(0,0,0,.32);
+      box-shadow: inset 0 0 0 8px rgba(0,0,0,.22), 0 32px 86px rgba(0,0,0,.42), 0 0 0 1px rgba(242,209,132,.10);
     }
     .showreel-frame video, .work-video video, .case-media video {
       display: block;
@@ -560,19 +708,24 @@
       background: rgba(242,209,132,.10);
     }
     .sound-note {
-      margin-top: 14px;
+      position: relative;
+      z-index: 4;
+      margin: 0;
       color: var(--soft);
       font-size: 13px;
       line-height: 1.45;
       text-align: center;
     }
-    .side-stack { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
+    .side-stack { position: relative; z-index: 4; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 0; }
     .mini-panel {
-      border: 1px solid var(--line);
-      background: rgba(0,0,0,.26);
+      border: 1px solid rgba(255,255,255,.13);
+      background: linear-gradient(180deg, rgba(9,12,22,.62), rgba(7,9,18,.76));
       border-radius: 22px;
       padding: 14px;
       min-height: 0;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 18px 54px rgba(0,0,0,.20);
     }
     .mini-panel small { color: #fde68a; text-transform: uppercase; letter-spacing: .1em; font-weight: 780; font-size: 11px; }
     .mini-panel strong { display: block; margin-top: 8px; font-size: clamp(17px, 1.55vw, 22px); line-height: 1; letter-spacing: -.045em; }
@@ -1601,8 +1754,9 @@
     }
     @media (max-width: 1040px) {
       .hero { grid-template-columns: 1fr; min-height: auto; }
-      .stage-inner { grid-template-columns: 1fr; }
-      .showreel-frame { width: min(360px, 100%); margin: 0 auto; }
+      .hero-studio-layout { grid-template-columns: minmax(0, 1fr) minmax(170px, .36fr); }
+      .stage-inner { min-height: 620px; }
+      .showreel-frame { width: min(230px, 100%); margin: 0; }
       .side-stack { grid-template-columns: 1fr; }
       .side-stack { grid-template-columns: repeat(3, 1fr); }
       .portfolio { grid-template-columns: repeat(2, 1fr); }
@@ -1663,7 +1817,12 @@
         display: none;
       }
       .showreel-frame { border-radius: 27px; }
-      .stage { border-radius: 32px; padding: 12px; }
+      .stage { border-radius: 32px; padding: 12px; min-height: auto; }
+      .stage-inner { min-height: auto; }
+      .hero-studio-layout { grid-template-columns: 1fr; padding: 12px; min-height: 560px; align-items: end; }
+      .hero-cinema-card { max-width: none; padding: 18px; }
+      .showreel-frame { width: min(206px, 58vw); justify-self: center; order: -1; }
+      .hero-cinematic-backdrop img { object-position: 58% 50%; opacity: .58; }
       h1 { font-size: clamp(38px, 13vw, 60px); }
     }
 
@@ -1733,7 +1892,7 @@
 
     <main>
       <section class="hero motion-section" id="hero" aria-label="AI-видео и визуал для карточек WB/Ozon">
-        <div>
+        <div class="hero-copy">
           <div class="eyebrow">AI-видео / visual kits для товаров</div>
           <h1><span class="gradient-text">AI-видео и визуал</span> для карточек WB/Ozon</h1>
           <p class="lead">
@@ -1760,14 +1919,25 @@
           </div>
         </div>
 
-        <aside class="stage" id="showreel" aria-label="Showreel AI product videos">
+        <aside class="stage hero-cinema" id="showreel" aria-label="Showreel AI product videos">
+          <div class="hero-cinematic-backdrop" aria-hidden="true">
+            <img src="assets/depth/depth_bottle_1280.webp" alt="">
+          </div>
           <div class="stage-inner">
-            <div class="showreel-frame">
-              <video id="heroShowreel" autoplay muted loop playsinline preload="metadata" poster="assets/posters/showreel.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false" aria-label="Showreel KVSvideo AI product videos">
-                <source src="assets/videos/showreel_720p_watermark.mp4" type="video/mp4">
-              </video>
-              <button class="sound-toggle" type="button" id="soundToggle" aria-pressed="false" aria-label="Включить звук showreel">🔇 Звук</button>
-              <div class="video-label"><span>Showreel</span><span>портфолио</span></div>
+            <div class="hero-studio-layout">
+              <div class="hero-cinema-card">
+                <small>Product focus</small>
+                <strong>Товар в кадре, свет в пользу продаж</strong>
+                <p>Сцена, движение, монтаж и финальный файл собираются вокруг главного: товар должен выглядеть дороже, понятнее и применимее в карточке или рекламе.</p>
+                <div class="hero-signal-row"><span>6–12 сек</span><span>AI-сцена</span><span>MP4 / visual kit</span></div>
+              </div>
+              <div class="showreel-frame">
+                <video id="heroShowreel" autoplay muted loop playsinline preload="metadata" poster="assets/posters/showreel.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false" aria-label="Showreel KVSvideo AI product videos">
+                  <source src="assets/videos/showreel_720p_watermark.mp4" type="video/mp4">
+                </video>
+                <button class="sound-toggle" type="button" id="soundToggle" aria-pressed="false" aria-label="Включить звук showreel">🔇 Звук</button>
+                <div class="video-label"><span>Showreel</span><span>портфолио</span></div>
+              </div>
             </div>
             <div class="side-stack">
               <div class="mini-panel">
