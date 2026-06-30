@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ru">
-<!-- KVSvideo v6.13 sticky cinematic scene + smart header -->
+<!-- KVSvideo v6.14 cinematic process cleanup + cinematic portfolio -->
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -710,6 +710,192 @@
     .work-caption strong { display: block; font-size: 15px; margin-bottom: 3px; }
     .work-caption span { display: block; font-size: 12px; color: rgba(226,232,240,.86); line-height: 1.35; }
 
+
+    .portfolio-cinematic {
+      display: grid;
+      grid-template-columns: minmax(360px, .92fr) minmax(0, 1.08fr);
+      gap: clamp(22px, 3.2vw, 42px);
+      align-items: start;
+    }
+    .portfolio-stage-wrap {
+      position: sticky;
+      top: 86px;
+      align-self: start;
+    }
+    .portfolio-stage {
+      position: relative;
+      min-height: clamp(560px, 78vh, 760px);
+      border-radius: 38px;
+      overflow: hidden;
+      border: 1px solid rgba(250,204,21,.20);
+      background:
+        radial-gradient(circle at 18% 8%, rgba(250,204,21,.18), transparent 30%),
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.035));
+      box-shadow: 0 34px 120px rgba(0,0,0,.38), inset 0 0 0 1px rgba(255,255,255,.035);
+      isolation: isolate;
+    }
+    .portfolio-stage::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(5,7,17,.02) 0%, rgba(5,7,17,.15) 48%, rgba(5,7,17,.72) 100%),
+        radial-gradient(circle at 82% 18%, rgba(250,204,21,.14), transparent 24%);
+    }
+    .portfolio-stage::after {
+      content: "";
+      position: absolute;
+      inset: 16px;
+      border-radius: 30px;
+      pointer-events: none;
+      z-index: 4;
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.22);
+    }
+    .portfolio-featured-media {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: #050711;
+    }
+    .portfolio-featured-media video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      filter: saturate(.94) brightness(.88);
+      transform: scale(1.015);
+      transition: filter .55s ease, transform 1.1s cubic-bezier(.2,.7,.2,1);
+    }
+    .portfolio-stage.is-changing .portfolio-featured-media video { filter: saturate(.82) brightness(.72); transform: scale(1.045); }
+    .portfolio-stage-caption {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 24px;
+      z-index: 5;
+      padding: 24px 24px 22px;
+      border-radius: 30px;
+      border: 1px solid rgba(255,255,255,.13);
+      background: linear-gradient(180deg, rgba(7,9,18,.78), rgba(7,9,18,.88));
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 20px 70px rgba(0,0,0,.32);
+    }
+    .portfolio-stage-caption small {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      color: #f8e7b0;
+      font-weight: 850;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+    .portfolio-stage-caption small::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: rgba(250,204,21,.68);
+    }
+    .portfolio-stage-caption strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: clamp(28px, 3vw, 42px);
+      line-height: .98;
+      letter-spacing: -.055em;
+    }
+    .portfolio-stage-caption span {
+      display: block;
+      max-width: 50ch;
+      color: var(--muted);
+      line-height: 1.58;
+      font-size: 15.5px;
+    }
+    .portfolio-track {
+      display: grid;
+      gap: 18px;
+      padding: 4px 0 20px;
+    }
+    .portfolio-cinema-item {
+      display: grid;
+      grid-template-columns: 112px minmax(0, 1fr);
+      gap: 18px;
+      align-items: center;
+      min-height: 160px;
+      padding: 16px;
+      border-radius: 30px;
+      border: 1px solid rgba(255,255,255,.11);
+      background: linear-gradient(180deg, rgba(255,255,255,.068), rgba(255,255,255,.038));
+      box-shadow: 0 18px 52px rgba(0,0,0,.18);
+      cursor: pointer;
+      transition: transform .42s cubic-bezier(.2,.7,.2,1), border-color .42s ease, background .42s ease, box-shadow .42s ease, opacity .42s ease;
+    }
+    .portfolio-cinema-item.is-active {
+      border-color: rgba(250,204,21,.36);
+      background: linear-gradient(180deg, rgba(28,23,14,.78), rgba(10,13,24,.78));
+      box-shadow: 0 24px 68px rgba(0,0,0,.26), 0 0 0 1px rgba(250,204,21,.08) inset;
+      transform: translateY(-4px);
+    }
+    .portfolio-cinema-thumb {
+      position: relative;
+      aspect-ratio: 9 / 12;
+      overflow: hidden;
+      border-radius: 20px;
+      background: #050711;
+      border: 1px solid rgba(255,255,255,.10);
+    }
+    .portfolio-cinema-thumb img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      filter: saturate(.92) brightness(.86);
+      transform: scale(1.02);
+      transition: transform .45s ease, filter .45s ease;
+    }
+    .portfolio-cinema-item.is-active .portfolio-cinema-thumb img,
+    .portfolio-cinema-item:hover .portfolio-cinema-thumb img { transform: scale(1.07); filter: saturate(1.05) brightness(1); }
+    .portfolio-cinema-body small {
+      color: #f8e7b0;
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+    .portfolio-cinema-body h3 {
+      margin: 8px 0 8px;
+      font-size: clamp(22px, 2.2vw, 32px);
+      line-height: 1.04;
+      letter-spacing: -.045em;
+    }
+    .portfolio-cinema-body p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+    .portfolio-cinema-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 13px;
+    }
+    .portfolio-cinema-tags span {
+      display: inline-flex;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.045);
+      color: #e2e8f0;
+      font-size: 11.5px;
+      font-weight: 750;
+    }
+
     .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
     .grid.two { grid-template-columns: repeat(2, 1fr); }
     .card {
@@ -835,23 +1021,35 @@
       border-radius: 50%;
       border: 1px solid rgba(250,204,21,.18);
     }
-    .cinematic-focus {
+    .cinematic-badge {
       position: absolute;
-      inset: 17% 13% 16% 13%;
-      pointer-events: none;
-      z-index: 4;
+      left: 24px;
+      bottom: 24px;
+      z-index: 5;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      max-width: calc(100% - 96px);
+      padding: 12px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(250,204,21,.22);
+      background: linear-gradient(180deg, rgba(7,9,18,.72), rgba(7,9,18,.56));
+      color: #f8e7b0;
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 16px 46px rgba(0,0,0,.24);
+      transition: opacity .35s ease, transform .35s ease;
     }
-    .cinematic-focus span {
-      position: absolute;
-      width: 58px;
-      height: 58px;
-      border: 4px solid rgba(247,221,154,.90);
-      box-shadow: 0 0 24px rgba(250,204,21,.18);
+    .cinematic-badge::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: rgba(250,204,21,.66);
     }
-    .cinematic-focus span:nth-child(1) { top: 0; left: 0; border-right: 0; border-bottom: 0; }
-    .cinematic-focus span:nth-child(2) { top: 0; right: 0; border-left: 0; border-bottom: 0; }
-    .cinematic-focus span:nth-child(3) { bottom: 0; left: 0; border-right: 0; border-top: 0; }
-    .cinematic-focus span:nth-child(4) { bottom: 0; right: 0; border-left: 0; border-top: 0; }
     .cinematic-scene-asset {
       position: absolute;
       inset: 0;
@@ -877,82 +1075,6 @@
       opacity: .98;
       transform: scale(1.01);
       filter: saturate(1) brightness(.95);
-    }
-    .cinematic-copy-stack {
-      position: absolute;
-      left: 24px;
-      right: 88px;
-      bottom: 24px;
-      z-index: 5;
-      min-height: 214px;
-    }
-    .cinematic-copy {
-      position: absolute;
-      inset: auto 0 0 0;
-      max-width: 470px;
-      padding: 22px 22px 20px;
-      border-radius: 28px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: linear-gradient(180deg, rgba(11,14,25,.82), rgba(8,10,18,.88));
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      box-shadow: 0 18px 60px rgba(0,0,0,.26);
-      opacity: 0;
-      transform: translateY(14px);
-      transition: opacity .5s ease, transform .5s ease;
-      pointer-events: none;
-    }
-    .cinematic-copy.is-active {
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
-    .cinematic-copy .scene-counter {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 14px;
-      color: #f8e7b0;
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-    }
-    .cinematic-copy .scene-counter::before {
-      content: "";
-      width: 28px;
-      height: 1px;
-      background: rgba(250,204,21,.62);
-    }
-    .cinematic-copy h3 {
-      margin: 0 0 12px;
-      font-size: clamp(26px, 2.6vw, 38px);
-      line-height: .98;
-      letter-spacing: -.05em;
-    }
-    .cinematic-copy p {
-      margin: 0;
-      max-width: 42ch;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.6;
-    }
-    .scene-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 9px;
-      margin-top: 16px;
-    }
-    .scene-chips span {
-      display: inline-flex;
-      align-items: center;
-      padding: 8px 11px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.11);
-      background: rgba(255,255,255,.055);
-      color: #e5edf7;
-      font-size: 12px;
-      font-weight: 700;
     }
     .cinematic-progress {
       position: absolute;
@@ -1259,7 +1381,7 @@
 
       .showreel-frame { animation: none; }
       .hero, .hero .eyebrow, .hero h1, .hero .lead, .hero .value-line, .hero .audience-line, .hero .actions, .hero .trust, .hero .stage, .mini-panel, .ba-card, .deliverables .card, #formats .grid > .card, .process .step, .portfolio .work, .case-card { transition: none !important; transform: none !important; opacity: 1 !important; filter: none !important; }
-      .cinematic-scene-asset, .cinematic-copy, .cinematic-card, .cinematic-progress button, .cinematic-step-no { transition: none !important; }
+      .cinematic-scene-asset, .cinematic-card, .cinematic-progress button, .cinematic-step-no, .portfolio-featured-media video, .portfolio-cinema-item { transition: none !important; }
     }
 
     @media (min-width: 721px) and (max-width: 1100px) and (orientation: portrait) {
@@ -1295,6 +1417,9 @@
       .side-stack { grid-template-columns: 1fr; }
       .side-stack { grid-template-columns: repeat(3, 1fr); }
       .portfolio { grid-template-columns: repeat(2, 1fr); }
+      .portfolio-cinematic { grid-template-columns: 1fr; }
+      .portfolio-stage-wrap { position: static; }
+      .portfolio-stage { min-height: 620px; }
       .cinematic-shell { grid-template-columns: 1fr; }
       .cinematic-stage-wrap { position: static; }
       .cinematic-stage { min-height: 620px; }
@@ -1317,21 +1442,19 @@
       .actions { flex-direction: column; }
       .btn { width: 100%; }
       .side-stack, .portfolio, .audience, .deliverables, .faq, .conditions-grid { grid-template-columns: 1fr; }
+      .portfolio-cinematic { grid-template-columns: 1fr; gap: 18px; }
+      .portfolio-stage-wrap { position: static; }
+      .portfolio-stage { min-height: 520px; border-radius: 28px; }
+      .portfolio-stage-caption { left: 16px; right: 16px; bottom: 16px; padding: 18px; border-radius: 22px; }
+      .portfolio-cinema-item { grid-template-columns: 86px minmax(0, 1fr); gap: 14px; min-height: 132px; border-radius: 24px; }
+      .portfolio-cinema-thumb { border-radius: 16px; }
       .cinematic-shell { grid-template-columns: 1fr; gap: 18px; }
       .cinematic-stage-wrap { position: static; }
       .cinematic-stage {
         min-height: 470px;
         border-radius: 28px;
       }
-      .cinematic-copy-stack {
-        left: 16px;
-        right: 56px;
-        bottom: 16px;
-        min-height: 230px;
-      }
-      .cinematic-copy { padding: 18px 18px 16px; border-radius: 22px; }
-      .cinematic-focus { inset: 15% 9% 17% 9%; }
-      .cinematic-focus span { width: 42px; height: 42px; border-width: 3px; }
+      .cinematic-badge { left: 16px; bottom: 16px; max-width: calc(100% - 72px); }
       .cinematic-orbit { inset: auto auto 98px 36%; width: 76%; }
       .cinematic-progress { right: 14px; bottom: 16px; gap: 8px; }
       .cinematic-progress button { width: 10px; height: 10px; }
@@ -1489,20 +1612,58 @@
         <div class="depth-visual depth-visual--watch" data-depth-speed="0.095" aria-hidden="true"></div>
         <div class="section-head">
           <div class="kicker">Портфолио</div>
-          <h2>Портфолио: товар в кадре, свет, движение и коммерческий visual</h2>
+          <h2>Портфолио-витрина: товар в кадре, свет, движение</h2>
           <p class="section-text">
-            Preview-версии 720p, с аккуратным watermark. Чистые MP4 без watermark — после оплаты или для партнёрских white-label задач.
+            Крупная сцена показывает активный ролик, а рядом — лента примеров. Так портфолио воспринимается как премиальная витрина продукта, света и движения.
           </p>
         </div>
-        <div class="portfolio" aria-label="Видео-примеры AI product videos">
-          <article class="work" tabindex="0"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/luxury_reflection_loop.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/luxury_reflection_loop_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Luxury Reflection Loop</strong><span>fashion accessory / premium reflection / product focus</span></div></article>
-          <article class="work" tabindex="0"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/golden_cleansing_oil.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/golden_cleansing_oil_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Golden Cleansing Oil</strong><span>beauty oil / warm light / clean commercial motion</span></div></article>
-          <article class="work" tabindex="0"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/perfume.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/perfume_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Perfume Concept</strong><span>fragrance / glass reflections / quiet luxury mood</span></div></article>
-          <article class="work" tabindex="0"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/noname_soy_wax.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/noname_soy_wax_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Soy Wax Candle</strong><span>home fragrance / wooden wick / warm minimalism</span></div></article>
-          <article class="work" tabindex="0"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/icon_skin_niacinamide_serum.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/icon_skin_niacinamide_serum_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Skincare Serum</strong><span>clean beauty / stable package / product readability</span></div></article>
-          <article class="work" tabindex="0"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/shik_repair_serum_oil.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/shik_repair_serum_oil_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Repair Serum Oil</strong><span>macro texture / premium beauty visual</span></div></article>
-          <article class="work" tabindex="0"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/mist_100ml.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/mist_100ml_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Beauty Mist</strong><span>marketplace / product presentation / social preview</span></div></article>
-          <article class="work" tabindex="0"><div class="work-video"><video muted loop playsinline preload="metadata" poster="assets/posters/eatmy_pineapple_coconut_water.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/eatmy_pineapple_coconut_water_720p_watermark.mp4" type="video/mp4"></video></div><div class="work-caption"><strong>Bright Beauty Visual</strong><span>tropical color / energetic product mood</span></div></article>
+        <div class="portfolio-cinematic" aria-label="Видео-примеры AI product videos">
+          <div class="portfolio-stage-wrap">
+            <div class="portfolio-stage" data-portfolio-stage>
+              <div class="portfolio-featured-media">
+                <video id="portfolioFeaturedVideo" muted loop playsinline preload="metadata" poster="assets/posters/luxury_reflection_loop.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false"><source src="assets/videos/luxury_reflection_loop_720p_watermark.mp4" type="video/mp4"></video>
+              </div>
+              <div class="portfolio-stage-caption">
+                <small id="portfolioFeaturedKicker">01 / 08 — premium reflection</small>
+                <strong id="portfolioFeaturedTitle">Luxury Reflection Loop</strong>
+                <span id="portfolioFeaturedText">Fashion accessory, premium reflection, product focus. Формат подходит для карточки, Reels, сайта и презентации линейки.</span>
+              </div>
+            </div>
+          </div>
+          <div class="portfolio-track">
+            <article class="portfolio-cinema-item is-active" tabindex="0" data-portfolio-item="1" data-video="assets/videos/luxury_reflection_loop_720p_watermark.mp4" data-poster="assets/posters/luxury_reflection_loop.webp" data-kicker="01 / 08 — premium reflection" data-title="Luxury Reflection Loop" data-text="Fashion accessory, premium reflection, product focus. Формат подходит для карточки, Reels, сайта и презентации линейки.">
+              <div class="portfolio-cinema-thumb"><img src="assets/posters/luxury_reflection_loop.webp" alt="Luxury Reflection Loop"></div>
+              <div class="portfolio-cinema-body"><small>01 / 08</small><h3>Luxury Reflection Loop</h3><p>Аксессуар, отражение, чистый premium product focus.</p><div class="portfolio-cinema-tags"><span>fashion accessory</span><span>premium reflection</span></div></div>
+            </article>
+            <article class="portfolio-cinema-item" tabindex="0" data-portfolio-item="2" data-video="assets/videos/golden_cleansing_oil_720p_watermark.mp4" data-poster="assets/posters/golden_cleansing_oil.webp" data-kicker="02 / 08 — beauty oil" data-title="Golden Cleansing Oil" data-text="Beauty oil, warm light, clean commercial motion. Визуал делает продукт теплее, дороже и понятнее для карточки.">
+              <div class="portfolio-cinema-thumb"><img src="assets/posters/golden_cleansing_oil.webp" alt="Golden Cleansing Oil"></div>
+              <div class="portfolio-cinema-body"><small>02 / 08</small><h3>Golden Cleansing Oil</h3><p>Тёплый свет, стекло, чистое commercial motion.</p><div class="portfolio-cinema-tags"><span>beauty oil</span><span>warm light</span></div></div>
+            </article>
+            <article class="portfolio-cinema-item" tabindex="0" data-portfolio-item="3" data-video="assets/videos/perfume_720p_watermark.mp4" data-poster="assets/posters/perfume.webp" data-kicker="03 / 08 — fragrance" data-title="Perfume Concept" data-text="Fragrance, glass reflections, quiet luxury mood. Подходит для продукта, где важны атмосфера, свет и премиальное ощущение.">
+              <div class="portfolio-cinema-thumb"><img src="assets/posters/perfume.webp" alt="Perfume Concept"></div>
+              <div class="portfolio-cinema-body"><small>03 / 08</small><h3>Perfume Concept</h3><p>Стекло, отражения, quiet luxury mood.</p><div class="portfolio-cinema-tags"><span>fragrance</span><span>glass reflections</span></div></div>
+            </article>
+            <article class="portfolio-cinema-item" tabindex="0" data-portfolio-item="4" data-video="assets/videos/noname_soy_wax_720p_watermark.mp4" data-poster="assets/posters/noname_soy_wax.webp" data-kicker="04 / 08 — home fragrance" data-title="Soy Wax Candle" data-text="Home fragrance, wooden wick, warm minimalism. Ролик продаёт не только предмет, а спокойный ритуал и атмосферу дома.">
+              <div class="portfolio-cinema-thumb"><img src="assets/posters/noname_soy_wax.webp" alt="Soy Wax Candle"></div>
+              <div class="portfolio-cinema-body"><small>04 / 08</small><h3>Soy Wax Candle</h3><p>Тёплый ритуал, свеча, домашняя premium-сцена.</p><div class="portfolio-cinema-tags"><span>home fragrance</span><span>warm minimalism</span></div></div>
+            </article>
+            <article class="portfolio-cinema-item" tabindex="0" data-portfolio-item="5" data-video="assets/videos/icon_skin_niacinamide_serum_720p_watermark.mp4" data-poster="assets/posters/icon_skin_niacinamide_serum.webp" data-kicker="05 / 08 — skincare" data-title="Skincare Serum" data-text="Clean beauty, stable package, product readability. Акцент на узнаваемости упаковки и аккуратной подаче продукта.">
+              <div class="portfolio-cinema-thumb"><img src="assets/posters/icon_skin_niacinamide_serum.webp" alt="Skincare Serum"></div>
+              <div class="portfolio-cinema-body"><small>05 / 08</small><h3>Skincare Serum</h3><p>Clean beauty, читаемость упаковки, стабильная форма.</p><div class="portfolio-cinema-tags"><span>skincare</span><span>readability</span></div></div>
+            </article>
+            <article class="portfolio-cinema-item" tabindex="0" data-portfolio-item="6" data-video="assets/videos/shik_repair_serum_oil_720p_watermark.mp4" data-poster="assets/posters/shik_repair_serum_oil.webp" data-kicker="06 / 08 — macro texture" data-title="Repair Serum Oil" data-text="Macro texture, premium beauty visual. Такой формат полезен, когда нужно показать фактуру, каплю, блеск и материал.">
+              <div class="portfolio-cinema-thumb"><img src="assets/posters/shik_repair_serum_oil.webp" alt="Repair Serum Oil"></div>
+              <div class="portfolio-cinema-body"><small>06 / 08</small><h3>Repair Serum Oil</h3><p>Макро-фактура, масло, premium beauty visual.</p><div class="portfolio-cinema-tags"><span>macro texture</span><span>beauty visual</span></div></div>
+            </article>
+            <article class="portfolio-cinema-item" tabindex="0" data-portfolio-item="7" data-video="assets/videos/mist_100ml_720p_watermark.mp4" data-poster="assets/posters/mist_100ml.webp" data-kicker="07 / 08 — marketplace" data-title="Beauty Mist" data-text="Marketplace product presentation and social preview. Визуал для товара, который должен быстро считываться в карточке и в ленте.">
+              <div class="portfolio-cinema-thumb"><img src="assets/posters/mist_100ml.webp" alt="Beauty Mist"></div>
+              <div class="portfolio-cinema-body"><small>07 / 08</small><h3>Beauty Mist</h3><p>Карточка, social preview, понятная подача товара.</p><div class="portfolio-cinema-tags"><span>marketplace</span><span>social preview</span></div></div>
+            </article>
+            <article class="portfolio-cinema-item" tabindex="0" data-portfolio-item="8" data-video="assets/videos/eatmy_pineapple_coconut_water_720p_watermark.mp4" data-poster="assets/posters/eatmy_pineapple_coconut_water.webp" data-kicker="08 / 08 — bright mood" data-title="Bright Beauty Visual" data-text="Tropical color, energetic product mood. Контрастный пример для продукта, которому нужна яркая, динамичная и заметная подача.">
+              <div class="portfolio-cinema-thumb"><img src="assets/posters/eatmy_pineapple_coconut_water.webp" alt="Bright Beauty Visual"></div>
+              <div class="portfolio-cinema-body"><small>08 / 08</small><h3>Bright Beauty Visual</h3><p>Яркая палитра, energetic product mood.</p><div class="portfolio-cinema-tags"><span>tropical color</span><span>dynamic mood</span></div></div>
+            </article>
+          </div>
         </div>
         <div class="actions">
           <a class="btn primary" href="https://t.me/KVSemenov_AI" rel="noopener" data-ym-goal="click_portfolio_tg"><img class="messenger-icon" src="assets/tg-icon.png" alt="">Больше работ в Telegram</a>
@@ -1661,8 +1822,8 @@
       <section id="process" class="motion-section cinematic-process">
         <div class="section-head">
           <div class="kicker">Процесс</div>
-          <h2>Sticky cinematic scene: как из задачи получается коммерческий ролик</h2>
-          <p class="section-text">Слева — закреплённая визуальная сцена, справа — этапы. Пока пользователь прокручивает шаги, “герой-сцена” меняется медленнее и даёт сайту ощущение глубины, как на презентационных премиум-сайтах.</p>
+          <h2>Как из фото товара получается коммерческий ролик</h2>
+          <p class="section-text">Показываю этапы работы: от исходных материалов и оценки задачи до AI-сцены, монтажа, preview и финального MP4 без watermark.</p>
         </div>
         <div class="cinematic-shell">
           <div class="cinematic-stage-wrap">
@@ -1670,7 +1831,6 @@
               <div class="cinematic-light cinematic-light--one" aria-hidden="true"></div>
               <div class="cinematic-light cinematic-light--two" aria-hidden="true"></div>
               <div class="cinematic-orbit" aria-hidden="true"></div>
-              <div class="cinematic-focus" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
               <img class="cinematic-scene-asset is-active" data-scene-asset="1" src="assets/depth/depth_pen_1280.webp" alt="Премиальная ручка и аксессуар на темном фоне">
               <img class="cinematic-scene-asset" data-scene-asset="2" src="assets/depth/depth_watch_1280.webp" alt="Премиальные часы на темном фоне">
               <img class="cinematic-scene-asset" data-scene-asset="3" src="assets/depth/depth_pen_1280.webp" alt="Премиальная ручка и аксессуар на темном фоне">
@@ -1679,50 +1839,7 @@
               <img class="cinematic-scene-asset" data-scene-asset="6" src="assets/depth/depth_decanter_1280.webp" alt="Премиальный декантер на темном фоне">
               <img class="cinematic-scene-asset" data-scene-asset="7" src="assets/depth/depth_bottle_1280.webp" alt="Премиальный флакон на темном фоне">
 
-              <div class="cinematic-copy-stack">
-                <article class="cinematic-copy is-active" data-scene-copy="1">
-                  <div class="scene-counter">01 / 07 — старт</div>
-                  <h3>Получаю бриф и исходники</h3>
-                  <p>Стартуем не “с магии AI”, а с понятной задачи: товар, формат, площадка, референсы и тот результат, который нужен бизнесу.</p>
-                  <div class="scene-chips"><span>Фото товара</span><span>Ссылка на карточку</span><span>1–2 референса</span></div>
-                </article>
-                <article class="cinematic-copy" data-scene-copy="2">
-                  <div class="scene-counter">02 / 07 — оценка</div>
-                  <h3>Смотрю риски и формат</h3>
-                  <p>Оцениваю исходники, слабые места товара, реалистичность задачи и предлагаю рабочий формат: loop, product video, visual kit или white-label.</p>
-                  <div class="scene-chips"><span>Срок</span><span>Стоимость</span><span>Понятный scope</span></div>
-                </article>
-                <article class="cinematic-copy" data-scene-copy="3">
-                  <div class="scene-counter">03 / 07 — запуск</div>
-                  <h3>Фиксируем старт проекта</h3>
-                  <p>После согласования формата и предоплаты задача уходит в продакшн: уже понятно, что именно делаем и какой визуальный результат считаем финалом.</p>
-                  <div class="scene-chips"><span>Согласованный план</span><span>Старт работ</span><span>Без размытых ожиданий</span></div>
-                </article>
-                <article class="cinematic-copy" data-scene-copy="4">
-                  <div class="scene-counter">04 / 07 — AI-концепт</div>
-                  <h3>Собираю сцену и подбираю дубли</h3>
-                  <p>Генерирую визуальные сцены, свет, окружение и движение. Отбираю дубли без явных дефектов, чтобы товар выглядел стабильно и дорого.</p>
-                  <div class="scene-chips"><span>Свет</span><span>Материал</span><span>Сцена</span></div>
-                </article>
-                <article class="cinematic-copy" data-scene-copy="5">
-                  <div class="scene-counter">05 / 07 — монтаж</div>
-                  <h3>Собираю ритм и коммерческий акцент</h3>
-                  <p>На этом этапе появляется не просто “красивое видео”, а коммерческий материал: монтаж, темп, цвет, атмосфера и акцент на продукте.</p>
-                  <div class="scene-chips"><span>Motion</span><span>Монтаж</span><span>Финальный ритм</span></div>
-                </article>
-                <article class="cinematic-copy" data-scene-copy="6">
-                  <div class="scene-counter">06 / 07 — preview</div>
-                  <h3>Отправляю превью на согласование</h3>
-                  <p>Показываю версию 720p с watermark, чтобы быстро получить обратную связь и внести именно те правки, которые реально улучшают результат.</p>
-                  <div class="scene-chips"><span>Preview 720p</span><span>Правки</span><span>Контроль деталей</span></div>
-                </article>
-                <article class="cinematic-copy" data-scene-copy="7">
-                  <div class="scene-counter">07 / 07 — финал</div>
-                  <h3>Передаю чистый финальный файл</h3>
-                  <p>После согласования и оплаты клиент получает готовый MP4 без watermark. Для партнёров возможно white-label исполнение без публичного упоминания KVSvideo.</p>
-                  <div class="scene-chips"><span>Чистый MP4</span><span>White-label</span><span>Готово к использованию</span></div>
-                </article>
-              </div>
+              <div class="cinematic-badge" data-scene-badge="1">01 / 07 — бриф</div>
 
               <div class="cinematic-progress" aria-label="Навигация по этапам процесса">
                 <button class="is-active" type="button" data-scene-go="1" aria-label="Шаг 1: Бриф и материалы"></button>
@@ -2084,8 +2201,9 @@
     if (cinematicProcess) {
       const stage = cinematicProcess.querySelector('.cinematic-stage');
       const steps = Array.from(cinematicProcess.querySelectorAll('.cinematic-step'));
-      const copies = Array.from(cinematicProcess.querySelectorAll('.cinematic-copy'));
       const assets = Array.from(cinematicProcess.querySelectorAll('.cinematic-scene-asset'));
+      const badge = cinematicProcess.querySelector('[data-scene-badge]');
+      const badgeLabels = { 1: '01 / 07 — бриф', 2: '02 / 07 — оценка', 3: '03 / 07 — запуск', 4: '04 / 07 — AI-концепт', 5: '05 / 07 — монтаж', 6: '06 / 07 — preview', 7: '07 / 07 — финал' };
       const dots = Array.from(cinematicProcess.querySelectorAll('.cinematic-progress button'));
       let activeScene = 1;
       let cinematicTicking = false;
@@ -2095,7 +2213,7 @@
         activeScene = sceneId;
         if (stage) stage.dataset.activeScene = String(sceneId);
         steps.forEach((step) => step.classList.toggle('is-active', Number(step.dataset.scene) === sceneId));
-        copies.forEach((copy) => copy.classList.toggle('is-active', Number(copy.dataset.sceneCopy) === sceneId));
+        if (badge) { badge.textContent = badgeLabels[sceneId] || String(sceneId); badge.dataset.sceneBadge = String(sceneId); }
         assets.forEach((asset) => asset.classList.toggle('is-active', Number(asset.dataset.sceneAsset) === sceneId));
         dots.forEach((dot) => dot.classList.toggle('is-active', Number(dot.dataset.sceneGo) === sceneId));
       }
@@ -2143,6 +2261,80 @@
         window.addEventListener('resize', requestCinematicUpdate);
         requestCinematicUpdate();
       }
+    }
+
+    // v6.14: cinematic portfolio. A large sticky preview changes by scroll/click.
+    const cinematicPortfolio = document.querySelector('#portfolio .portfolio-cinematic');
+    if (cinematicPortfolio) {
+      const stage = cinematicPortfolio.querySelector('[data-portfolio-stage]');
+      const featuredVideo = cinematicPortfolio.querySelector('#portfolioFeaturedVideo');
+      const featuredSource = featuredVideo ? featuredVideo.querySelector('source') : null;
+      const featuredKicker = cinematicPortfolio.querySelector('#portfolioFeaturedKicker');
+      const featuredTitle = cinematicPortfolio.querySelector('#portfolioFeaturedTitle');
+      const featuredText = cinematicPortfolio.querySelector('#portfolioFeaturedText');
+      const portfolioItems = Array.from(cinematicPortfolio.querySelectorAll('.portfolio-cinema-item'));
+      let activePortfolioItem = portfolioItems[0] || null;
+      let portfolioTicking = false;
+
+      function setPortfolioItem(item) {
+        if (!item || item === activePortfolioItem) return;
+        activePortfolioItem = item;
+        portfolioItems.forEach((card) => card.classList.toggle('is-active', card === item));
+        if (featuredKicker) featuredKicker.textContent = item.dataset.kicker || '';
+        if (featuredTitle) featuredTitle.textContent = item.dataset.title || '';
+        if (featuredText) featuredText.textContent = item.dataset.text || '';
+        if (featuredVideo && featuredSource && item.dataset.video) {
+          if (stage) stage.classList.add('is-changing');
+          featuredVideo.pause();
+          featuredVideo.poster = item.dataset.poster || '';
+          featuredSource.src = item.dataset.video;
+          featuredVideo.load();
+          if (!prefersReducedMotion) {
+            featuredVideo.play().catch(() => {});
+          }
+          window.setTimeout(() => { if (stage) stage.classList.remove('is-changing'); }, 260);
+        }
+      }
+
+      function updatePortfolioByScroll() {
+        portfolioTicking = false;
+        if (!portfolioItems.length) return;
+        const anchor = window.innerHeight * (window.innerWidth <= 1040 ? 0.44 : 0.50);
+        let best = portfolioItems[0];
+        let bestDistance = Infinity;
+        portfolioItems.forEach((item) => {
+          const rect = item.getBoundingClientRect();
+          const center = rect.top + rect.height / 2;
+          const distance = Math.abs(center - anchor);
+          if (distance < bestDistance) {
+            bestDistance = distance;
+            best = item;
+          }
+        });
+        setPortfolioItem(best);
+      }
+
+      function requestPortfolioUpdate() {
+        if (!portfolioTicking) {
+          portfolioTicking = true;
+          window.requestAnimationFrame(updatePortfolioByScroll);
+        }
+      }
+
+      portfolioItems.forEach((item) => {
+        item.addEventListener('click', () => setPortfolioItem(item));
+        item.addEventListener('focusin', () => setPortfolioItem(item));
+        item.addEventListener('pointerenter', () => setPortfolioItem(item));
+      });
+
+      if (featuredVideo) {
+        featuredVideo.muted = true;
+        featuredVideo.playsInline = true;
+        if (!prefersReducedMotion) featuredVideo.play().catch(() => {});
+      }
+      window.addEventListener('scroll', requestPortfolioUpdate, { passive: true });
+      window.addEventListener('resize', requestPortfolioUpdate);
+      requestPortfolioUpdate();
     }
 
     setupHoverVideos('#portfolio .work');
