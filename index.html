@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ru">
-<!-- KVSvideo v6.12 smart header: hide on scroll down, show on scroll up -->
+<!-- KVSvideo v6.13 sticky cinematic scene + smart header -->
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -749,26 +749,326 @@
     .audience .card { padding: 22px; }
     .audience .card h3 { font-size: 20px; }
 
-    .process { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; }
-    .step {
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 18px;
-      background: rgba(255,255,255,.045);
+    .cinematic-process { position: relative; }
+    .cinematic-shell {
+      display: grid;
+      grid-template-columns: minmax(0, .96fr) minmax(340px, .88fr);
+      gap: clamp(22px, 3vw, 34px);
+      align-items: start;
     }
-    .step b {
+    .cinematic-stage-wrap {
+      position: sticky;
+      top: 86px;
+      align-self: start;
+    }
+    .cinematic-stage {
+      position: relative;
+      min-height: clamp(560px, 76vh, 720px);
+      border-radius: 34px;
+      overflow: hidden;
+      border: 1px solid rgba(250,204,21,.18);
+      background:
+        radial-gradient(circle at 20% 18%, rgba(250,204,21,.16), transparent 26%),
+        radial-gradient(circle at 82% 16%, rgba(255,255,255,.08), transparent 22%),
+        linear-gradient(180deg, rgba(15,18,31,.98), rgba(6,8,16,.98));
+      box-shadow: 0 34px 110px rgba(0,0,0,.36), inset 0 0 0 1px rgba(255,255,255,.03);
+      isolation: isolate;
+    }
+    .cinematic-stage::before,
+    .cinematic-stage::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .cinematic-stage::before {
+      background:
+        linear-gradient(180deg, rgba(3,5,12,.10) 0%, rgba(3,5,12,.12) 36%, rgba(3,5,12,.72) 100%),
+        radial-gradient(circle at 78% 18%, rgba(255,231,178,.13), transparent 24%);
+    }
+    .cinematic-stage::after {
+      background-image:
+        linear-gradient(rgba(255,255,255,.024) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: radial-gradient(circle at 70% 22%, black, transparent 72%);
+      opacity: .52;
+    }
+    .cinematic-light {
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(24px);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .cinematic-light--one {
+      width: 260px;
+      height: 260px;
+      left: -34px;
+      top: -36px;
+      background: radial-gradient(circle, rgba(250,204,21,.17), rgba(250,204,21,0));
+    }
+    .cinematic-light--two {
+      width: 320px;
+      height: 320px;
+      right: -90px;
+      bottom: -40px;
+      background: radial-gradient(circle, rgba(56,189,248,.11), rgba(56,189,248,0));
+    }
+    .cinematic-orbit {
+      position: absolute;
+      inset: auto auto 102px 46%;
+      width: 58%;
+      aspect-ratio: 1.5 / 1;
+      border-radius: 50%;
+      border: 2px solid rgba(250,204,21,.18);
+      box-shadow: 0 0 34px rgba(250,204,21,.12);
+      transform: rotate(-12deg);
+      opacity: .56;
+      z-index: 1;
+    }
+    .cinematic-orbit::after {
+      content: "";
+      position: absolute;
+      inset: 9% 7%;
+      border-radius: 50%;
+      border: 1px solid rgba(250,204,21,.18);
+    }
+    .cinematic-focus {
+      position: absolute;
+      inset: 17% 13% 16% 13%;
+      pointer-events: none;
+      z-index: 4;
+    }
+    .cinematic-focus span {
+      position: absolute;
+      width: 58px;
+      height: 58px;
+      border: 4px solid rgba(247,221,154,.90);
+      box-shadow: 0 0 24px rgba(250,204,21,.18);
+    }
+    .cinematic-focus span:nth-child(1) { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+    .cinematic-focus span:nth-child(2) { top: 0; right: 0; border-left: 0; border-bottom: 0; }
+    .cinematic-focus span:nth-child(3) { bottom: 0; left: 0; border-right: 0; border-top: 0; }
+    .cinematic-focus span:nth-child(4) { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+    .cinematic-scene-asset {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 70% 52%;
+      opacity: 0;
+      transform: scale(1.09);
+      filter: saturate(.88) brightness(.78);
+      transition: opacity .7s ease, transform 1.2s cubic-bezier(.2,.7,.2,1), filter .7s ease;
+      z-index: 0;
+      will-change: transform, opacity;
+    }
+    .cinematic-scene-asset[data-scene-asset="1"],
+    .cinematic-scene-asset[data-scene-asset="3"] { object-position: 73% 55%; }
+    .cinematic-scene-asset[data-scene-asset="2"],
+    .cinematic-scene-asset[data-scene-asset="5"] { object-position: 70% 48%; }
+    .cinematic-scene-asset[data-scene-asset="4"],
+    .cinematic-scene-asset[data-scene-asset="7"] { object-position: 73% 46%; }
+    .cinematic-scene-asset[data-scene-asset="6"] { object-position: 70% 46%; }
+    .cinematic-scene-asset.is-active {
+      opacity: .98;
+      transform: scale(1.01);
+      filter: saturate(1) brightness(.95);
+    }
+    .cinematic-copy-stack {
+      position: absolute;
+      left: 24px;
+      right: 88px;
+      bottom: 24px;
+      z-index: 5;
+      min-height: 214px;
+    }
+    .cinematic-copy {
+      position: absolute;
+      inset: auto 0 0 0;
+      max-width: 470px;
+      padding: 22px 22px 20px;
+      border-radius: 28px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(11,14,25,.82), rgba(8,10,18,.88));
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 18px 60px rgba(0,0,0,.26);
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity .5s ease, transform .5s ease;
+      pointer-events: none;
+    }
+    .cinematic-copy.is-active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .cinematic-copy .scene-counter {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      margin-bottom: 15px;
-      color: #fde68a;
-      background: rgba(250,204,21,.15);
+      gap: 10px;
+      margin-bottom: 14px;
+      color: #f8e7b0;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
     }
-    .step strong { display: block; margin-bottom: 8px; font-size: 15px; }
-    .step span { color: var(--muted); line-height: 1.5; font-size: 13.5px; }
+    .cinematic-copy .scene-counter::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: rgba(250,204,21,.62);
+    }
+    .cinematic-copy h3 {
+      margin: 0 0 12px;
+      font-size: clamp(26px, 2.6vw, 38px);
+      line-height: .98;
+      letter-spacing: -.05em;
+    }
+    .cinematic-copy p {
+      margin: 0;
+      max-width: 42ch;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .scene-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 16px;
+    }
+    .scene-chips span {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.11);
+      background: rgba(255,255,255,.055);
+      color: #e5edf7;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .cinematic-progress {
+      position: absolute;
+      right: 22px;
+      bottom: 24px;
+      display: grid;
+      gap: 10px;
+      z-index: 6;
+    }
+    .cinematic-progress button {
+      width: 12px;
+      height: 12px;
+      padding: 0;
+      border: 1px solid rgba(255,255,255,.32);
+      border-radius: 999px;
+      background: rgba(255,255,255,.18);
+      box-shadow: none;
+      cursor: pointer;
+      transition: transform .25s ease, background .25s ease, border-color .25s ease, box-shadow .25s ease;
+    }
+    .cinematic-progress button:hover,
+    .cinematic-progress button:focus-visible { transform: scale(1.1); border-color: rgba(250,204,21,.82); outline: none; }
+    .cinematic-progress button.is-active {
+      background: linear-gradient(135deg, #f2d184, #c89b3c);
+      border-color: rgba(250,204,21,.92);
+      box-shadow: 0 0 0 5px rgba(250,204,21,.10);
+      transform: scale(1.12);
+    }
+    .cinematic-track {
+      display: grid;
+      gap: 26px;
+    }
+    .cinematic-step {
+      min-height: clamp(240px, 56vh, 360px);
+      display: flex;
+      align-items: center;
+      scroll-margin-top: 120px;
+    }
+    .cinematic-card {
+      width: 100%;
+      padding: 26px 24px;
+      border-radius: 30px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(18,20,34,.76), rgba(11,13,25,.68));
+      box-shadow: 0 20px 56px rgba(0,0,0,.20);
+      transition: transform .42s cubic-bezier(.2,.7,.2,1), border-color .42s ease, background .42s ease, box-shadow .42s ease, opacity .42s ease;
+    }
+    .cinematic-step.is-active .cinematic-card {
+      transform: translateY(-6px) scale(1.015);
+      border-color: rgba(250,204,21,.34);
+      background: linear-gradient(180deg, rgba(28,23,14,.80), rgba(13,15,27,.78));
+      box-shadow: 0 28px 74px rgba(0,0,0,.26), 0 0 0 1px rgba(250,204,21,.08) inset;
+    }
+    .cinematic-card-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .cinematic-step-no {
+      display: inline-grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(250,204,21,.12);
+      color: #fde68a;
+      font-weight: 900;
+      letter-spacing: -.02em;
+      flex: 0 0 auto;
+      transition: background .36s ease, color .36s ease, box-shadow .36s ease, transform .36s ease;
+    }
+    .cinematic-step.is-active .cinematic-step-no {
+      color: #111827;
+      background: linear-gradient(135deg, #f2d184, #c89b3c);
+      box-shadow: 0 12px 30px rgba(250,204,21,.24);
+      transform: scale(1.04);
+    }
+    .cinematic-card h3 {
+      margin: 0;
+      font-size: clamp(24px, 2.3vw, 34px);
+      line-height: 1.02;
+      letter-spacing: -.045em;
+    }
+    .cinematic-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.64;
+      font-size: 15.5px;
+    }
+    .cinematic-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .cinematic-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.11);
+      background: rgba(255,255,255,.045);
+      color: #d9e2ee;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .cinematic-meta span::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(250,204,21,.72);
+      box-shadow: 0 0 12px rgba(250,204,21,.30);
+    }
 
     .about {
       display: grid;
@@ -959,6 +1259,7 @@
 
       .showreel-frame { animation: none; }
       .hero, .hero .eyebrow, .hero h1, .hero .lead, .hero .value-line, .hero .audience-line, .hero .actions, .hero .trust, .hero .stage, .mini-panel, .ba-card, .deliverables .card, #formats .grid > .card, .process .step, .portfolio .work, .case-card { transition: none !important; transform: none !important; opacity: 1 !important; filter: none !important; }
+      .cinematic-scene-asset, .cinematic-copy, .cinematic-card, .cinematic-progress button, .cinematic-step-no { transition: none !important; }
     }
 
     @media (min-width: 721px) and (max-width: 1100px) and (orientation: portrait) {
@@ -994,7 +1295,10 @@
       .side-stack { grid-template-columns: 1fr; }
       .side-stack { grid-template-columns: repeat(3, 1fr); }
       .portfolio { grid-template-columns: repeat(2, 1fr); }
-      .process { grid-template-columns: repeat(3, 1fr); }
+      .cinematic-shell { grid-template-columns: 1fr; }
+      .cinematic-stage-wrap { position: static; }
+      .cinematic-stage { min-height: 620px; }
+      .cinematic-step { min-height: 280px; }
       .audience, .deliverables { grid-template-columns: repeat(2, 1fr); }
       .case-grid, .grid, .conditions-grid { grid-template-columns: 1fr; }
       .about { grid-template-columns: 1fr; }
@@ -1012,7 +1316,27 @@
       .hero { padding-top: 28px; }
       .actions { flex-direction: column; }
       .btn { width: 100%; }
-      .side-stack, .portfolio, .process, .audience, .deliverables, .faq, .conditions-grid { grid-template-columns: 1fr; }
+      .side-stack, .portfolio, .audience, .deliverables, .faq, .conditions-grid { grid-template-columns: 1fr; }
+      .cinematic-shell { grid-template-columns: 1fr; gap: 18px; }
+      .cinematic-stage-wrap { position: static; }
+      .cinematic-stage {
+        min-height: 470px;
+        border-radius: 28px;
+      }
+      .cinematic-copy-stack {
+        left: 16px;
+        right: 56px;
+        bottom: 16px;
+        min-height: 230px;
+      }
+      .cinematic-copy { padding: 18px 18px 16px; border-radius: 22px; }
+      .cinematic-focus { inset: 15% 9% 17% 9%; }
+      .cinematic-focus span { width: 42px; height: 42px; border-width: 3px; }
+      .cinematic-orbit { inset: auto auto 98px 36%; width: 76%; }
+      .cinematic-progress { right: 14px; bottom: 16px; gap: 8px; }
+      .cinematic-progress button { width: 10px; height: 10px; }
+      .cinematic-step { min-height: auto; }
+      .cinematic-card { padding: 20px 18px; border-radius: 24px; }
       section { padding: 56px 0; }
 
       .depth-visual {
@@ -1334,20 +1658,135 @@
 
 
       
-      <section id="process" class="motion-section">
+      <section id="process" class="motion-section cinematic-process">
         <div class="section-head">
           <div class="kicker">Процесс</div>
-          <h2>Как это работает</h2>
-          <p class="section-text">Простой процесс для клиента. Внутри — контроль AI-рисков, деталей товара и финальной пригодности материала.</p>
+          <h2>Sticky cinematic scene: как из задачи получается коммерческий ролик</h2>
+          <p class="section-text">Слева — закреплённая визуальная сцена, справа — этапы. Пока пользователь прокручивает шаги, “герой-сцена” меняется медленнее и даёт сайту ощущение глубины, как на презентационных премиум-сайтах.</p>
         </div>
-        <div class="process">
-          <div class="step"><b>1</b><strong>Бриф и материалы</strong><span>Фото товара, ссылка на карточку или сайт, задача, формат, 1–2 референса.</span></div>
-          <div class="step"><b>2</b><strong>Оценка</strong><span>Смотрю исходники, уточняю задачу, называю стоимость и срок.</span></div>
-          <div class="step"><b>3</b><strong>Предоплата</strong><span>Работа начинается после согласования формата и предоплаты.</span></div>
-          <div class="step"><b>4</b><strong>AI-концепт</strong><span>Генерирую сцены, подбираю дубли без явных дефектов.</span></div>
-          <div class="step"><b>5</b><strong>Монтаж</strong><span>Собираю движение, ритм, цвет, атмосферу, музыку или текстовые акценты.</span></div>
-          <div class="step"><b>6</b><strong>Preview</strong><span>Отправляю превью 720p с watermark для согласования.</span></div>
-          <div class="step"><b>7</b><strong>Финал</strong><span>Чистый MP4 без watermark — после оплаты или по white-label условиям.</span></div>
+        <div class="cinematic-shell">
+          <div class="cinematic-stage-wrap">
+            <div class="cinematic-stage" data-active-scene="1" aria-label="Визуальная сцена процесса KVSvideo">
+              <div class="cinematic-light cinematic-light--one" aria-hidden="true"></div>
+              <div class="cinematic-light cinematic-light--two" aria-hidden="true"></div>
+              <div class="cinematic-orbit" aria-hidden="true"></div>
+              <div class="cinematic-focus" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+              <img class="cinematic-scene-asset is-active" data-scene-asset="1" src="assets/depth/depth_pen_1280.webp" alt="Премиальная ручка и аксессуар на темном фоне">
+              <img class="cinematic-scene-asset" data-scene-asset="2" src="assets/depth/depth_watch_1280.webp" alt="Премиальные часы на темном фоне">
+              <img class="cinematic-scene-asset" data-scene-asset="3" src="assets/depth/depth_pen_1280.webp" alt="Премиальная ручка и аксессуар на темном фоне">
+              <img class="cinematic-scene-asset" data-scene-asset="4" src="assets/depth/depth_bottle_1280.webp" alt="Премиальный флакон на темном фоне">
+              <img class="cinematic-scene-asset" data-scene-asset="5" src="assets/depth/depth_watch_1280.webp" alt="Премиальные часы на темном фоне">
+              <img class="cinematic-scene-asset" data-scene-asset="6" src="assets/depth/depth_decanter_1280.webp" alt="Премиальный декантер на темном фоне">
+              <img class="cinematic-scene-asset" data-scene-asset="7" src="assets/depth/depth_bottle_1280.webp" alt="Премиальный флакон на темном фоне">
+
+              <div class="cinematic-copy-stack">
+                <article class="cinematic-copy is-active" data-scene-copy="1">
+                  <div class="scene-counter">01 / 07 — старт</div>
+                  <h3>Получаю бриф и исходники</h3>
+                  <p>Стартуем не “с магии AI”, а с понятной задачи: товар, формат, площадка, референсы и тот результат, который нужен бизнесу.</p>
+                  <div class="scene-chips"><span>Фото товара</span><span>Ссылка на карточку</span><span>1–2 референса</span></div>
+                </article>
+                <article class="cinematic-copy" data-scene-copy="2">
+                  <div class="scene-counter">02 / 07 — оценка</div>
+                  <h3>Смотрю риски и формат</h3>
+                  <p>Оцениваю исходники, слабые места товара, реалистичность задачи и предлагаю рабочий формат: loop, product video, visual kit или white-label.</p>
+                  <div class="scene-chips"><span>Срок</span><span>Стоимость</span><span>Понятный scope</span></div>
+                </article>
+                <article class="cinematic-copy" data-scene-copy="3">
+                  <div class="scene-counter">03 / 07 — запуск</div>
+                  <h3>Фиксируем старт проекта</h3>
+                  <p>После согласования формата и предоплаты задача уходит в продакшн: уже понятно, что именно делаем и какой визуальный результат считаем финалом.</p>
+                  <div class="scene-chips"><span>Согласованный план</span><span>Старт работ</span><span>Без размытых ожиданий</span></div>
+                </article>
+                <article class="cinematic-copy" data-scene-copy="4">
+                  <div class="scene-counter">04 / 07 — AI-концепт</div>
+                  <h3>Собираю сцену и подбираю дубли</h3>
+                  <p>Генерирую визуальные сцены, свет, окружение и движение. Отбираю дубли без явных дефектов, чтобы товар выглядел стабильно и дорого.</p>
+                  <div class="scene-chips"><span>Свет</span><span>Материал</span><span>Сцена</span></div>
+                </article>
+                <article class="cinematic-copy" data-scene-copy="5">
+                  <div class="scene-counter">05 / 07 — монтаж</div>
+                  <h3>Собираю ритм и коммерческий акцент</h3>
+                  <p>На этом этапе появляется не просто “красивое видео”, а коммерческий материал: монтаж, темп, цвет, атмосфера и акцент на продукте.</p>
+                  <div class="scene-chips"><span>Motion</span><span>Монтаж</span><span>Финальный ритм</span></div>
+                </article>
+                <article class="cinematic-copy" data-scene-copy="6">
+                  <div class="scene-counter">06 / 07 — preview</div>
+                  <h3>Отправляю превью на согласование</h3>
+                  <p>Показываю версию 720p с watermark, чтобы быстро получить обратную связь и внести именно те правки, которые реально улучшают результат.</p>
+                  <div class="scene-chips"><span>Preview 720p</span><span>Правки</span><span>Контроль деталей</span></div>
+                </article>
+                <article class="cinematic-copy" data-scene-copy="7">
+                  <div class="scene-counter">07 / 07 — финал</div>
+                  <h3>Передаю чистый финальный файл</h3>
+                  <p>После согласования и оплаты клиент получает готовый MP4 без watermark. Для партнёров возможно white-label исполнение без публичного упоминания KVSvideo.</p>
+                  <div class="scene-chips"><span>Чистый MP4</span><span>White-label</span><span>Готово к использованию</span></div>
+                </article>
+              </div>
+
+              <div class="cinematic-progress" aria-label="Навигация по этапам процесса">
+                <button class="is-active" type="button" data-scene-go="1" aria-label="Шаг 1: Бриф и материалы"></button>
+                <button type="button" data-scene-go="2" aria-label="Шаг 2: Оценка"></button>
+                <button type="button" data-scene-go="3" aria-label="Шаг 3: Предоплата"></button>
+                <button type="button" data-scene-go="4" aria-label="Шаг 4: AI-концепт"></button>
+                <button type="button" data-scene-go="5" aria-label="Шаг 5: Монтаж"></button>
+                <button type="button" data-scene-go="6" aria-label="Шаг 6: Preview"></button>
+                <button type="button" data-scene-go="7" aria-label="Шаг 7: Финал"></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="cinematic-track" aria-label="Этапы процесса KVSvideo">
+            <div class="cinematic-step is-active" data-scene="1">
+              <article class="cinematic-card">
+                <div class="cinematic-card-head"><span class="cinematic-step-no">01</span><h3>Бриф и материалы</h3></div>
+                <p>Вы присылаете фото товара, ссылку на карточку или сайт, задачу, формат и 1–2 референса. Чем понятнее вход, тем быстрее и стабильнее визуальный результат.</p>
+                <div class="cinematic-meta"><span>Фото / упаковка</span><span>Ссылка / карточка</span><span>Референсы</span></div>
+              </article>
+            </div>
+            <div class="cinematic-step" data-scene="2">
+              <article class="cinematic-card">
+                <div class="cinematic-card-head"><span class="cinematic-step-no">02</span><h3>Оценка</h3></div>
+                <p>Смотрю исходники, проверяю риски AI для конкретного товара и называю стоимость, срок и формат, который действительно решает задачу, а не просто выглядит эффектно.</p>
+                <div class="cinematic-meta"><span>Риски</span><span>Срок</span><span>Бюджет</span></div>
+              </article>
+            </div>
+            <div class="cinematic-step" data-scene="3">
+              <article class="cinematic-card">
+                <div class="cinematic-card-head"><span class="cinematic-step-no">03</span><h3>Предоплата</h3></div>
+                <p>После согласования объёма и формата задача официально стартует. Это точка, где у проекта появляется зафиксированный scope и понятная дорожная карта.</p>
+                <div class="cinematic-meta"><span>Старт проекта</span><span>Формат зафиксирован</span><span>План работ</span></div>
+              </article>
+            </div>
+            <div class="cinematic-step" data-scene="4">
+              <article class="cinematic-card">
+                <div class="cinematic-card-head"><span class="cinematic-step-no">04</span><h3>AI-концепт</h3></div>
+                <p>Генерирую сцены и подбираю дубли без явных дефектов: контролирую форму товара, материал, читаемость и то, насколько сцена поддерживает продукт коммерчески.</p>
+                <div class="cinematic-meta"><span>Концепт</span><span>Сцена</span><span>Контроль формы</span></div>
+              </article>
+            </div>
+            <div class="cinematic-step" data-scene="5">
+              <article class="cinematic-card">
+                <div class="cinematic-card-head"><span class="cinematic-step-no">05</span><h3>Монтаж</h3></div>
+                <p>Собираю движение, темп, цвет и музыкально-визуальный ритм. Именно здесь разрозненные куски превращаются в аккуратный коммерческий visual.</p>
+                <div class="cinematic-meta"><span>Motion</span><span>Монтаж</span><span>Финальный акцент</span></div>
+              </article>
+            </div>
+            <div class="cinematic-step" data-scene="6">
+              <article class="cinematic-card">
+                <div class="cinematic-card-head"><span class="cinematic-step-no">06</span><h3>Preview</h3></div>
+                <p>Отправляю превью 720p с watermark. На этом этапе собираем фидбек по движению, акцентам и пригодности для карточки, сайта, Reels или презентации.</p>
+                <div class="cinematic-meta"><span>720p</span><span>Watermark</span><span>Согласование</span></div>
+              </article>
+            </div>
+            <div class="cinematic-step" data-scene="7">
+              <article class="cinematic-card">
+                <div class="cinematic-card-head"><span class="cinematic-step-no">07</span><h3>Финал</h3></div>
+                <p>После согласования и оплаты передаю чистый MP4 без watermark. Для студий и агентств возможна white-label модель — под ваш бренд и клиентский проект.</p>
+                <div class="cinematic-meta"><span>Чистый файл</span><span>Без watermark</span><span>White-label</span></div>
+              </article>
+            </div>
+          </div>
         </div>
         <div class="ai-note"><b>AI и детали товара.</b> AI хорошо создаёт атмосферу, движение и визуальный контекст, но может искажать мелкие детали: текст на этикетке, пропорции, фактуру материала. Поэтому контроль товара — отдельный этап, а хорошие исходные фото существенно влияют на результат.</div>
       </section>
@@ -1638,6 +2077,72 @@
         item.addEventListener('focusout', stop);
         item.addEventListener('touchstart', play, { passive: true });
       });
+    }
+
+    // v6.13: sticky cinematic scene for the process section.
+    const cinematicProcess = document.querySelector('#process.cinematic-process');
+    if (cinematicProcess) {
+      const stage = cinematicProcess.querySelector('.cinematic-stage');
+      const steps = Array.from(cinematicProcess.querySelectorAll('.cinematic-step'));
+      const copies = Array.from(cinematicProcess.querySelectorAll('.cinematic-copy'));
+      const assets = Array.from(cinematicProcess.querySelectorAll('.cinematic-scene-asset'));
+      const dots = Array.from(cinematicProcess.querySelectorAll('.cinematic-progress button'));
+      let activeScene = 1;
+      let cinematicTicking = false;
+
+      function setCinematicScene(sceneId) {
+        if (!sceneId || sceneId === activeScene) return;
+        activeScene = sceneId;
+        if (stage) stage.dataset.activeScene = String(sceneId);
+        steps.forEach((step) => step.classList.toggle('is-active', Number(step.dataset.scene) === sceneId));
+        copies.forEach((copy) => copy.classList.toggle('is-active', Number(copy.dataset.sceneCopy) === sceneId));
+        assets.forEach((asset) => asset.classList.toggle('is-active', Number(asset.dataset.sceneAsset) === sceneId));
+        dots.forEach((dot) => dot.classList.toggle('is-active', Number(dot.dataset.sceneGo) === sceneId));
+      }
+
+      function updateCinematicScene() {
+        cinematicTicking = false;
+        if (!steps.length) return;
+        const anchor = window.innerHeight * (window.innerWidth <= 1040 ? 0.36 : 0.48);
+        let bestScene = Number(steps[0].dataset.scene || 1);
+        let bestDistance = Infinity;
+        steps.forEach((step) => {
+          const rect = step.getBoundingClientRect();
+          const center = rect.top + rect.height / 2;
+          const distance = Math.abs(center - anchor);
+          if (distance < bestDistance) {
+            bestDistance = distance;
+            bestScene = Number(step.dataset.scene || 1);
+          }
+        });
+        setCinematicScene(bestScene);
+      }
+
+      function requestCinematicUpdate() {
+        if (!cinematicTicking) {
+          cinematicTicking = true;
+          window.requestAnimationFrame(updateCinematicScene);
+        }
+      }
+
+      dots.forEach((dot) => {
+        dot.addEventListener('click', function () {
+          const sceneId = Number(this.dataset.sceneGo || '1');
+          const targetStep = cinematicProcess.querySelector('.cinematic-step[data-scene="' + sceneId + '"]');
+          setCinematicScene(sceneId);
+          if (targetStep) {
+            targetStep.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'center' });
+          }
+        });
+      });
+
+      if (steps.length) {
+        activeScene = 0;
+        setCinematicScene(Number(steps[0].dataset.scene || 1));
+        window.addEventListener('scroll', requestCinematicUpdate, { passive: true });
+        window.addEventListener('resize', requestCinematicUpdate);
+        requestCinematicUpdate();
+      }
     }
 
     setupHoverVideos('#portfolio .work');
