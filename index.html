@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ru">
-<!-- KVSvideo v6.14 cinematic process cleanup + cinematic portfolio -->
+<!-- KVSvideo v6.15 cinematic portfolio/process polish -->
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -741,8 +741,8 @@
       z-index: 2;
       pointer-events: none;
       background:
-        linear-gradient(180deg, rgba(5,7,17,.02) 0%, rgba(5,7,17,.15) 48%, rgba(5,7,17,.72) 100%),
-        radial-gradient(circle at 82% 18%, rgba(250,204,21,.14), transparent 24%);
+        linear-gradient(180deg, rgba(5,7,17,.01) 0%, rgba(5,7,17,.08) 56%, rgba(5,7,17,.42) 100%),
+        radial-gradient(circle at 82% 18%, rgba(250,204,21,.12), transparent 24%);
     }
     .portfolio-stage::after {
       content: "";
@@ -773,28 +773,29 @@
     .portfolio-stage.is-changing .portfolio-featured-media video { filter: saturate(.82) brightness(.72); transform: scale(1.045); }
     .portfolio-stage-caption {
       position: absolute;
-      left: 24px;
-      right: 24px;
-      bottom: 24px;
+      left: 22px;
+      right: auto;
+      bottom: 22px;
       z-index: 5;
-      padding: 24px 24px 22px;
-      border-radius: 30px;
+      width: min(430px, calc(100% - 44px));
+      padding: 14px 16px 15px;
+      border-radius: 22px;
       border: 1px solid rgba(255,255,255,.13);
-      background: linear-gradient(180deg, rgba(7,9,18,.78), rgba(7,9,18,.88));
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      box-shadow: 0 20px 70px rgba(0,0,0,.32);
+      background: linear-gradient(180deg, rgba(7,9,18,.70), rgba(7,9,18,.82));
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 16px 46px rgba(0,0,0,.30);
     }
     .portfolio-stage-caption small {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
       color: #f8e7b0;
       font-weight: 850;
       letter-spacing: .14em;
       text-transform: uppercase;
-      font-size: 12px;
+      font-size: 11px;
     }
     .portfolio-stage-caption small::before {
       content: "";
@@ -804,17 +805,17 @@
     }
     .portfolio-stage-caption strong {
       display: block;
-      margin-bottom: 10px;
-      font-size: clamp(28px, 3vw, 42px);
-      line-height: .98;
-      letter-spacing: -.055em;
+      margin-bottom: 6px;
+      font-size: clamp(20px, 2.05vw, 29px);
+      line-height: 1.02;
+      letter-spacing: -.045em;
     }
     .portfolio-stage-caption span {
       display: block;
-      max-width: 50ch;
+      max-width: 40ch;
       color: var(--muted);
-      line-height: 1.58;
-      font-size: 15.5px;
+      line-height: 1.44;
+      font-size: 13px;
     }
     .portfolio-track {
       display: grid;
@@ -949,7 +950,7 @@
     }
     .cinematic-stage {
       position: relative;
-      min-height: clamp(560px, 76vh, 720px);
+      min-height: clamp(500px, 66vh, 620px);
       border-radius: 34px;
       overflow: hidden;
       border: 1px solid rgba(250,204,21,.18);
@@ -1024,7 +1025,7 @@
     .cinematic-badge {
       position: absolute;
       left: 24px;
-      bottom: 24px;
+      bottom: 20px;
       z-index: 5;
       display: inline-flex;
       align-items: center;
@@ -1056,7 +1057,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: 70% 52%;
+      object-position: 61% 52%;
       opacity: 0;
       transform: scale(1.09);
       filter: saturate(.88) brightness(.78);
@@ -1065,12 +1066,12 @@
       will-change: transform, opacity;
     }
     .cinematic-scene-asset[data-scene-asset="1"],
-    .cinematic-scene-asset[data-scene-asset="3"] { object-position: 73% 55%; }
+    .cinematic-scene-asset[data-scene-asset="3"] { object-position: 60% 54%; }
     .cinematic-scene-asset[data-scene-asset="2"],
-    .cinematic-scene-asset[data-scene-asset="5"] { object-position: 70% 48%; }
+    .cinematic-scene-asset[data-scene-asset="5"] { object-position: 59% 48%; }
     .cinematic-scene-asset[data-scene-asset="4"],
-    .cinematic-scene-asset[data-scene-asset="7"] { object-position: 73% 46%; }
-    .cinematic-scene-asset[data-scene-asset="6"] { object-position: 70% 46%; }
+    .cinematic-scene-asset[data-scene-asset="7"] { object-position: 61% 48%; }
+    .cinematic-scene-asset[data-scene-asset="6"] { object-position: 61% 47%; }
     .cinematic-scene-asset.is-active {
       opacity: .98;
       transform: scale(1.01);
@@ -1420,6 +1421,7 @@
       .portfolio-cinematic { grid-template-columns: 1fr; }
       .portfolio-stage-wrap { position: static; }
       .portfolio-stage { min-height: 620px; }
+      .portfolio-stage-caption { width: min(390px, calc(100% - 44px)); }
       .cinematic-shell { grid-template-columns: 1fr; }
       .cinematic-stage-wrap { position: static; }
       .cinematic-stage { min-height: 620px; }
@@ -1445,13 +1447,14 @@
       .portfolio-cinematic { grid-template-columns: 1fr; gap: 18px; }
       .portfolio-stage-wrap { position: static; }
       .portfolio-stage { min-height: 520px; border-radius: 28px; }
-      .portfolio-stage-caption { left: 16px; right: 16px; bottom: 16px; padding: 18px; border-radius: 22px; }
+      .portfolio-stage-caption { left: 16px; right: auto; bottom: 16px; width: min(360px, calc(100% - 32px)); padding: 13px 14px; border-radius: 20px; }
+      .portfolio-stage-caption span { display: none; }
       .portfolio-cinema-item { grid-template-columns: 86px minmax(0, 1fr); gap: 14px; min-height: 132px; border-radius: 24px; }
       .portfolio-cinema-thumb { border-radius: 16px; }
       .cinematic-shell { grid-template-columns: 1fr; gap: 18px; }
       .cinematic-stage-wrap { position: static; }
       .cinematic-stage {
-        min-height: 470px;
+        min-height: 430px;
         border-radius: 28px;
       }
       .cinematic-badge { left: 16px; bottom: 16px; max-width: calc(100% - 72px); }
