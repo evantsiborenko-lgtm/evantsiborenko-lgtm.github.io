@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ru">
-<!-- KVSvideo v6.18 Hero Cinematic Upgrade -->
+<!-- KVSvideo v6.19 Tablet Header & Performance Fix -->
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,7 +63,7 @@
     }
 
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden; max-width: 100%; }
     body {
       margin: 0;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -104,15 +104,13 @@
     header {
       position: sticky;
       top: 0;
+      left: 0;
+      right: 0;
       z-index: 40;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      width: 100vw;
-      margin-left: calc(50% - 50vw);
-      margin-right: calc(50% - 50vw);
-      padding: 8px max(16px, calc((100vw - var(--max)) / 2));
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      padding: 0;
       min-height: 58px;
       background: linear-gradient(180deg, rgba(9,11,20,.985), rgba(9,11,20,.94));
       border-bottom: 1px solid rgba(255,255,255,.055);
@@ -121,8 +119,19 @@
       -webkit-backdrop-filter: blur(18px);
       transform: translateY(0);
       opacity: 1;
-      will-change: transform, opacity, min-height, padding;
+      box-sizing: border-box;
       transition: transform .62s cubic-bezier(.22,.8,.18,1), opacity .42s ease, background .32s ease, box-shadow .32s ease;
+    }
+    .header-inner {
+      width: min(var(--max), calc(100% - 32px));
+      min-height: 58px;
+      margin: 0 auto;
+      padding: 8px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      box-sizing: border-box;
     }
     body.header-hidden header {
       transform: translateY(calc(-100% - 10px));
@@ -455,7 +464,7 @@
       letter-spacing: -.075em;
     }
     .gradient-text {
-      background: linear-gradient(110deg, #fff 0%, #fde68a 34%, #7dd3fc 70%, #c4b5fd 100%);
+      background: linear-gradient(110deg, #fff 0%, #f8e7b0 42%, #facc15 72%, #fff7d6 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -1727,12 +1736,12 @@
       header {
         position: sticky;
         top: 0;
-        width: 100vw;
-        margin-left: calc(50% - 50vw);
-        margin-right: calc(50% - 50vw);
-        padding: 7px clamp(18px, 3vw, 28px);
+        display: block;
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        padding: 0;
         min-height: 54px;
-        gap: 10px;
       }
       .brand-logo { width: clamp(122px, 18vw, 148px); }
       nav {
@@ -1786,7 +1795,7 @@
       .final-cinematic { padding: 42px 18px; border-radius: 28px; }
       .brand-logo { width: 152px; }
       #deliverables.motion-live .deliverables .card.is-active, #formats.motion-live .grid > .card.is-active, #process.motion-live .step.is-active, #portfolio.motion-live .work.is-active { transform: translateY(-2px) scale(1.012); }
-      header { position: static; width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); padding: 14px 16px; min-height: auto; }
+      header { position: static; display: block; width: 100%; margin-left: 0; margin-right: 0; padding: 0; min-height: auto; }
       nav { display: none; }
       .hero { padding-top: 28px; }
       .actions { flex-direction: column; }
@@ -1836,13 +1845,12 @@
         position: sticky;
         top: 0;
         z-index: 60;
-        display: flex;
-        width: 100vw;
-        margin-left: calc(50% - 50vw);
-        margin-right: calc(50% - 50vw);
-        padding: 7px clamp(16px, 3vw, 28px);
+        display: block;
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        padding: 0;
         min-height: 54px;
-        gap: 10px;
         background: linear-gradient(180deg, rgba(9,11,20,.992), rgba(9,11,20,.965));
         backdrop-filter: blur(18px);
         -webkit-backdrop-filter: blur(18px);
@@ -1868,11 +1876,140 @@
       body.header-hidden header { transform: none !important; opacity: 1 !important; }
     }
 
+
+
+    /* v6.19: stable header width + tablet performance mode */
+    @media (min-width: 600px) and (max-width: 1366px) {
+      header {
+        display: block;
+        width: 100%;
+        max-width: none;
+        margin-left: 0;
+        margin-right: 0;
+        padding: 0;
+      }
+      .header-inner {
+        width: min(var(--max), calc(100% - 32px));
+        padding: 7px 0;
+        min-height: 54px;
+        gap: 10px;
+      }
+    }
+    @media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) {
+      html, body { overflow-x: hidden; }
+      header { display: block; left: 0; right: 0; width: 100%; }
+      .header-inner {
+        width: min(var(--max), calc(100% - 32px));
+        padding: 7px 0;
+      }
+      nav { gap: 2px; min-width: 0; }
+      nav a { font-size: 12px; padding: 7px 7px; }
+      nav a[href*="max.ru"] { display: none; }
+    }
+    @media (max-width: 720px) {
+      header { display: block; width: 100%; margin-left: 0; margin-right: 0; padding: 0; }
+      .header-inner { width: min(100% - 22px, var(--max)); padding: 14px 0; min-height: auto; }
+    }
+    @media (max-width: 599px) {
+      .header-inner { width: min(100% - 22px, var(--max)); }
+    }
+
+    @media (hover: none) and (pointer: coarse) and (min-width: 768px) and (max-width: 1366px) {
+      html.tablet-perf-mode body.header-hidden header { transform: none !important; opacity: 1 !important; }
+      html.tablet-perf-mode header {
+        background: linear-gradient(180deg, rgba(7,9,18,.992), rgba(7,9,18,.965));
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        will-change: auto;
+      }
+      html.tablet-perf-mode .hero {
+        transform: none !important;
+        transition: none !important;
+      }
+      html.tablet-perf-mode .stage::before,
+      html.tablet-perf-mode .showreel-frame {
+        animation: none !important;
+        will-change: auto !important;
+      }
+      html.tablet-perf-mode .stage::before { opacity: .20; }
+      html.tablet-perf-mode .hero::after { opacity: .24; }
+      html.tablet-perf-mode .hero-cinematic-backdrop img {
+        transform: none !important;
+        filter: saturate(.94) brightness(.86) contrast(1.02);
+      }
+      html.tablet-perf-mode .hero-cinema-card,
+      html.tablet-perf-mode .video-label span,
+      html.tablet-perf-mode .portfolio-stage-caption,
+      html.tablet-perf-mode .cinematic-badge,
+      html.tablet-perf-mode .work-caption {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        background: linear-gradient(180deg, rgba(7,9,18,.82), rgba(7,9,18,.90));
+      }
+      html.tablet-perf-mode .portfolio-cinematic,
+      html.tablet-perf-mode .cinematic-shell { grid-template-columns: 1fr; }
+      html.tablet-perf-mode .portfolio-stage-wrap,
+      html.tablet-perf-mode .cinematic-stage-wrap {
+        position: static;
+        top: auto;
+      }
+      html.tablet-perf-mode .portfolio-stage {
+        min-height: min(620px, 72vh);
+      }
+      html.tablet-perf-mode .portfolio-featured-media video {
+        transform: none !important;
+        filter: saturate(.92) brightness(.86);
+        transition: opacity .32s ease !important;
+      }
+      html.tablet-perf-mode .portfolio-stage.is-changing .portfolio-featured-media video {
+        transform: none !important;
+        filter: saturate(.86) brightness(.78);
+      }
+      html.tablet-perf-mode .cinematic-stage { aspect-ratio: 16 / 10; min-height: auto; }
+      html.tablet-perf-mode .cinematic-light,
+      html.tablet-perf-mode .cinematic-orbit { display: none; }
+      html.tablet-perf-mode .cinematic-scene-asset {
+        transform: none !important;
+        will-change: auto !important;
+        transition: opacity .32s ease, filter .32s ease !important;
+      }
+      html.tablet-perf-mode .depth-visual {
+        transform: none !important;
+        opacity: .08 !important;
+        will-change: auto !important;
+      }
+      html.tablet-perf-mode .mini-panel,
+      html.tablet-perf-mode .ba-card,
+      html.tablet-perf-mode .portfolio-cinema-item,
+      html.tablet-perf-mode .cinematic-card,
+      html.tablet-perf-mode .case-card,
+      html.tablet-perf-mode .card {
+        will-change: auto !important;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .stage::before { display: none; }
+      .hero::after { display: none; }
+      .showreel-frame { animation: none !important; will-change: auto !important; }
+      .hero-cinema-card,
+      .video-label span,
+      .portfolio-stage-caption,
+      .cinematic-badge,
+      .work-caption {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+      }
+      .cinematic-light,
+      .cinematic-orbit { display: none; }
+      .hero-cinematic-backdrop img { transform: none !important; filter: saturate(.92) brightness(.84); }
+    }
+
   </style>
 </head>
 <body>
-  <div class="page">
-    <header>
+  <header>
+    <div class="header-inner">
       <a class="brand" href="/" aria-label="KVSvideo — AI product videos">
         <img class="brand-logo" src="assets/logo/logo_header_site_premium_gold.webp" srcset="assets/logo/logo_header_site_premium_gold.webp 1x, assets/logo/logo_header_site_premium_gold@2x.webp 2x" alt="KVSvideo" width="669" height="170">
       </a>
@@ -1886,8 +2023,10 @@
         <a href="https://t.me/KVSemenov" rel="noopener">TG</a>
         <a href="https://max.ru/u/f9LHodD0cOJlDpukwqptJu22mt7WP9gY3Hf1QqJlId29eI5iof0XN7XmUnI" rel="noopener">MAX</a>
       </nav>
-    </header>
+    </div>
+  </header>
 
+  <div class="page">
     <audio id="showreelAmbient" loop preload="metadata" src="assets/audio/A_Ribbon_Untied.mp3"></audio>
 
     <main>
@@ -2427,10 +2566,77 @@
 
     document.body.classList.add('is-loaded');
 
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const tabletPerfQuery = window.matchMedia('(hover: none) and (pointer: coarse) and (min-width: 768px) and (max-width: 1366px)');
+    const mobileFastQuery = window.matchMedia('(max-width: 767px)');
+    let prefersReducedMotion = reducedMotionQuery.matches;
+    const rootEl = document.documentElement;
     const hero = document.querySelector('.hero');
 
     function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
+    function isTabletPerfMode() { return tabletPerfQuery.matches; }
+    function isMobileFastMode() { return mobileFastQuery.matches; }
+    function isConstrainedMotionMode() { return prefersReducedMotion || isTabletPerfMode() || isMobileFastMode(); }
+    function updateAdaptiveModeClasses() {
+      prefersReducedMotion = reducedMotionQuery.matches;
+      rootEl.classList.toggle('tablet-perf-mode', isTabletPerfMode());
+      rootEl.classList.toggle('mobile-fast-mode', isMobileFastMode());
+    }
+    function listenToMediaQuery(query, handler) {
+      if (!query) return;
+      if (query.addEventListener) query.addEventListener('change', handler);
+      else if (query.addListener) query.addListener(handler);
+    }
+    listenToMediaQuery(reducedMotionQuery, updateAdaptiveModeClasses);
+    listenToMediaQuery(tabletPerfQuery, updateAdaptiveModeClasses);
+    listenToMediaQuery(mobileFastQuery, updateAdaptiveModeClasses);
+    updateAdaptiveModeClasses();
+
+    function pauseAllVideosExcept(activeVideo) {
+      document.querySelectorAll('video').forEach((video) => {
+        if (video !== activeVideo) video.pause();
+      });
+      if (showreelAmbient && activeVideo !== heroShowreel) {
+        showreelAmbient.pause();
+        if (soundToggle) {
+          soundToggle.textContent = '🔇 Звук';
+          soundToggle.setAttribute('aria-pressed', 'false');
+          soundToggle.setAttribute('aria-label', 'Включить звук showreel');
+        }
+      }
+    }
+    function playVideoControlled(video) {
+      if (!video || prefersReducedMotion || isMobileFastMode()) return;
+      if (isTabletPerfMode()) pauseAllVideosExcept(video);
+      video.play().catch(() => {});
+    }
+    function setupViewportVideo(video, options) {
+      if (!video) return;
+      const opts = options || {};
+      if (isTabletPerfMode() || isMobileFastMode()) video.preload = 'metadata';
+      if (!('IntersectionObserver' in window)) return;
+      const threshold = opts.threshold || 0.25;
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          const visible = entry.isIntersecting && entry.intersectionRatio >= threshold;
+          if (visible && opts.autoplay && !isMobileFastMode()) {
+            playVideoControlled(video);
+          } else if (!entry.isIntersecting || entry.intersectionRatio < 0.05) {
+            video.pause();
+            if (video === heroShowreel && showreelAmbient) {
+              showreelAmbient.pause();
+              if (soundToggle) {
+                soundToggle.textContent = '🔇 Звук';
+                soundToggle.setAttribute('aria-pressed', 'false');
+                soundToggle.setAttribute('aria-label', 'Включить звук showreel');
+              }
+            }
+          }
+        });
+      }, { threshold: [0, 0.05, threshold, 0.65] });
+      observer.observe(video);
+    }
+    setupViewportVideo(heroShowreel, { autoplay: true, threshold: 0.35 });
 
     // v6.12: smart header. It softly leaves the screen while scrolling down
     // and returns as soon as the user scrolls upward. Kept disabled on narrow phones.
@@ -2449,6 +2655,12 @@
       const nearTop = currentY < 72;
 
       document.body.classList.toggle('header-compact', currentY > 48);
+
+      if (isTabletPerfMode()) {
+        document.body.classList.remove('header-hidden');
+        lastHeaderScrollY = currentY;
+        return;
+      }
 
       if (nearTop) {
         document.body.classList.remove('header-hidden');
@@ -2475,7 +2687,11 @@
     let ticking = false;
     function updateHeroMotion() {
       ticking = false;
-      if (prefersReducedMotion || !hero) return;
+      if (!hero) return;
+      if (isConstrainedMotionMode()) {
+        hero.style.setProperty('--hero-scale', '1');
+        return;
+      }
       const y = window.scrollY || document.documentElement.scrollTop || 0;
       const scale = clamp(1 - y / 9000, 0.982, 1);
       hero.style.setProperty('--hero-scale', scale.toFixed(4));
@@ -2496,7 +2712,7 @@
     let depthTicking = false;
     function updateDepthVisuals() {
       depthTicking = false;
-      if (prefersReducedMotion || !depthVisuals.length || window.innerWidth < 721) {
+      if (isConstrainedMotionMode() || !depthVisuals.length || window.innerWidth < 721) {
         depthVisuals.forEach((visual) => visual.style.setProperty('--depth-y', '0px'));
         return;
       }
@@ -2546,10 +2762,11 @@
         video.currentTime = 0;
 
         const play = () => {
-          if (prefersReducedMotion) return;
+          if (prefersReducedMotion || isMobileFastMode()) return;
           stopAllExcept(item);
+          pauseAllVideosExcept(video);
           item.classList.add('is-playing');
-          video.play().catch(() => {});
+          playVideoControlled(video);
         };
         const stop = () => {
           video.pause();
@@ -2607,6 +2824,7 @@
       }
 
       function requestCinematicUpdate() {
+        if (isTabletPerfMode() || isMobileFastMode()) return;
         if (!cinematicTicking) {
           cinematicTicking = true;
           window.requestAnimationFrame(updateCinematicScene);
@@ -2659,8 +2877,8 @@
           featuredVideo.poster = item.dataset.poster || '';
           featuredSource.src = item.dataset.video;
           featuredVideo.load();
-          if (!prefersReducedMotion) {
-            featuredVideo.play().catch(() => {});
+          if (!isMobileFastMode()) {
+            playVideoControlled(featuredVideo);
           }
           window.setTimeout(() => { if (stage) stage.classList.remove('is-changing'); }, 260);
         }
@@ -2685,6 +2903,7 @@
       }
 
       function requestPortfolioUpdate() {
+        if (isTabletPerfMode() || isMobileFastMode()) return;
         if (!portfolioTicking) {
           portfolioTicking = true;
           window.requestAnimationFrame(updatePortfolioByScroll);
@@ -2700,7 +2919,8 @@
       if (featuredVideo) {
         featuredVideo.muted = true;
         featuredVideo.playsInline = true;
-        if (!prefersReducedMotion) featuredVideo.play().catch(() => {});
+        setupViewportVideo(featuredVideo, { autoplay: true, threshold: 0.35 });
+        if (!isMobileFastMode() && !isTabletPerfMode()) playVideoControlled(featuredVideo);
       }
       window.addEventListener('scroll', requestPortfolioUpdate, { passive: true });
       window.addEventListener('resize', requestPortfolioUpdate);
@@ -2709,6 +2929,15 @@
 
     setupHoverVideos('#portfolio .work');
     setupHoverVideos('#cases .case-card');
+
+    window.addEventListener('orientationchange', function () {
+      window.setTimeout(function () {
+        updateAdaptiveModeClasses();
+        requestSmartHeaderUpdate();
+        requestHeroMotionUpdate();
+        requestDepthVisualUpdate();
+      }, 180);
+    }, { passive: true });
   </script>
 
   <script type="application/ld+json">
