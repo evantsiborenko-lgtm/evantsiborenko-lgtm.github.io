@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ru">
-<!-- KVSvideo v6.18.1 Safe Header + Click-to-Play Showreel Patch -->
+<!-- KVSvideo v6.18.2 Safe Hero Optimization + Gold Accent Patch -->
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -457,7 +457,7 @@
       letter-spacing: -.075em;
     }
     .gradient-text {
-      background: linear-gradient(110deg, #fff 0%, #fde68a 34%, #7dd3fc 70%, #c4b5fd 100%);
+      background: linear-gradient(110deg, #ffffff 0%, #fff7cc 32%, #f2d184 62%, #c89b3c 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -1904,6 +1904,32 @@
       header { width: 100%; left: 0; right: 0; padding-inline: 16px; }
     }
 
+    /* v6.18.2: safe hero optimization for touch devices.
+       Desktop cinematic look remains unchanged; tablets/phones get fewer live paint layers. */
+    @media (hover: none) and (pointer: coarse) {
+      .stage::before {
+        animation: none !important;
+        opacity: .22;
+        transform: none !important;
+      }
+      .showreel-frame {
+        animation: none !important;
+        will-change: auto;
+      }
+      .hero-cinema-card,
+      .video-label span,
+      .sound-toggle {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+      }
+      .hero-cinematic-backdrop img {
+        transform: none;
+        filter: saturate(.95) brightness(.86) contrast(1.02);
+      }
+      .hero::before { opacity: .72; }
+      .hero::after { opacity: .28; }
+    }
+
   </style>
 </head>
 <body>
@@ -1968,9 +1994,7 @@
                 <div class="hero-signal-row"><span>6–12 сек</span><span>AI-сцена</span><span>MP4 / visual kit</span></div>
               </div>
               <div class="showreel-frame">
-                <video id="heroShowreel" muted loop playsinline preload="metadata" poster="assets/posters/showreel.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false" aria-label="Showreel KVSvideo AI product videos">
-                  <source src="assets/videos/showreel_720p_watermark.mp4" type="video/mp4">
-                </video>
+                <video id="heroShowreel" muted loop playsinline preload="none" poster="assets/posters/showreel.webp" data-src="assets/videos/showreel_720p_watermark.mp4" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false" aria-label="Showreel KVSvideo AI product videos"></video>
                 <button class="showreel-play" type="button" id="showreelPlay" aria-label="Смотреть showreel">▶ Смотреть</button>
                 <button class="sound-toggle" type="button" id="soundToggle" aria-pressed="false" aria-label="Включить звук showreel">🔇 Звук</button>
                 <div class="video-label"><span>Showreel</span><span>портфолио</span></div>
@@ -2438,8 +2462,21 @@
       if (frame) frame.classList.toggle('is-playing', !heroShowreel.paused && !heroShowreel.ended);
     }
 
+    function ensureHeroShowreelSource() {
+      if (!heroShowreel || heroShowreel.dataset.sourceLoaded === 'true') return;
+      const src = heroShowreel.dataset.src;
+      if (!src) return;
+      const source = document.createElement('source');
+      source.src = src;
+      source.type = 'video/mp4';
+      heroShowreel.appendChild(source);
+      heroShowreel.dataset.sourceLoaded = 'true';
+      heroShowreel.load();
+    }
+
     function playHeroShowreel() {
       if (!heroShowreel) return;
+      ensureHeroShowreelSource();
       heroShowreel.muted = true;
       heroShowreel.volume = 0;
       heroShowreel.play().then(syncShowreelState).catch(syncShowreelState);
@@ -2497,6 +2534,7 @@
     document.body.classList.add('is-loaded');
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const coarsePointer = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
     const hero = document.querySelector('.hero');
 
     function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
@@ -2615,7 +2653,7 @@
         video.currentTime = 0;
 
         const play = () => {
-          if (prefersReducedMotion) return;
+          if (prefersReducedMotion || coarsePointer) return;
           stopAllExcept(item);
           item.classList.add('is-playing');
           video.play().catch(() => {});
@@ -2728,7 +2766,7 @@
           featuredVideo.poster = item.dataset.poster || '';
           featuredSource.src = item.dataset.video;
           featuredVideo.load();
-          if (!prefersReducedMotion) {
+          if (!prefersReducedMotion && !coarsePointer) {
             featuredVideo.play().catch(() => {});
           }
           window.setTimeout(() => { if (stage) stage.classList.remove('is-changing'); }, 260);
@@ -2769,7 +2807,8 @@
       if (featuredVideo) {
         featuredVideo.muted = true;
         featuredVideo.playsInline = true;
-        if (!prefersReducedMotion) featuredVideo.play().catch(() => {});
+        if (!prefersReducedMotion && !coarsePointer) featuredVideo.play().catch(() => {});
+        else featuredVideo.pause();
       }
       window.addEventListener('scroll', requestPortfolioUpdate, { passive: true });
       window.addEventListener('resize', requestPortfolioUpdate);
