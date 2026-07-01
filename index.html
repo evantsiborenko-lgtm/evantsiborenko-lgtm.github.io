@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ru">
-<!-- KVSvideo v6.18 Hero Cinematic Upgrade -->
+<!-- KVSvideo v6.18.1 Safe Header + Click-to-Play Showreel Patch -->
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -104,15 +104,17 @@
     header {
       position: sticky;
       top: 0;
+      left: 0;
+      right: 0;
       z-index: 40;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 18px;
-      width: 100vw;
-      margin-left: calc(50% - 50vw);
-      margin-right: calc(50% - 50vw);
-      padding: 8px max(16px, calc((100vw - var(--max)) / 2));
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      padding: 8px max(16px, calc((100% - var(--max)) / 2));
       min-height: 58px;
       background: linear-gradient(180deg, rgba(9,11,20,.985), rgba(9,11,20,.94));
       border-bottom: 1px solid rgba(255,255,255,.055);
@@ -702,6 +704,36 @@
       box-shadow: 0 12px 28px rgba(0,0,0,.25);
     }
     .sound-toggle:hover { background: rgba(255,255,255,.12); }
+    .showreel-play {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 4;
+      transform: translate(-50%, -50%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-width: 126px;
+      min-height: 46px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(250,204,21,.46);
+      background: linear-gradient(135deg, rgba(250,204,21,.92), rgba(245,158,11,.90));
+      color: #111827;
+      box-shadow: 0 18px 46px rgba(0,0,0,.38), 0 0 0 1px rgba(255,255,255,.13) inset;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform .25s ease, opacity .25s ease, filter .25s ease;
+    }
+    .showreel-play:hover { transform: translate(-50%, -50%) scale(1.035); filter: brightness(1.04); }
+    .showreel-frame.is-playing .showreel-play {
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, -50%) scale(.96);
+    }
     .sound-toggle[aria-pressed="true"] {
       color: #fde68a;
       border-color: rgba(242,209,132,.38);
@@ -1868,11 +1900,14 @@
       body.header-hidden header { transform: none !important; opacity: 1 !important; }
     }
 
+    @media (min-width: 768px) and (max-width: 1180px) and (orientation: landscape) {
+      header { width: 100%; left: 0; right: 0; padding-inline: 16px; }
+    }
+
   </style>
 </head>
 <body>
-  <div class="page">
-    <header>
+  <header>
       <a class="brand" href="/" aria-label="KVSvideo — AI product videos">
         <img class="brand-logo" src="assets/logo/logo_header_site_premium_gold.webp" srcset="assets/logo/logo_header_site_premium_gold.webp 1x, assets/logo/logo_header_site_premium_gold@2x.webp 2x" alt="KVSvideo" width="669" height="170">
       </a>
@@ -1886,8 +1921,9 @@
         <a href="https://t.me/KVSemenov" rel="noopener">TG</a>
         <a href="https://max.ru/u/f9LHodD0cOJlDpukwqptJu22mt7WP9gY3Hf1QqJlId29eI5iof0XN7XmUnI" rel="noopener">MAX</a>
       </nav>
-    </header>
+  </header>
 
+  <div class="page">
     <audio id="showreelAmbient" loop preload="metadata" src="assets/audio/A_Ribbon_Untied.mp3"></audio>
 
     <main>
@@ -1932,9 +1968,10 @@
                 <div class="hero-signal-row"><span>6–12 сек</span><span>AI-сцена</span><span>MP4 / visual kit</span></div>
               </div>
               <div class="showreel-frame">
-                <video id="heroShowreel" autoplay muted loop playsinline preload="metadata" poster="assets/posters/showreel.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false" aria-label="Showreel KVSvideo AI product videos">
+                <video id="heroShowreel" muted loop playsinline preload="metadata" poster="assets/posters/showreel.webp" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false" aria-label="Showreel KVSvideo AI product videos">
                   <source src="assets/videos/showreel_720p_watermark.mp4" type="video/mp4">
                 </video>
+                <button class="showreel-play" type="button" id="showreelPlay" aria-label="Смотреть showreel">▶ Смотреть</button>
                 <button class="sound-toggle" type="button" id="soundToggle" aria-pressed="false" aria-label="Включить звук showreel">🔇 Звук</button>
                 <div class="video-label"><span>Showreel</span><span>портфолио</span></div>
               </div>
@@ -2390,22 +2427,54 @@
     });
 
     const heroShowreel = document.getElementById('heroShowreel');
+    const showreelPlay = document.getElementById('showreelPlay');
     const soundToggle = document.getElementById('soundToggle');
     const showreelAmbient = document.getElementById('showreelAmbient');
     const showreelAmbientVolume = 0.07;
 
+    function syncShowreelState() {
+      if (!heroShowreel) return;
+      const frame = heroShowreel.closest('.showreel-frame');
+      if (frame) frame.classList.toggle('is-playing', !heroShowreel.paused && !heroShowreel.ended);
+    }
+
+    function playHeroShowreel() {
+      if (!heroShowreel) return;
+      heroShowreel.muted = true;
+      heroShowreel.volume = 0;
+      heroShowreel.play().then(syncShowreelState).catch(syncShowreelState);
+      kvsReachGoal('showreel_manual_play');
+    }
+
     if (heroShowreel) {
       heroShowreel.muted = true;
       heroShowreel.volume = 0;
+      heroShowreel.removeAttribute('autoplay');
+      heroShowreel.pause();
+      syncShowreelState();
+      heroShowreel.addEventListener('play', syncShowreelState);
+      heroShowreel.addEventListener('pause', syncShowreelState);
+      heroShowreel.addEventListener('click', function () {
+        if (heroShowreel.paused) playHeroShowreel();
+        else heroShowreel.pause();
+      });
     }
+    if (showreelPlay) showreelPlay.addEventListener('click', playHeroShowreel);
     if (showreelAmbient) showreelAmbient.volume = showreelAmbientVolume;
+
+    if (heroShowreel && 'IntersectionObserver' in window) {
+      const heroVideoObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting && !heroShowreel.paused) heroShowreel.pause();
+        });
+      }, { threshold: 0.18 });
+      heroVideoObserver.observe(heroShowreel);
+    }
 
     if (heroShowreel && soundToggle && showreelAmbient) {
       soundToggle.addEventListener('click', function () {
         const willPlayAmbient = showreelAmbient.paused;
-        heroShowreel.muted = true;
-        heroShowreel.volume = 0;
-        heroShowreel.play().catch(() => {});
+        playHeroShowreel();
 
         if (willPlayAmbient) {
           showreelAmbient.volume = showreelAmbientVolume;
