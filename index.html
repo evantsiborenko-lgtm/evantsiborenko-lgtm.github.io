@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ru">
-<!-- KVSvideo v6.18.2 Safe Hero Optimization + Gold Accent Patch -->
+<!-- KVSvideo v6.18.3 Mobile Hero Simplification + Performance Patch -->
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,7 +11,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="assets/logo/favicon_dark_32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/logo/favicon_dark_180.png">
   <link rel="preload" as="image" href="assets/logo/logo_header_site_premium_gold.webp">
-  <link rel="preload" as="image" href="assets/depth/depth_bottle_1280.webp">
+  <link rel="preload" as="image" href="assets/depth/depth_bottle_1280.webp" media="(hover: hover) and (pointer: fine)">
   <meta name="keywords" content="AI-видео для товара, AI product video, видео для карточки товара, видео для WB, видео для Ozon, визуал для маркетплейсов, карточки WB/Ozon, AI-визуал для товара, product video для сайта и рекламы, white-label AI-видео для студий">
   <meta name="yandex-verification" content="d38da1a6f7dc7a4b">
   <link rel="canonical" href="https://kvsvideo.ru/">
@@ -557,9 +557,13 @@
       z-index: 1;
       pointer-events: none;
     }
+    .hero-cinematic-backdrop picture,
     .hero-cinematic-backdrop img {
+      display: block;
       width: 100%;
       height: 100%;
+    }
+    .hero-cinematic-backdrop img {
       object-fit: cover;
       object-position: 61% 50%;
       opacity: .70;
@@ -753,6 +757,9 @@
       font-size: 13px;
       line-height: 1.45;
       text-align: center;
+    }
+    .mobile-hero-flow {
+      display: none;
     }
     .side-stack { position: relative; z-index: 4; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 0; }
     .mini-panel {
@@ -1857,10 +1864,9 @@
       .showreel-frame { border-radius: 27px; }
       .stage { border-radius: 32px; padding: 12px; min-height: auto; }
       .stage-inner { min-height: auto; }
-      .hero-studio-layout { grid-template-columns: 1fr; padding: 12px; min-height: 560px; align-items: end; }
+      .hero-studio-layout { grid-template-columns: 1fr; padding: 12px; min-height: auto; align-items: end; }
       .hero-cinema-card { max-width: none; padding: 18px; }
       .showreel-frame { width: min(206px, 58vw); justify-self: center; order: -1; }
-      .hero-cinematic-backdrop img { object-position: 58% 50%; opacity: .58; }
       h1 { font-size: clamp(38px, 13vw, 60px); }
     }
 
@@ -1910,17 +1916,37 @@
       header { width: 100%; left: 0; right: 0; padding-inline: 16px; }
     }
 
-    /* v6.18.2: safe hero optimization for touch devices.
-       Desktop cinematic look remains unchanged; tablets/phones get fewer live paint layers. */
+    /* v6.18.3: simplified mobile Hero.
+       Touch devices keep one clear video surface and avoid background media preparation. */
     @media (hover: none) and (pointer: coarse) {
+      .hero {
+        will-change: auto;
+      }
+      .hero::before,
+      .hero::after,
+      .hero-cinematic-backdrop,
+      .stage::after,
+      .showreel-frame::after {
+        display: none !important;
+      }
+      .stage {
+        background: linear-gradient(180deg, rgba(9,12,22,.96), rgba(5,7,17,.985));
+        box-shadow: 0 24px 64px rgba(0,0,0,.28);
+        contain: paint;
+      }
       .stage::before {
         animation: none !important;
-        opacity: .22;
+        opacity: .10;
         transform: none !important;
+        background: radial-gradient(circle at 50% 24%, rgba(250,204,21,.14), transparent 46%);
       }
-      .showreel-frame {
-        animation: none !important;
-        will-change: auto;
+      .stage-inner {
+        grid-template-rows: minmax(0, 1fr) auto auto;
+        gap: 10px;
+      }
+      .hero-cinema-card {
+        background: rgba(8,11,20,.94);
+        box-shadow: none;
       }
       .hero-cinema-card,
       .video-label span,
@@ -1928,12 +1954,51 @@
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
       }
-      .hero-cinematic-backdrop img {
-        transform: none;
-        filter: saturate(.95) brightness(.86) contrast(1.02);
+      .showreel-frame {
+        animation: none !important;
+        will-change: auto;
+        contain: paint;
+        isolation: isolate;
+        box-shadow: inset 0 0 0 5px rgba(0,0,0,.18), 0 18px 44px rgba(0,0,0,.30);
       }
-      .hero::before { opacity: .72; }
-      .hero::after { opacity: .28; }
+      .video-label {
+        display: none;
+      }
+      .side-stack .mini-panel {
+        display: none;
+      }
+      .mobile-hero-flow {
+        position: relative;
+        z-index: 4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 10px 12px;
+        border: 1px solid rgba(255,255,255,.10);
+        border-radius: 999px;
+        background: rgba(255,255,255,.035);
+        color: #e5edf7;
+        font-size: 12px;
+        font-weight: 760;
+        line-height: 1.2;
+        text-align: center;
+      }
+      .mobile-hero-flow b {
+        color: #facc15;
+        font-size: 14px;
+      }
+      .sound-note {
+        margin-top: 2px;
+      }
+      body.hero-showreel-playing .hero .stage::before,
+      body.hero-showreel-playing .hero .showreel-frame,
+      body.hero-showreel-playing .hero .hero-cinema-card,
+      body.hero-showreel-playing .hero .mobile-hero-flow {
+        animation: none !important;
+        transition: none !important;
+      }
     }
 
     /* Mobile/tablet landscape portfolio: keep the active video visible beside the list. */
@@ -2039,7 +2104,10 @@
 
         <aside class="stage hero-cinema" id="showreel" aria-label="Showreel AI product videos">
           <div class="hero-cinematic-backdrop" aria-hidden="true">
-            <img src="assets/depth/depth_bottle_1280.webp" alt="">
+            <picture>
+              <source media="(hover: hover) and (pointer: fine)" srcset="assets/depth/depth_bottle_1280.webp">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="" width="1280" height="1280">
+            </picture>
           </div>
           <div class="stage-inner">
             <div class="hero-studio-layout">
@@ -2071,6 +2139,9 @@
                 <div class="ba-card"><b>До</b>статичный товар на карточке</div>
                 <div class="ba-card after"><b>После</b>ролик или visual kit: карточка, Reels, сайт, реклама</div>
               </div>
+            </div>
+            <div class="mobile-hero-flow" aria-label="Фото товара превращается в AI-сцену и готовый ролик">
+              <span>Фото товара</span><b aria-hidden="true">→</b><span>AI-сцена</span><b aria-hidden="true">→</b><span>Готовый ролик</span>
             </div>
             <div class="sound-note">Showreel-эмбиент включается кнопкой звука и играет очень тихо. Preview-ролики запускаются по наведению.</div>
           </div>
@@ -2523,8 +2594,10 @@
 
     function syncShowreelState() {
       if (!heroShowreel) return;
+      const isPlaying = !heroShowreel.paused && !heroShowreel.ended;
       const frame = heroShowreel.closest('.showreel-frame');
-      if (frame) frame.classList.toggle('is-playing', !heroShowreel.paused && !heroShowreel.ended);
+      if (frame) frame.classList.toggle('is-playing', isPlaying);
+      document.body.classList.toggle('hero-showreel-playing', isPlaying);
       if (heroShowreel.paused && !heroPlayPromise) setShowreelLoading(false);
     }
 
@@ -2593,7 +2666,13 @@
       return heroPlayPromise;
     }
 
+    function isTouchShowreelDevice() {
+      return navigator.maxTouchPoints > 0
+        || window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+    }
+
     function shouldPrewarmHeroShowreel() {
+      if (isTouchShowreelDevice()) return false;
       const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
       if (!connection) return true;
       if (connection.saveData) return false;
