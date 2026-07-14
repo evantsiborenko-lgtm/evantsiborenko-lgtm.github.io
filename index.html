@@ -1935,10 +1935,8 @@
         contain: paint;
       }
       .stage::before {
-        animation: none !important;
-        opacity: .10;
-        transform: none !important;
-        background: radial-gradient(circle at 50% 24%, rgba(250,204,21,.14), transparent 46%);
+        display: none !important;
+        content: none !important;
       }
       .stage-inner {
         grid-template-rows: minmax(0, 1fr) auto auto;
@@ -2118,7 +2116,7 @@
                 <div class="hero-signal-row"><span>6–12 сек</span><span>AI-сцена</span><span>MP4 / visual kit</span></div>
               </div>
               <div class="showreel-frame">
-                <video id="heroShowreel" muted loop playsinline preload="none" poster="assets/posters/showreel.webp" data-src="assets/videos/showreel_720p_watermark.mp4" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false" aria-label="Showreel KVSvideo AI product videos"></video>
+                <video id="heroShowreel" muted loop playsinline preload="none" poster="assets/posters/showreel_mobile_clean.webp" data-desktop-poster="assets/posters/showreel.webp" data-mobile-poster="assets/posters/showreel_mobile_clean.webp" data-src="assets/videos/showreel_720p_watermark.mp4" data-mobile-src="assets/videos/showreel_mobile_clean_540x960.mp4" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false" aria-label="Showreel KVSvideo AI product videos"></video>
                 <button class="showreel-play" type="button" id="showreelPlay" aria-label="Смотреть showreel" aria-live="polite">▶ Смотреть</button>
                 <button class="sound-toggle" type="button" id="soundToggle" aria-pressed="false" aria-label="Включить звук showreel">🔇 Звук</button>
                 <div class="video-label"><span>Showreel</span><span>портфолио</span></div>
@@ -2143,7 +2141,6 @@
             <div class="mobile-hero-flow" aria-label="Фото товара превращается в AI-сцену и готовый ролик">
               <span>Фото товара</span><b aria-hidden="true">→</b><span>AI-сцена</span><b aria-hidden="true">→</b><span>Готовый ролик</span>
             </div>
-            <div class="sound-note">Showreel-эмбиент включается кнопкой звука и играет очень тихо. Preview-ролики запускаются по наведению.</div>
           </div>
         </aside>
       </section>
@@ -2585,6 +2582,19 @@
     const showreelDefaultLabel = '▶ Смотреть';
     let heroPlayPromise = null;
 
+    function isTouchShowreelDevice() {
+      const coarsePointer = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+      return coarsePointer || (navigator.maxTouchPoints > 0 && window.innerWidth <= 1180);
+    }
+
+    const useMobileShowreelMedia = isTouchShowreelDevice();
+    if (heroShowreel) {
+      const selectedPoster = useMobileShowreelMedia
+        ? heroShowreel.dataset.mobilePoster
+        : heroShowreel.dataset.desktopPoster;
+      if (selectedPoster) heroShowreel.poster = selectedPoster;
+    }
+
     function setShowreelLoading(isLoading) {
       if (!showreelPlay) return;
       showreelPlay.disabled = isLoading;
@@ -2603,7 +2613,9 @@
 
     function ensureHeroShowreelSource() {
       if (!heroShowreel || heroShowreel.dataset.sourceLoaded === 'true') return;
-      const src = heroShowreel.dataset.src;
+      const src = useMobileShowreelMedia
+        ? heroShowreel.dataset.mobileSrc
+        : heroShowreel.dataset.src;
       if (!src) return;
       const source = document.createElement('source');
       source.src = src;
@@ -2664,11 +2676,6 @@
       });
 
       return heroPlayPromise;
-    }
-
-    function isTouchShowreelDevice() {
-      return navigator.maxTouchPoints > 0
-        || window.matchMedia('(hover: none) and (pointer: coarse)').matches;
     }
 
     function shouldPrewarmHeroShowreel() {
