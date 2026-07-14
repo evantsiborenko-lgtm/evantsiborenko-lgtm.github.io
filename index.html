@@ -729,6 +729,12 @@
       transition: transform .25s ease, opacity .25s ease, filter .25s ease;
     }
     .showreel-play:hover { transform: translate(-50%, -50%) scale(1.035); filter: brightness(1.04); }
+    .showreel-play[aria-busy="true"] {
+      min-width: 138px;
+      cursor: wait;
+      filter: saturate(.82);
+    }
+    .showreel-play:disabled { opacity: .94; }
     .showreel-frame.is-playing .showreel-play {
       opacity: 0;
       pointer-events: none;
@@ -1930,6 +1936,56 @@
       .hero::after { opacity: .28; }
     }
 
+    /* Mobile/tablet landscape portfolio: keep the active video visible beside the list. */
+    @media (hover: none) and (pointer: coarse) and (orientation: landscape) and (min-width: 600px) and (max-width: 1180px) {
+      .portfolio-cinematic {
+        grid-template-columns: minmax(180px, 34vw) minmax(0, 1fr);
+        gap: 16px;
+        align-items: start;
+      }
+      .portfolio-stage-wrap {
+        position: sticky;
+        top: max(8px, env(safe-area-inset-top));
+        align-self: start;
+      }
+      .portfolio-stage {
+        width: 100%;
+        height: 82vh;
+        height: min(82svh, 560px);
+        min-height: 0;
+        border-radius: 28px;
+      }
+      .portfolio-featured-media video {
+        object-fit: contain;
+        transform: none;
+      }
+      .portfolio-stage::after { inset: 10px; border-radius: 22px; }
+      .portfolio-stage-caption {
+        left: 12px;
+        bottom: 12px;
+        width: calc(100% - 24px);
+        padding: 11px 12px;
+        border-radius: 17px;
+      }
+      .portfolio-stage-caption strong { font-size: clamp(16px, 2.4vw, 23px); }
+      .portfolio-stage-caption span { display: none; }
+      .portfolio-track { gap: 12px; padding-top: 0; }
+      .portfolio-cinema-item {
+        grid-template-columns: 72px minmax(0, 1fr);
+        gap: 12px;
+        min-height: 110px;
+        padding: 12px;
+        border-radius: 22px;
+      }
+      .portfolio-cinema-item.is-active { transform: translateY(-2px); }
+      .portfolio-cinema-thumb { border-radius: 14px; }
+      .portfolio-cinema-body p { margin-block: 6px; }
+    }
+
+    @media (hover: none) and (pointer: coarse) and (orientation: landscape) and (min-width: 768px) and (max-width: 1180px) {
+      .portfolio-stage-wrap { top: 68px; }
+    }
+
   </style>
 </head>
 <body>
@@ -1995,7 +2051,7 @@
               </div>
               <div class="showreel-frame">
                 <video id="heroShowreel" muted loop playsinline preload="none" poster="assets/posters/showreel.webp" data-src="assets/videos/showreel_720p_watermark.mp4" controlslist="nodownload noplaybackrate nofullscreen" disablepictureinpicture oncontextmenu="return false" aria-label="Showreel KVSvideo AI product videos"></video>
-                <button class="showreel-play" type="button" id="showreelPlay" aria-label="Смотреть showreel">▶ Смотреть</button>
+                <button class="showreel-play" type="button" id="showreelPlay" aria-label="Смотреть showreel" aria-live="polite">▶ Смотреть</button>
                 <button class="sound-toggle" type="button" id="soundToggle" aria-pressed="false" aria-label="Включить звук showreel">🔇 Звук</button>
                 <div class="video-label"><span>Showreel</span><span>портфолио</span></div>
               </div>
@@ -2455,11 +2511,21 @@
     const soundToggle = document.getElementById('soundToggle');
     const showreelAmbient = document.getElementById('showreelAmbient');
     const showreelAmbientVolume = 0.07;
+    const showreelDefaultLabel = '▶ Смотреть';
+    let heroPlayPromise = null;
+
+    function setShowreelLoading(isLoading) {
+      if (!showreelPlay) return;
+      showreelPlay.disabled = isLoading;
+      showreelPlay.setAttribute('aria-busy', String(isLoading));
+      showreelPlay.textContent = isLoading ? 'Загрузка…' : showreelDefaultLabel;
+    }
 
     function syncShowreelState() {
       if (!heroShowreel) return;
       const frame = heroShowreel.closest('.showreel-frame');
       if (frame) frame.classList.toggle('is-playing', !heroShowreel.paused && !heroShowreel.ended);
+      if (heroShowreel.paused && !heroPlayPromise) setShowreelLoading(false);
     }
 
     function ensureHeroShowreelSource() {
@@ -2471,16 +2537,77 @@
       source.type = 'video/mp4';
       heroShowreel.appendChild(source);
       heroShowreel.dataset.sourceLoaded = 'true';
+      heroShowreel.preload = 'auto';
       heroShowreel.load();
     }
 
+    function waitForHeroCanPlay(timeoutMs = 12000) {
+      if (!heroShowreel) return Promise.reject(new Error('Hero showreel is unavailable'));
+      if (heroShowreel.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) return Promise.resolve();
+
+      return new Promise((resolve, reject) => {
+        let settled = false;
+        const finish = (error) => {
+          if (settled) return;
+          settled = true;
+          window.clearTimeout(timer);
+          heroShowreel.removeEventListener('canplay', onCanPlay);
+          heroShowreel.removeEventListener('error', onError);
+          error ? reject(error) : resolve();
+        };
+        const onCanPlay = () => finish();
+        const onError = () => finish(new Error('Showreel loading failed'));
+        const timer = window.setTimeout(() => finish(new Error('Showreel loading timed out')), timeoutMs);
+        heroShowreel.addEventListener('canplay', onCanPlay, { once: true });
+        heroShowreel.addEventListener('error', onError, { once: true });
+      });
+    }
+
     function playHeroShowreel() {
-      if (!heroShowreel) return;
-      ensureHeroShowreelSource();
-      heroShowreel.muted = true;
-      heroShowreel.volume = 0;
-      heroShowreel.play().then(syncShowreelState).catch(syncShowreelState);
-      kvsReachGoal('showreel_manual_play');
+      if (!heroShowreel) return Promise.resolve(false);
+      if (heroPlayPromise) return heroPlayPromise;
+
+      heroPlayPromise = (async () => {
+        setShowreelLoading(true);
+        ensureHeroShowreelSource();
+        heroShowreel.muted = true;
+        heroShowreel.volume = 0;
+
+        try {
+          await waitForHeroCanPlay();
+          setShowreelLoading(false);
+          await heroShowreel.play();
+          syncShowreelState();
+          kvsReachGoal('showreel_manual_play');
+          return true;
+        } catch (error) {
+          heroShowreel.pause();
+          syncShowreelState();
+          return false;
+        }
+      })().finally(() => {
+        heroPlayPromise = null;
+        if (heroShowreel && heroShowreel.paused) setShowreelLoading(false);
+      });
+
+      return heroPlayPromise;
+    }
+
+    function shouldPrewarmHeroShowreel() {
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (!connection) return true;
+      if (connection.saveData) return false;
+      return !['slow-2g', '2g'].includes(connection.effectiveType);
+    }
+
+    function scheduleHeroShowreelWarmup() {
+      if (!heroShowreel || !shouldPrewarmHeroShowreel()) return;
+      const warmup = () => ensureHeroShowreelSource();
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(warmup, { timeout: 2500 });
+      } else {
+        window.setTimeout(warmup, 1800);
+      }
     }
 
     if (heroShowreel) {
@@ -2495,6 +2622,9 @@
         if (heroShowreel.paused) playHeroShowreel();
         else heroShowreel.pause();
       });
+
+      if (document.readyState === 'complete') scheduleHeroShowreelWarmup();
+      else window.addEventListener('load', scheduleHeroShowreelWarmup, { once: true });
     }
     if (showreelPlay) showreelPlay.addEventListener('click', playHeroShowreel);
     if (showreelAmbient) showreelAmbient.volume = showreelAmbientVolume;
@@ -2502,9 +2632,9 @@
     if (heroShowreel && 'IntersectionObserver' in window) {
       const heroVideoObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-          if (!entry.isIntersecting && !heroShowreel.paused) heroShowreel.pause();
+          if (entry.intersectionRatio < 0.18 && !heroShowreel.paused) heroShowreel.pause();
         });
-      }, { threshold: 0.18 });
+      }, { threshold: [0, 0.18] });
       heroVideoObserver.observe(heroShowreel);
     }
 
@@ -2535,6 +2665,7 @@
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const coarsePointer = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+    const touchCapable = coarsePointer || navigator.maxTouchPoints > 0;
     const hero = document.querySelector('.hero');
 
     function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
@@ -2568,7 +2699,11 @@
     // Keep only a very soft global hero scale on scroll. Card motion is now hover-based,
     // because scroll-driven active states looked out of sync on desktop.
     function updateHeroMotion(y) {
-      if (prefersReducedMotion || !hero) return;
+      if (!hero) return;
+      if (prefersReducedMotion || touchCapable) {
+        hero.style.setProperty('--hero-scale', '1');
+        return;
+      }
       const scale = clamp(1 - y / 9000, 0.982, 1);
       hero.style.setProperty('--hero-scale', scale.toFixed(4));
     }
@@ -2804,7 +2939,7 @@
           featuredVideo.poster = item.dataset.poster || '';
           featuredSource.src = item.dataset.video;
           
-          if (!coarsePointer) {
+          if (!touchCapable) {
             featuredVideo.load();
             if (!prefersReducedMotion) {
               featuredVideo.play().catch(() => {});
@@ -2820,7 +2955,7 @@
       if ('IntersectionObserver' in window) {
         portfolioObserver = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
-            if (entry.isIntersecting && !coarsePointer) {
+            if (entry.isIntersecting && !touchCapable) {
                // Only auto-update on scroll for non-touch devices to avoid loading data
                setPortfolioItem(entry.target);
             }
@@ -2830,8 +2965,10 @@
 
       portfolioItems.forEach((item) => {
         item.addEventListener('click', () => setPortfolioItem(item));
-        item.addEventListener('focusin', () => setPortfolioItem(item));
-        item.addEventListener('pointerenter', () => setPortfolioItem(item));
+        if (!touchCapable) {
+          item.addEventListener('focusin', () => setPortfolioItem(item));
+          item.addEventListener('pointerenter', () => setPortfolioItem(item));
+        }
       });
 
       if (featuredVideo) {
@@ -2841,11 +2978,11 @@
         if ('IntersectionObserver' in window) {
           const featuredVideoObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-              if (!entry.isIntersecting && !featuredVideo.paused) {
+              if (entry.intersectionRatio < 0.35 && !featuredVideo.paused) {
                 featuredVideo.pause();
               }
             });
-          }, { threshold: 0 });
+          }, { threshold: [0, 0.35] });
           
           if (stage) {
             featuredVideoObserver.observe(stage);
@@ -2855,7 +2992,7 @@
         }
 
         // Allow tap to play on mobile
-        if (coarsePointer) {
+        if (touchCapable) {
           featuredVideo.addEventListener('click', () => {
             if (featuredVideo.paused) {
                // Load the video if it wasn't loaded yet or if source changed
@@ -2870,7 +3007,7 @@
           });
         }
         
-        if (!prefersReducedMotion && !coarsePointer) featuredVideo.play().catch(() => {});
+        if (!prefersReducedMotion && !touchCapable) featuredVideo.play().catch(() => {});
         else featuredVideo.pause();
       }
       if (portfolioObserver) portfolioItems.forEach((item) => portfolioObserver.observe(item));
