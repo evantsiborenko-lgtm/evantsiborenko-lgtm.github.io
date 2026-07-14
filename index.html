@@ -37,7 +37,7 @@
 
     ym(109744286, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
   </script>
-  <noscript><div><img loading="lazy" src="https://mc.yandex.ru/watch/109744286" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <noscript><div><img src="https://mc.yandex.ru/watch/109744286" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
   <!-- /Yandex.Metrika counter -->
 
   <style>
@@ -1935,7 +1935,7 @@
 <body>
   <header>
       <a class="brand" href="/" aria-label="KVSvideo — AI product videos">
-        <img loading="lazy" class="brand-logo" src="assets/logo/logo_header_site_premium_gold.webp" srcset="assets/logo/logo_header_site_premium_gold.webp 1x, assets/logo/logo_header_site_premium_gold@2x.webp 2x" alt="KVSvideo" width="669" height="170">
+        <img class="brand-logo" src="assets/logo/logo_header_site_premium_gold.webp" srcset="assets/logo/logo_header_site_premium_gold.webp 1x, assets/logo/logo_header_site_premium_gold@2x.webp 2x" alt="KVSvideo" width="669" height="170">
       </a>
       <nav aria-label="Навигация">
         <a href="#portfolio">Работы</a>
@@ -1950,7 +1950,7 @@
   </header>
 
   <div class="page">
-    <audio id="showreelAmbient" loop preload="metadata" src="assets/audio/A_Ribbon_Untied.mp3"></audio>
+    <audio id="showreelAmbient" loop preload="none" src="assets/audio/A_Ribbon_Untied.mp3"></audio>
 
     <main>
       <section class="hero motion-section" id="hero" aria-label="AI-видео и визуал для карточек WB/Ozon">
@@ -2543,15 +2543,11 @@
     // and returns as soon as the user scrolls upward. Kept disabled on narrow phones.
     const siteHeader = document.querySelector('header');
     let lastHeaderScrollY = window.scrollY || document.documentElement.scrollTop || 0;
-    let headerTicking = false;
-    function updateSmartHeader() {
-      headerTicking = false;
+    function updateSmartHeader(currentY) {
       if (!siteHeader || prefersReducedMotion || window.innerWidth < 600) {
         document.body.classList.remove('header-hidden', 'header-compact');
         return;
       }
-
-      const currentY = Math.max(0, window.scrollY || document.documentElement.scrollTop || 0);
       const delta = currentY - lastHeaderScrollY;
       const nearTop = currentY < 72;
 
@@ -2567,66 +2563,90 @@
 
       lastHeaderScrollY = currentY;
     }
-    function requestSmartHeaderUpdate() {
-      if (!headerTicking) {
-        headerTicking = true;
-        window.requestAnimationFrame(updateSmartHeader);
-      }
-    }
-    window.addEventListener('scroll', requestSmartHeaderUpdate, { passive: true });
-    window.addEventListener('resize', requestSmartHeaderUpdate);
-    updateSmartHeader();
+    // Consolidated scroll loop will call updateSmartHeader
 
     // Keep only a very soft global hero scale on scroll. Card motion is now hover-based,
     // because scroll-driven active states looked out of sync on desktop.
-    let ticking = false;
-    function updateHeroMotion() {
-      ticking = false;
+    function updateHeroMotion(y) {
       if (prefersReducedMotion || !hero) return;
-      const y = window.scrollY || document.documentElement.scrollTop || 0;
       const scale = clamp(1 - y / 9000, 0.982, 1);
       hero.style.setProperty('--hero-scale', scale.toFixed(4));
     }
-    function requestHeroMotionUpdate() {
-      if (!ticking) {
-        ticking = true;
-        window.requestAnimationFrame(updateHeroMotion);
-      }
-    }
-    window.addEventListener('scroll', requestHeroMotionUpdate, { passive: true });
-    window.addEventListener('resize', requestHeroMotionUpdate);
-    updateHeroMotion();
+    // Consolidated scroll loop will call updateHeroMotion
 
 
     // v6.11: slow premium product backgrounds for depth.
     const depthVisuals = Array.from(document.querySelectorAll('.depth-visual'));
-    let depthTicking = false;
+
+    // Use IntersectionObserver to track visible depth sections
+    const visibleDepthVisuals = new Set();
+    if ('IntersectionObserver' in window && depthVisuals.length > 0) {
+      const depthObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+           if (entry.isIntersecting) {
+             visibleDepthVisuals.add(entry.target);
+           } else {
+             visibleDepthVisuals.delete(entry.target);
+           }
+        });
+      }, { rootMargin: '260px 0px 260px 0px' });
+
+      depthVisuals.forEach(visual => {
+         const section = visual.closest('.depth-section') || visual.parentElement;
+         if (section) {
+           section._depthVisual = visual;
+           depthObserver.observe(section);
+         }
+      });
+    }
+
     function updateDepthVisuals() {
-      depthTicking = false;
       if (prefersReducedMotion || !depthVisuals.length || window.innerWidth < 721) {
         depthVisuals.forEach((visual) => visual.style.setProperty('--depth-y', '0px'));
         return;
       }
       const viewportCenter = window.innerHeight / 2;
-      depthVisuals.forEach((visual) => {
+
+      const visualsToUpdate = ('IntersectionObserver' in window)
+        ? Array.from(visibleDepthVisuals).map(section => section._depthVisual).filter(Boolean)
+        : depthVisuals;
+
+      visualsToUpdate.forEach((visual) => {
         const section = visual.closest('.depth-section') || visual.parentElement;
         if (!section) return;
         const rect = section.getBoundingClientRect();
-        if (rect.bottom < -260 || rect.top > window.innerHeight + 260) return;
+        if (!('IntersectionObserver' in window) && (rect.bottom < -260 || rect.top > window.innerHeight + 260)) return;
         const sectionCenter = rect.top + rect.height / 2;
         const speed = parseFloat(visual.dataset.depthSpeed || '0.08');
         const y = clamp((viewportCenter - sectionCenter) * speed, -74, 74);
         visual.style.setProperty('--depth-y', y.toFixed(1) + 'px');
       });
     }
-    function requestDepthVisualUpdate() {
-      if (!depthTicking) {
-        depthTicking = true;
-        window.requestAnimationFrame(updateDepthVisuals);
+    // Consolidated Global Scroll Loop
+    let globalScrollTicking = false;
+    let cachedScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+
+    function updateGlobalScrollTasks() {
+      globalScrollTicking = false;
+      cachedScrollY = Math.max(0, window.scrollY || document.documentElement.scrollTop || 0);
+
+      updateSmartHeader(cachedScrollY);
+      updateHeroMotion(cachedScrollY);
+      updateDepthVisuals();
+    }
+
+    function requestGlobalScrollUpdate() {
+      if (!globalScrollTicking) {
+        globalScrollTicking = true;
+        window.requestAnimationFrame(updateGlobalScrollTasks);
       }
     }
-    window.addEventListener('scroll', requestDepthVisualUpdate, { passive: true });
-    window.addEventListener('resize', requestDepthVisualUpdate);
+    window.addEventListener('scroll', requestGlobalScrollUpdate, { passive: true });
+    window.addEventListener('resize', requestGlobalScrollUpdate);
+
+    // Initial call
+    updateSmartHeader(cachedScrollY);
+    updateHeroMotion(cachedScrollY);
     updateDepthVisuals();
 
     // Premium hover video playback.
@@ -2695,13 +2715,16 @@
         dots.forEach((dot) => dot.classList.toggle('is-active', Number(dot.dataset.sceneGo) === sceneId));
       }
 
-      const processObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setCinematicScene(Number(entry.target.dataset.scene || 1));
-          }
-        });
-      }, { rootMargin: '-40% 0px -40% 0px', threshold: 0 });
+      let processObserver = null;
+      if ('IntersectionObserver' in window) {
+        processObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setCinematicScene(Number(entry.target.dataset.scene || 1));
+            }
+          });
+        }, { rootMargin: '-40% 0px -40% 0px', threshold: 0 });
+      }
 
       dots.forEach((dot) => {
         dot.addEventListener('click', function () {
@@ -2717,7 +2740,7 @@
       if (steps.length) {
         activeScene = 0;
         setCinematicScene(Number(steps[0].dataset.scene || 1));
-        steps.forEach((step) => processObserver.observe(step));
+        if (processObserver) steps.forEach((step) => processObserver.observe(step));
       }
     }
 
@@ -2752,19 +2775,24 @@
             if (!prefersReducedMotion) {
               featuredVideo.play().catch(() => {});
             }
+          } else {
+            featuredVideoNeedsLoad = true;
           }
           window.setTimeout(() => { if (stage) stage.classList.remove('is-changing'); }, 260);
         }
       }
 
-      const portfolioObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !coarsePointer) {
-             // Only auto-update on scroll for non-touch devices to avoid loading data
-             setPortfolioItem(entry.target);
-          }
-        });
-      }, { rootMargin: '-40% 0px -40% 0px', threshold: 0 });
+      let portfolioObserver = null;
+      if ('IntersectionObserver' in window) {
+        portfolioObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && !coarsePointer) {
+               // Only auto-update on scroll for non-touch devices to avoid loading data
+               setPortfolioItem(entry.target);
+            }
+          });
+        }, { rootMargin: '-40% 0px -40% 0px', threshold: 0 });
+      }
 
       portfolioItems.forEach((item) => {
         item.addEventListener('click', () => setPortfolioItem(item));
@@ -2776,12 +2804,31 @@
         featuredVideo.muted = true;
         featuredVideo.playsInline = true;
 
+        if ('IntersectionObserver' in window) {
+          const featuredVideoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (!entry.isIntersecting && !featuredVideo.paused) {
+                featuredVideo.pause();
+              }
+            });
+          }, { threshold: 0 });
+
+          if (stage) {
+            featuredVideoObserver.observe(stage);
+          } else {
+            featuredVideoObserver.observe(featuredVideo);
+          }
+        }
+
         // Allow tap to play on mobile
         if (coarsePointer) {
           featuredVideo.addEventListener('click', () => {
             if (featuredVideo.paused) {
-               // Load the video if it wasn't loaded yet
-               if (featuredVideo.readyState === 0) featuredVideo.load();
+               // Load the video if it wasn't loaded yet or if source changed
+               if (featuredVideoNeedsLoad) {
+                 featuredVideo.load();
+                 featuredVideoNeedsLoad = false;
+               }
                featuredVideo.play().catch(() => {});
             } else {
                featuredVideo.pause();
@@ -2792,7 +2839,7 @@
         if (!prefersReducedMotion && !coarsePointer) featuredVideo.play().catch(() => {});
         else featuredVideo.pause();
       }
-      portfolioItems.forEach((item) => portfolioObserver.observe(item));
+      if (portfolioObserver) portfolioItems.forEach((item) => portfolioObserver.observe(item));
     }
 
     setupHoverVideos('#portfolio .work');
