@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ru">
-<!-- KVSvideo v6.18.3 Mobile Hero Simplification + Performance Patch -->
+<!-- KVSvideo v6.19.0 Raster Tablet Hero Integration — based on v6.18.3 Mobile Hero Simplification + Performance Patch -->
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -2047,6 +2047,343 @@
 
     @media (hover: none) and (pointer: coarse) and (orientation: landscape) and (min-width: 768px) and (max-width: 1180px) {
       .portfolio-stage-wrap { top: 68px; }
+    }
+
+  
+    /* v6.19.0 — raster tablet Hero for mobile/tablet.
+       The tablet shell and panels are one static image; only text, video and controls remain live. */
+    @media (max-width: 1180px) {
+      #showreel.stage {
+        width: 100%;
+        min-height: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        background-color: transparent !important;
+        background-repeat: no-repeat !important;
+        background-position: center !important;
+        background-size: 100% 100% !important;
+        box-shadow: none !important;
+        overflow: hidden;
+        isolation: isolate;
+        contain: layout paint;
+      }
+      #showreel.stage::before,
+      #showreel.stage::after,
+      #showreel .hero-cinematic-backdrop {
+        display: none !important;
+        content: none !important;
+      }
+      #showreel .stage-inner,
+      #showreel .hero-studio-layout {
+        position: absolute;
+        inset: 0;
+        min-height: 0 !important;
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      #showreel .hero-cinema-card,
+      #showreel .mini-panel,
+      #showreel .ba-card {
+        position: absolute;
+        max-width: none;
+        margin: 0;
+        border: 0 !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+        overflow: hidden;
+      }
+      #showreel .hero-cinema-card {
+        align-self: auto;
+      }
+      #showreel .side-stack {
+        position: absolute;
+        inset: 0;
+        z-index: 4;
+        display: block !important;
+        margin: 0 !important;
+      }
+      #showreel .side-stack .mini-panel {
+        display: block !important;
+      }
+      #showreel .mobile-hero-flow,
+      #showreel .video-label {
+        display: none !important;
+      }
+      #showreel .showreel-frame {
+        position: absolute;
+        z-index: 6;
+        margin: 0 !important;
+        border: 0 !important;
+        background: #000 !important;
+        box-shadow: none !important;
+        animation: none !important;
+        transform: none !important;
+        transition: none !important;
+        will-change: auto !important;
+        contain: paint;
+        isolation: isolate;
+        overflow: hidden;
+      }
+      #showreel .showreel-frame::after {
+        display: none !important;
+        content: none !important;
+      }
+      #showreel .showreel-frame::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 1.6%;
+        width: 24%;
+        height: 3.7%;
+        transform: translateX(-50%);
+        border-radius: 999px;
+        background: #020305;
+        z-index: 5;
+        pointer-events: none;
+      }
+      #showreel .showreel-frame video {
+        object-fit: cover;
+        background: #000;
+      }
+      #showreel .showreel-play {
+        min-width: 0;
+        min-height: 0;
+        white-space: nowrap;
+        padding: clamp(7px, 1.5vw, 11px) clamp(9px, 2vw, 16px);
+        font-size: clamp(8px, 1.45vw, 12px);
+        box-shadow: 0 8px 22px rgba(0,0,0,.32);
+      }
+      #showreel .showreel-play[aria-busy="true"] {
+        min-width: 0;
+      }
+      #showreel .sound-toggle {
+        right: 4%;
+        top: 4%;
+        padding: clamp(5px, 1vw, 8px) clamp(6px, 1.2vw, 10px);
+        font-size: clamp(8px, 1.25vw, 11px);
+        border: 1px solid rgba(255,255,255,.16);
+        background: rgba(0,0,0,.62);
+        box-shadow: none;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+      }
+      #showreel .hero-cinema-card small,
+      #showreel .mini-panel small {
+        color: #f3cf77;
+      }
+      #showreel .hero-cinema-card strong,
+      #showreel .mini-panel strong,
+      #showreel .ba-card b {
+        color: #f8fafc;
+      }
+      #showreel .hero-cinema-card p,
+      #showreel .mini-panel p,
+      #showreel .ba-card {
+        color: #b8c2d1;
+      }
+      #showreel .hero-signal-row span {
+        border: 1px solid rgba(255,255,255,.15);
+        background: rgba(255,255,255,.045);
+        box-shadow: none;
+      }
+      #showreel .before-after {
+        display: grid !important;
+        grid-template-rows: 1fr 1fr;
+      }
+      #showreel .before-after .ba-card {
+        position: relative;
+        inset: auto;
+        width: auto;
+        height: auto;
+        min-height: 0;
+        display: grid;
+        place-items: center;
+        padding: 1% 4%;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 1180px) and (orientation: portrait) {
+      #showreel.stage {
+        aspect-ratio: 990 / 2048;
+        background-image: url("assets/hero/tablet_hero_portrait.webp") !important;
+      }
+      #showreel .showreel-frame {
+        left: 34.8%;
+        top: 3.65%;
+        width: 30.5%;
+        height: 27.75%;
+        aspect-ratio: auto;
+        border-radius: clamp(18px, 4.2vw, 38px);
+      }
+      #showreel .hero-cinema-card {
+        left: 6.2%;
+        top: 33.55%;
+        width: 87.6%;
+        height: 23.25%;
+        padding: 3.1% 3.8%;
+      }
+      #showreel .hero-cinema-card small {
+        font-size: clamp(9px, 1.5vw, 13px);
+      }
+      #showreel .hero-cinema-card strong {
+        margin-top: 2.2%;
+        font-size: clamp(20px, 4.15vw, 38px);
+        line-height: 1.02;
+      }
+      #showreel .hero-cinema-card p {
+        margin-top: 2.5%;
+        font-size: clamp(10px, 1.82vw, 16px);
+        line-height: 1.42;
+        max-width: 48ch;
+      }
+      #showreel .hero-signal-row {
+        gap: clamp(5px, 1.1vw, 9px);
+        margin-top: 2.8%;
+      }
+      #showreel .hero-signal-row span {
+        padding: clamp(4px, .8vw, 8px) clamp(6px, 1.1vw, 10px);
+        font-size: clamp(8px, 1.35vw, 12px);
+      }
+      #showreel .side-stack .mini-panel:nth-child(1) {
+        left: 4.8%;
+        top: 58.55%;
+        width: 90.4%;
+        height: 8.8%;
+        padding: 1.7% 3.1%;
+      }
+      #showreel .side-stack .mini-panel:nth-child(2) {
+        left: 4.8%;
+        top: 68.25%;
+        width: 90.4%;
+        height: 8.8%;
+        padding: 1.7% 3.1%;
+      }
+      #showreel .side-stack .mini-panel:nth-child(3) {
+        left: 5.4%;
+        top: 78.25%;
+        width: 89.2%;
+        height: 14.9%;
+        padding: 0;
+        gap: 5.5%;
+      }
+      #showreel .mini-panel small {
+        font-size: clamp(8px, 1.35vw, 12px);
+        line-height: 1;
+      }
+      #showreel .mini-panel strong {
+        margin-top: 1.5%;
+        font-size: clamp(14px, 2.5vw, 23px);
+        line-height: 1.05;
+      }
+      #showreel .mini-panel p {
+        margin-top: 1.5%;
+        font-size: clamp(9px, 1.55vw, 14px);
+        line-height: 1.35;
+      }
+      #showreel .ba-card {
+        font-size: clamp(9px, 1.5vw, 14px);
+        line-height: 1.25;
+      }
+      #showreel .ba-card b {
+        font-size: clamp(12px, 2vw, 18px);
+        margin-bottom: 1%;
+      }
+    }
+
+    @media (max-width: 1180px) and (orientation: landscape) {
+      #showreel.stage {
+        aspect-ratio: 2048 / 1581;
+        background-image: url("assets/hero/tablet_hero_landscape.webp") !important;
+      }
+      #showreel .showreel-frame {
+        left: 73.55%;
+        top: 5.65%;
+        width: 20.55%;
+        height: 52.7%;
+        aspect-ratio: auto;
+        border-radius: clamp(18px, 2.6vw, 34px);
+      }
+      #showreel .hero-cinema-card {
+        left: 4.85%;
+        top: 16.65%;
+        width: 47.1%;
+        height: 44.85%;
+        padding: 3.2% 3.5%;
+      }
+      #showreel .hero-cinema-card small {
+        font-size: clamp(9px, 1vw, 13px);
+      }
+      #showreel .hero-cinema-card strong {
+        margin-top: 2.4%;
+        font-size: clamp(22px, 3vw, 42px);
+        line-height: 1.01;
+      }
+      #showreel .hero-cinema-card p {
+        margin-top: 3%;
+        font-size: clamp(11px, 1.35vw, 16px);
+        line-height: 1.45;
+        max-width: 46ch;
+      }
+      #showreel .hero-signal-row {
+        gap: clamp(6px, .8vw, 9px);
+        margin-top: 3.2%;
+      }
+      #showreel .hero-signal-row span {
+        padding: clamp(5px, .65vw, 8px) clamp(7px, .9vw, 11px);
+        font-size: clamp(9px, .95vw, 12px);
+      }
+      #showreel .side-stack .mini-panel:nth-child(1) {
+        left: 3.15%;
+        top: 65.95%;
+        width: 30.45%;
+        height: 29.0%;
+        padding: 3.0% 3.1%;
+      }
+      #showreel .side-stack .mini-panel:nth-child(2) {
+        left: 35.15%;
+        top: 65.95%;
+        width: 30.45%;
+        height: 29.0%;
+        padding: 3.0% 3.1%;
+      }
+      #showreel .side-stack .mini-panel:nth-child(3) {
+        left: 67.1%;
+        top: 65.95%;
+        width: 30.45%;
+        height: 29.0%;
+        padding: 2.3% 2.6%;
+        gap: 5%;
+      }
+      #showreel .mini-panel small {
+        font-size: clamp(9px, .9vw, 12px);
+      }
+      #showreel .mini-panel strong {
+        margin-top: 4%;
+        font-size: clamp(16px, 1.7vw, 24px);
+        line-height: 1.03;
+      }
+      #showreel .mini-panel p {
+        margin-top: 4%;
+        font-size: clamp(10px, 1vw, 14px);
+        line-height: 1.4;
+      }
+      #showreel .ba-card {
+        font-size: clamp(10px, 1vw, 14px);
+        line-height: 1.28;
+      }
+      #showreel .ba-card b {
+        font-size: clamp(14px, 1.35vw, 19px);
+        margin-bottom: 2%;
+      }
     }
 
   </style>
