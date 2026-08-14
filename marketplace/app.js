@@ -64,6 +64,9 @@
     }
 
     if (stage) {
+      stage.tabIndex = 0;
+      stage.setAttribute('role', 'group');
+      stage.setAttribute('aria-label', 'Демонстрационный кейс. Используйте стрелки влево и вправо для смены этапа.');
       stage.style.touchAction = 'pan-y pinch-zoom';
       stage.style.userSelect = 'none';
       stage.style.webkitUserSelect = 'none';
@@ -152,6 +155,7 @@
         const selected = i === normalized;
         tab.classList.toggle('is-active', selected);
         tab.setAttribute('aria-selected', String(selected));
+        tab.tabIndex = selected ? 0 : -1;
       });
       active = normalized;
       ensureMedia(active);
@@ -167,10 +171,31 @@
       });
     };
 
-    tabs.forEach(tab => tab.addEventListener('click', () => {
-      markShowcaseInteraction('tab');
-      go(Number(tab.dataset.go));
-    }));
+    const handleKeyboardNavigation = (event, keepTabFocus = false) => {
+      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+
+      let targetIndex = null;
+      if (event.key === 'ArrowRight') targetIndex = active + 1;
+      else if (event.key === 'ArrowLeft') targetIndex = active - 1;
+      else if (event.key === 'Home') targetIndex = 0;
+      else if (event.key === 'End') targetIndex = slides.length - 1;
+      else return;
+
+      event.preventDefault();
+      markShowcaseInteraction('keyboard');
+      go(targetIndex);
+      if (keepTabFocus) tabs[active]?.focus({preventScroll: true});
+    };
+
+    tabs.forEach((tab, i) => {
+      tab.tabIndex = i === active ? 0 : -1;
+      tab.addEventListener('click', () => {
+        markShowcaseInteraction('tab');
+        go(Number(tab.dataset.go));
+      });
+      tab.addEventListener('keydown', event => handleKeyboardNavigation(event, true));
+    });
+
     prev?.addEventListener('click', () => {
       markShowcaseInteraction('arrow');
       go(active - 1);
@@ -178,6 +203,11 @@
     next?.addEventListener('click', () => {
       markShowcaseInteraction('arrow');
       go(active + 1);
+    });
+
+    stage?.addEventListener('keydown', event => {
+      if (event.target !== stage) return;
+      handleKeyboardNavigation(event, false);
     });
 
     const beginSwipe = event => {
@@ -192,6 +222,7 @@
 
       try { stage.setPointerCapture(pointerId); } catch (_) {}
       if (pointerType === 'mouse') {
+        try { stage.focus({preventScroll: true}); } catch (_) { stage.focus(); }
         stage.style.cursor = 'grabbing';
         event.preventDefault();
       }
