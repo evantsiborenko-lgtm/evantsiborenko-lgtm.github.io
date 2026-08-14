@@ -1,6 +1,22 @@
 (() => {
   'use strict';
 
+  const METRIKA_ID = 109744286;
+  const sentGoals = new Set();
+
+  const reachGoal = (goal, params) => {
+    if (typeof window.ym !== 'function') return;
+    try {
+      window.ym(METRIKA_ID, 'reachGoal', goal, params || {});
+    } catch (_) {}
+  };
+
+  const reachGoalOnce = (goal, params) => {
+    if (sentGoals.has(goal)) return;
+    sentGoals.add(goal);
+    reachGoal(goal, params);
+  };
+
   // Keep the compact header pinned in both mobile orientations. The base CSS
   // intentionally used sticky positioning, but the <=620px rule changed it
   // to relative; the inline value below wins without adding another stylesheet.
@@ -43,6 +59,19 @@
     let lastX = 0;
     let lastY = 0;
     let videoLoaded = false;
+
+    if ('IntersectionObserver' in window) {
+      const caseObserver = new IntersectionObserver(entries => {
+        for (const entry of entries) {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.35) {
+            reachGoalOnce('marketplace_case_view');
+            caseObserver.disconnect();
+            break;
+          }
+        }
+      }, {threshold: [0.35]});
+      caseObserver.observe(showcase);
+    }
 
     if (stage) {
       // Vertical page scrolling remains native; horizontal movement belongs to
@@ -143,9 +172,25 @@
       if (copy) copy.textContent = content[active][1];
     };
 
-    tabs.forEach(tab => tab.addEventListener('click', () => go(Number(tab.dataset.go))));
-    prev?.addEventListener('click', () => go(active - 1));
-    next?.addEventListener('click', () => go(active + 1));
+    const markShowcaseInteraction = (method) => {
+      reachGoalOnce('marketplace_showcase_interaction', {
+        method,
+        slide: String(active + 1)
+      });
+    };
+
+    tabs.forEach(tab => tab.addEventListener('click', () => {
+      markShowcaseInteraction('tab');
+      go(Number(tab.dataset.go));
+    }));
+    prev?.addEventListener('click', () => {
+      markShowcaseInteraction('arrow');
+      go(active - 1);
+    });
+    next?.addEventListener('click', () => {
+      markShowcaseInteraction('arrow');
+      go(active + 1);
+    });
 
     const beginSwipe = event => {
       if (!stage || pointerId !== null) return;
@@ -192,6 +237,7 @@
       const threshold = pointerType === 'mouse' ? 42 : 52;
       const horizontal = Math.abs(dx) >= threshold && Math.abs(dx) > Math.abs(dy) * 1.2;
       const oldPointerId = pointerId;
+      const oldPointerType = pointerType;
 
       pointerId = null;
       pointerType = '';
@@ -200,7 +246,10 @@
       } catch (_) {}
 
       resetDragVisual();
-      if (!cancelled && horizontal) go(active + (dx < 0 ? 1 : -1));
+      if (!cancelled && horizontal) {
+        markShowcaseInteraction(oldPointerType === 'mouse' ? 'mouse-swipe' : 'touch-swipe');
+        go(active + (dx < 0 ? 1 : -1));
+      }
     };
 
     stage?.addEventListener('pointerdown', beginSwipe);
@@ -219,6 +268,7 @@
         videoShell.classList.add('is-loaded', 'is-playing');
         playButton.hidden = true;
         soundButton.hidden = false;
+        reachGoalOnce('marketplace_video_play');
       } catch (_) {
         videoShell.classList.remove('is-playing');
         playButton.hidden = false;
@@ -257,6 +307,39 @@
 
     ensureMedia(0);
   }
+
+  document.addEventListener('click', event => {
+    const target = event.target instanceof Element ? event.target : null;
+    if (!target) return;
+
+    const priceLink = target.closest('.price-card a');
+    if (priceLink) {
+      const card = priceLink.closest('.price-card');
+      reachGoal('marketplace_price_click', {
+        service: card?.querySelector('.price-label')?.textContent?.trim() || '',
+        price: card?.querySelector('h3')?.textContent?.trim() || ''
+      });
+      return;
+    }
+
+    const orderCta = target.closest('.header-cta, .hero-actions .button-primary');
+    if (orderCta) {
+      reachGoal('marketplace_order_cta', {
+        location: orderCta.classList.contains('header-cta') ? 'header' : 'hero'
+      });
+      return;
+    }
+
+    const link = target.closest('a[href]');
+    if (!link) return;
+    const href = link.getAttribute('href') || '';
+
+    if (href.includes('t.me/KVSemenov')) {
+      reachGoal('marketplace_telegram_click', {location: 'order'});
+    } else if (href.includes('max.ru/')) {
+      reachGoal('marketplace_max_click', {location: 'order'});
+    }
+  });
 
   const finePointer = window.matchMedia('(pointer: fine) and (min-width: 901px)');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
