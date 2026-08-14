@@ -60,6 +60,28 @@
       }
     };
 
+    const loadVideoSources = () => {
+      if (!video || !videoShell || videoLoaded) return;
+
+      const sources = [
+        {src: videoShell.dataset.webm, type: 'video/webm'},
+        {src: videoShell.dataset.mp4, type: 'video/mp4'}
+      ].filter(item => item.src);
+
+      sources.forEach(item => {
+        const source = document.createElement('source');
+        source.src = item.src;
+        source.type = item.type;
+        video.appendChild(source);
+      });
+
+      video.muted = true;
+      video.defaultMuted = true;
+      video.preload = 'metadata';
+      video.load();
+      videoLoaded = true;
+    };
+
     const go = (index) => {
       const normalized = (index + slides.length) % slides.length;
       if (normalized !== 4) pauseVideo();
@@ -99,14 +121,7 @@
     }, {passive: true});
 
     playButton?.addEventListener('click', async () => {
-      if (!videoLoaded) {
-        video.src = videoShell.dataset.src;
-        video.muted = true;
-        video.defaultMuted = true;
-        video.preload = 'metadata';
-        video.load();
-        videoLoaded = true;
-      }
+      loadVideoSources();
       try {
         await video.play();
         videoShell.classList.add('is-loaded', 'is-playing');
