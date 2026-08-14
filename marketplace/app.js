@@ -1,6 +1,16 @@
 (() => {
   'use strict';
 
+  // Keep the compact header pinned in both mobile orientations. The base CSS
+  // intentionally used sticky positioning, but the <=620px rule changed it
+  // to relative; the inline value below wins without adding another stylesheet.
+  const siteHeader = document.querySelector('.site-header');
+  if (siteHeader) {
+    siteHeader.style.position = 'sticky';
+    siteHeader.style.top = '0';
+    siteHeader.style.zIndex = '30';
+  }
+
   const showcase = document.querySelector('[data-showcase]');
   if (showcase) {
     const slides = [...showcase.querySelectorAll('[data-slide]')];
@@ -26,9 +36,26 @@
     ];
 
     let active = 0;
-    let touchX = 0;
-    let touchY = 0;
+    let pointerId = null;
+    let pointerType = '';
+    let startX = 0;
+    let startY = 0;
+    let lastX = 0;
+    let lastY = 0;
     let videoLoaded = false;
+
+    if (stage) {
+      // Vertical page scrolling remains native; horizontal movement belongs to
+      // the Showcase Player. This is especially important for touch devices.
+      stage.style.touchAction = 'pan-y pinch-zoom';
+      stage.style.userSelect = 'none';
+      stage.style.webkitUserSelect = 'none';
+      stage.style.cursor = window.matchMedia('(pointer: fine)').matches ? 'grab' : '';
+      stage.querySelectorAll('img').forEach(img => {
+        img.draggable = false;
+        img.style.webkitUserDrag = 'none';
+      });
+    }
 
     const pauseVideo = () => {
       if (!video || video.paused) return;
@@ -48,9 +75,14 @@
       const img = slide.querySelector('img[data-src]');
       if (img && !img.src) {
         img.src = img.dataset.src;
+        img.draggable = false;
+        img.style.webkitUserDrag = 'none';
         img.removeAttribute('data-src');
       }
-      if (index === 4 && poster && !poster.src) poster.src = videoShell.dataset.poster;
+      if (index === 4 && poster && !poster.src) {
+        poster.src = videoShell.dataset.poster;
+        poster.draggable = false;
+      }
 
       const nextSlide = slides[index + 1];
       const nextImage = nextSlide?.querySelector('img[data-src]');
@@ -82,7 +114,16 @@
       videoLoaded = true;
     };
 
+    const resetDragVisual = () => {
+      const slide = slides[active];
+      if (!slide) return;
+      slide.style.transform = '';
+      slide.style.opacity = '';
+      if (stage && window.matchMedia('(pointer: fine)').matches) stage.style.cursor = 'grab';
+    };
+
     const go = (index) => {
+      resetDragVisual();
       const normalized = (index + slides.length) % slides.length;
       if (normalized !== 4) pauseVideo();
       slides.forEach((slide, i) => {
@@ -106,19 +147,70 @@
     prev?.addEventListener('click', () => go(active - 1));
     next?.addEventListener('click', () => go(active + 1));
 
-    stage?.addEventListener('pointerdown', event => {
-      if (event.pointerType === 'mouse') return;
-      touchX = event.clientX;
-      touchY = event.clientY;
-    }, {passive: true});
+    const beginSwipe = event => {
+      if (!stage || pointerId !== null) return;
+      if (event.pointerType === 'mouse' && event.button !== 0) return;
+      if (event.target.closest('button,a')) return;
 
-    stage?.addEventListener('pointerup', event => {
-      if (event.pointerType === 'mouse') return;
-      const dx = event.clientX - touchX;
-      const dy = event.clientY - touchY;
-      if (Math.abs(dx) < 52 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
-      go(active + (dx < 0 ? 1 : -1));
-    }, {passive: true});
+      pointerId = event.pointerId;
+      pointerType = event.pointerType || 'mouse';
+      startX = lastX = event.clientX;
+      startY = lastY = event.clientY;
+
+      try { stage.setPointerCapture(pointerId); } catch (_) {}
+      if (pointerType === 'mouse') {
+        stage.style.cursor = 'grabbing';
+        event.preventDefault();
+      }
+    };
+
+    const moveSwipe = event => {
+      if (pointerId === null || event.pointerId !== pointerId) return;
+      lastX = event.clientX;
+      lastY = event.clientY;
+
+      const dx = lastX - startX;
+      const dy = lastY - startY;
+      if (Math.abs(dx) <= Math.abs(dy) * 1.05) return;
+
+      // Small direct response under the pointer/finger. Only transform+opacity
+      // are used, so this stays cheap on mobile GPUs.
+      const slide = slides[active];
+      if (slide) {
+        const visualX = Math.max(-36, Math.min(36, dx * 0.18));
+        slide.style.transform = `translate3d(${visualX}px,0,0)`;
+        slide.style.opacity = String(Math.max(.82, 1 - Math.min(Math.abs(dx), 220) / 1200));
+      }
+      if (pointerType === 'mouse') event.preventDefault();
+    };
+
+    const finishSwipe = (event, cancelled = false) => {
+      if (pointerId === null || (event.pointerId !== undefined && event.pointerId !== pointerId)) return;
+
+      const dx = lastX - startX;
+      const dy = lastY - startY;
+      const threshold = pointerType === 'mouse' ? 42 : 52;
+      const horizontal = Math.abs(dx) >= threshold && Math.abs(dx) > Math.abs(dy) * 1.2;
+      const oldPointerId = pointerId;
+
+      pointerId = null;
+      pointerType = '';
+      try {
+        if (stage?.hasPointerCapture(oldPointerId)) stage.releasePointerCapture(oldPointerId);
+      } catch (_) {}
+
+      resetDragVisual();
+      if (!cancelled && horizontal) go(active + (dx < 0 ? 1 : -1));
+    };
+
+    stage?.addEventListener('pointerdown', beginSwipe);
+    stage?.addEventListener('pointermove', moveSwipe, {passive: false});
+    stage?.addEventListener('pointerup', event => finishSwipe(event, false));
+    stage?.addEventListener('pointercancel', event => finishSwipe(event, true));
+    stage?.addEventListener('lostpointercapture', event => {
+      if (pointerId !== null && event.pointerId === pointerId) finishSwipe(event, true);
+    });
+    stage?.addEventListener('dragstart', event => event.preventDefault());
 
     playButton?.addEventListener('click', async () => {
       loadVideoSources();
