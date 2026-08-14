@@ -17,16 +17,6 @@
     reachGoal(goal, params);
   };
 
-  // Keep the compact header pinned in both mobile orientations. The base CSS
-  // intentionally used sticky positioning, but the <=620px rule changed it
-  // to relative; the inline value below wins without adding another stylesheet.
-  const siteHeader = document.querySelector('.site-header');
-  if (siteHeader) {
-    siteHeader.style.position = 'sticky';
-    siteHeader.style.top = '0';
-    siteHeader.style.zIndex = '30';
-  }
-
   const showcase = document.querySelector('[data-showcase]');
   if (showcase) {
     const slides = [...showcase.querySelectorAll('[data-slide]')];
@@ -74,8 +64,6 @@
     }
 
     if (stage) {
-      // Vertical page scrolling remains native; horizontal movement belongs to
-      // the Showcase Player. This is especially important for touch devices.
       stage.style.touchAction = 'pan-y pinch-zoom';
       stage.style.userSelect = 'none';
       stage.style.webkitUserSelect = 'none';
@@ -218,8 +206,6 @@
       const dy = lastY - startY;
       if (Math.abs(dx) <= Math.abs(dy) * 1.05) return;
 
-      // Small direct response under the pointer/finger. Only transform+opacity
-      // are used, so this stays cheap on mobile GPUs.
       const slide = slides[active];
       if (slide) {
         const visualX = Math.max(-36, Math.min(36, dx * 0.18));
