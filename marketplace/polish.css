@@ -11,5 +11,6 @@
 .addon-card b{color:var(--gold-2);white-space:nowrap;font-size:18px}
 .addon-card span{grid-column:1/-1;color:#a3a29c;font-size:13px;line-height:1.45}
 .addon-note{margin:18px 0 0;color:#9a9b95;font-size:13px}
+@media (min-width:1200px){.showcase-stage{width:min(100%,clamp(560px,calc((100vh - 140px)*.8),760px));width:min(100%,clamp(560px,calc((100dvh - 140px)*.8),760px))}}
 @media (max-width:900px){.addon-head{grid-template-columns:1fr;gap:10px}.addon-grid{grid-template-columns:1fr}}
 @media (max-width:620px){.site-header{position:sticky;top:0;z-index:30}}
