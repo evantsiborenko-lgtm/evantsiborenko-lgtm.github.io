@@ -1,0 +1,15 @@
+.site-header{position:sticky;top:0;z-index:30}
+.hero-note,.copyright{color:#8f908a}
+.order-trust{color:#92938d}
+.addon-block{margin-top:42px;border-top:1px solid var(--line);padding-top:30px}
+.addon-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.65fr);gap:40px;align-items:end;margin-bottom:22px}
+.addon-head h3{font-size:clamp(26px,3.4vw,38px);line-height:1.08;letter-spacing:-.035em;margin:0}
+.addon-head p{margin:0;color:#a3a29c}
+.addon-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.addon-card{border:1px solid var(--line);border-radius:18px;background:#0d0f14;padding:18px 20px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 18px;align-items:start}
+.addon-card strong{font-size:16px;line-height:1.25}
+.addon-card b{color:var(--gold-2);white-space:nowrap;font-size:18px}
+.addon-card span{grid-column:1/-1;color:#a3a29c;font-size:13px;line-height:1.45}
+.addon-note{margin:18px 0 0;color:#9a9b95;font-size:13px}
+@media (max-width:900px){.addon-head{grid-template-columns:1fr;gap:10px}.addon-grid{grid-template-columns:1fr}}
+@media (max-width:620px){.site-header{position:sticky;top:0;z-index:30}}
