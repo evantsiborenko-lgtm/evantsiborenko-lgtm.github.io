@@ -113,8 +113,8 @@
       if (!video || !videoShell || videoLoaded) return;
 
       const sources = [
-        {src: videoShell.dataset.webm, type: 'video/webm'},
-        {src: videoShell.dataset.mp4, type: 'video/mp4'}
+        {src: videoShell.dataset.mp4, type: 'video/mp4'},
+        {src: videoShell.dataset.webm, type: 'video/webm'}
       ].filter(item => item.src);
 
       sources.forEach(item => {
