@@ -53,29 +53,19 @@
     try { window.ym(METRIKA_ID, 'reachGoal', goal, params); } catch (_) {}
   }
 
-  function money(value) {
-    return `${Math.round(value).toLocaleString('ru-RU')} ₽`;
-  }
+  function money(value) { return `${Math.round(value).toLocaleString('ru-RU')} ₽`; }
 
   function normalizeState(value) {
     const serviceId = SERVICES[value?.serviceId] ? value.serviceId : '';
     const addons = Array.isArray(value?.addons)
       ? [...new Set(value.addons)].filter(id => ADDONS[id] && (!serviceId || ADDONS[id].services.includes(serviceId)))
       : [];
-    return {
-      serviceId,
-      addons,
-      customerType: value?.customerType === 'business' ? 'business' : 'person',
-      orderId: typeof value?.orderId === 'string' ? value.orderId : ''
-    };
+    return {serviceId, addons, customerType: value?.customerType === 'business' ? 'business' : 'person', orderId: typeof value?.orderId === 'string' ? value.orderId : ''};
   }
 
   function loadState() {
-    try {
-      return normalizeState(JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'));
-    } catch (_) {
-      return normalizeState({});
-    }
+    try { return normalizeState(JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}')); }
+    catch (_) { return normalizeState({}); }
   }
 
   function saveState() {
@@ -112,13 +102,7 @@
   }
 
   function renderServices() {
-    serviceContainer.innerHTML = Object.entries(SERVICES).map(([id, service]) => `
-      <label class="checkout-choice${state.serviceId === id ? ' is-selected' : ''}">
-        <input type="radio" name="checkout-service" value="${id}" ${state.serviceId === id ? 'checked' : ''}>
-        <span><strong>${service.title}</strong><small>${service.split ? '2 этапа оплаты для проекта' : 'оплата одним платежом'}</small></span>
-        <b>${money(service.price)}</b>
-      </label>
-    `).join('');
+    serviceContainer.innerHTML = Object.entries(SERVICES).map(([id, service]) => `<label class="checkout-choice${state.serviceId === id ? ' is-selected' : ''}"><input type="radio" name="checkout-service" value="${id}" ${state.serviceId === id ? 'checked' : ''}><span><strong>${service.title}</strong><small>${service.split ? '2 этапа оплаты для проекта' : 'оплата одним платежом'}</small></span><b>${money(service.price)}</b></label>`).join('');
   }
 
   function renderAddons() {
@@ -127,13 +111,7 @@
       addonsContainer.innerHTML = '<p class="checkout-muted">Сначала выберите основную услугу.</p>';
       return;
     }
-    addonsContainer.innerHTML = available.map(([id, addon]) => `
-      <label class="checkout-addon${state.addons.includes(id) ? ' is-selected' : ''}">
-        <input type="checkbox" value="${id}" ${state.addons.includes(id) ? 'checked' : ''}>
-        <span><strong>${addon.title}</strong>${addon.note ? `<small>${addon.note}</small>` : ''}</span>
-        <b>${addon.percent ? `+${addon.percent}%` : `+${money(addon.price)}`}</b>
-      </label>
-    `).join('');
+    addonsContainer.innerHTML = available.map(([id, addon]) => `<label class="checkout-addon${state.addons.includes(id) ? ' is-selected' : ''}"><input type="checkbox" value="${id}" ${state.addons.includes(id) ? 'checked' : ''}><span><strong>${addon.title}</strong>${addon.note ? `<small>${addon.note}</small>` : ''}</span><b>${addon.percent ? `+${addon.percent}%` : `+${money(addon.price)}`}</b></label>`).join('');
   }
 
   function buildSummaryHtml() {
@@ -142,12 +120,9 @@
     const calc = getCalculation();
     const addonLines = state.addons.map(id => {
       const addon = ADDONS[id];
-      if (!addon) return '';
-      return `<li><span>${addon.title}</span><b>${addon.percent ? `+${money(calc.urgent)}` : `+${money(addon.price)}`}</b></li>`;
+      return addon ? `<li><span>${addon.title}</span><b>${addon.percent ? `+${money(calc.urgent)}` : `+${money(addon.price)}`}</b></li>` : '';
     }).join('');
-    const stages = calc.second
-      ? `<div class="checkout-stages"><span>Этап 1 сейчас <b>${money(calc.first)}</b></span><span>Этап 2 после согласования превью <b>${money(calc.second)}</b></span></div>`
-      : `<div class="checkout-stages"><span>К оплате перед началом работы <b>${money(calc.first)}</b></span></div>`;
+    const stages = calc.second ? `<div class="checkout-stages"><span>Этап 1 сейчас <b>${money(calc.first)}</b></span><span>Этап 2 после согласования превью <b>${money(calc.second)}</b></span></div>` : `<div class="checkout-stages"><span>К оплате перед началом работы <b>${money(calc.first)}</b></span></div>`;
     return `<ul class="checkout-summary-lines"><li><span>${service.title}</span><b>${money(service.price)}</b></li>${addonLines}</ul><div class="checkout-total"><span>${calc.requiresReview ? 'Предварительная стоимость' : 'Стоимость проекта'}</span><strong>${money(calc.total)}</strong></div>${stages}`;
   }
 
@@ -221,10 +196,7 @@
         email: drawer.querySelector('[name="business-email"]')?.value.trim() || ''
       };
     }
-    return {
-      name: drawer.querySelector('[name="person-name"]')?.value.trim() || '',
-      payer: drawer.querySelector('[name="payer-name"]')?.value.trim() || ''
-    };
+    return {name: drawer.querySelector('[name="person-name"]')?.value.trim() || '', payer: drawer.querySelector('[name="payer-name"]')?.value.trim() || ''};
   }
 
   function validateCustomer() {
@@ -235,6 +207,8 @@
     if (state.customerType === 'business') {
       if (!data.company || !data.inn || !data.contact || !data.email) return 'Для счёта заполните организацию, ИНН, контактное лицо и email.';
       if (!/^(?:\d{10}|\d{12})$/.test(data.inn)) return 'Проверьте ИНН: обычно это 10 или 12 цифр.';
+      if (data.kpp && !/^\d{9}$/.test(data.kpp)) return 'Проверьте КПП: если он указан, должно быть 9 цифр.';
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) return 'Проверьте адрес электронной почты.';
     } else if (!data.name) {
       return 'Укажите имя заказчика.';
     }
@@ -280,11 +254,9 @@
       if (addon) lines.push(`${addon.title} — ${addon.percent ? `+${addon.percent}%` : `+${money(addon.price)}`}`);
     });
     lines.push(`Стоимость проекта — ${money(calc.total)}`);
-    if (calc.second) {
-      lines.push(`Этап 1 — ${money(calc.first)}`, `Этап 2 после согласования превью — ${money(calc.second)}`);
-    } else {
-      lines.push(`К оплате — ${money(calc.first)}`);
-    }
+    if (calc.second) lines.push(`Этап 1 — ${money(calc.first)}`, `Этап 2 после согласования превью — ${money(calc.second)}`);
+    else lines.push(`К оплате — ${money(calc.first)}`);
+
     if (state.customerType === 'business') {
       lines.push('', `Заказчик: ${customer.company}`, `ИНН: ${customer.inn}`);
       if (customer.kpp) lines.push(`КПП: ${customer.kpp}`);
@@ -335,10 +307,11 @@
     track('marketplace_checkout_copy', {mode, service: state.serviceId, total: getCalculation().total});
   }
 
-  async function copyAndOpen(url, mode, channel) {
-    await copyText(buildOrderText(mode));
+  function copyAndOpen(url, mode, channel) {
+    const popup = window.open(url, '_blank', 'noopener');
+    copyText(buildOrderText(mode));
     track(channel === 'telegram' ? 'marketplace_telegram_click' : 'marketplace_max_click', {location: 'checkout', mode});
-    window.open(url, '_blank', 'noopener');
+    return popup;
   }
 
   serviceContainer.addEventListener('change', event => {
