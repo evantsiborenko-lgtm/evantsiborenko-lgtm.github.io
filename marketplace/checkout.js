@@ -196,7 +196,11 @@
         email: drawer.querySelector('[name="business-email"]')?.value.trim() || ''
       };
     }
-    return {name: drawer.querySelector('[name="person-name"]')?.value.trim() || '', payer: drawer.querySelector('[name="payer-name"]')?.value.trim() || ''};
+    return {
+      name: drawer.querySelector('[name="person-name"]')?.value.trim() || '',
+      contact: drawer.querySelector('[name="person-contact"]')?.value.trim() || '',
+      payer: drawer.querySelector('[name="payer-name"]')?.value.trim() || ''
+    };
   }
 
   function validateCustomer() {
@@ -209,8 +213,9 @@
       if (!/^(?:\d{10}|\d{12})$/.test(data.inn)) return 'Проверьте ИНН: обычно это 10 или 12 цифр.';
       if (data.kpp && !/^\d{9}$/.test(data.kpp)) return 'Проверьте КПП: если он указан, должно быть 9 цифр.';
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) return 'Проверьте адрес электронной почты.';
-    } else if (!data.name) {
-      return 'Укажите имя заказчика.';
+    } else {
+      if (!data.name) return 'Укажите имя заказчика.';
+      if (!data.contact) return 'Укажите, как с вами связаться: Telegram, MAX, телефон или email.';
     }
     return '';
   }
@@ -262,7 +267,7 @@
       if (customer.kpp) lines.push(`КПП: ${customer.kpp}`);
       lines.push(`Контактное лицо: ${customer.contact}`, `Email: ${customer.email}`, '', 'Прошу подтвердить заказ и выставить счёт.');
     } else {
-      lines.push('', `Заказчик: ${customer.name}`);
+      lines.push('', `Заказчик: ${customer.name}`, `Контакт: ${customer.contact}`);
       if (customer.payer) lines.push(`Имя плательщика: ${customer.payer}`);
       if (mode === 'paid') lines.push('', `Оплату этапа 1 в размере ${money(calc.first)} отправил(а) по СБП. Прошу проверить поступление.`);
       else if (calc.requiresReview) lines.push('', 'Прошу проверить исходники/доступность опций и подтвердить итоговую сумму до оплаты.');
