@@ -1,4 +1,4 @@
-name: Build Timeweb deployment package
+name: Build complete Timeweb deployment package
 
 on:
   push:
@@ -13,21 +13,34 @@ jobs:
   package:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout main site
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
-      - name: Build deployment ZIP
+      - name: Checkout video greetings site
+        uses: actions/checkout@v4
+        with:
+          repository: evantsiborenko-lgtm/video-greetings-site
+          ref: video-greeting-cards-website-9028712209056600763
+          path: _greetings_src
+          fetch-depth: 1
+
+      - name: Build complete deployment ZIP
         shell: bash
         run: |
-          rm -rf deploy kvsvideo-timeweb.zip
-          mkdir -p deploy
-          rsync -a ./ deploy/ \
+          DEPLOY="$RUNNER_TEMP/kvsvideo-deploy"
+          rm -rf "$DEPLOY" kvsvideo-timeweb-complete.zip
+          mkdir -p "$DEPLOY"
+
+          rsync -a ./ "$DEPLOY"/ \
             --exclude='.git/' \
             --exclude='.github/' \
+            --exclude='_greetings_src/' \
             --exclude='CNAME' \
             --exclude='kvsvideo-timeweb.zip' \
+            --exclude='kvsvideo-timeweb-complete.zip' \
+            --exclude='timeweb-artifact-run.txt' \
             --exclude='README.txt' \
             --exclude='README_RU.txt' \
             --exclude='SEO_NOTES_RU.txt' \
@@ -35,15 +48,32 @@ jobs:
             --exclude='UPDATE_NOTES_RU.txt' \
             --exclude='assets/logo/README_logo_assets.txt' \
             --exclude='assets/marketplace/README.txt'
-          cd deploy
-          zip -r ../kvsvideo-timeweb.zip .
-          cd ..
 
-      - name: Commit deployment ZIP
+          mkdir -p "$DEPLOY/video-greetings-site"
+          rsync -a ./_greetings_src/ "$DEPLOY/video-greetings-site"/ \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='CNAME'
+
+          cd "$DEPLOY"
+          zip -r "$GITHUB_WORKSPACE/kvsvideo-timeweb-complete.zip" .
+          cd "$GITHUB_WORKSPACE"
+
+      - name: Upload complete package
+        uses: actions/upload-artifact@v4
+        with:
+          name: kvsvideo-timeweb-complete
+          path: kvsvideo-timeweb-complete.zip
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 0
+
+      - name: Record workflow run ID
         shell: bash
         run: |
+          printf '%s\n' "$GITHUB_RUN_ID" > timeweb-artifact-run.txt
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -f kvsvideo-timeweb.zip
-          git commit -m 'Add Timeweb deployment ZIP' || exit 0
+          git add timeweb-artifact-run.txt
+          git commit -m 'Record Timeweb package workflow run' || exit 0
           git push
