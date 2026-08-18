@@ -1,0 +1,70 @@
+name: Apply analytics consent gate
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/apply-analytics-consent.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch pages
+        shell: python
+        run: |
+          import re
+          from pathlib import Path
+
+          def read(path):
+              return Path(path).read_text(encoding='utf-8')
+          def write(path, text):
+              Path(path).write_text(text, encoding='utf-8')
+          def add_head_assets(text, css, js):
+              if 'analytics-consent.css' not in text:
+                  text = text.replace('</head>', f'  <link rel="stylesheet" href="{css}">\n  <script src="{js}" defer></script>\n</head>', 1)
+              return text
+
+          # Root page: remove unconditional Metrika and add consent assets.
+          p = 'index.html'
+          t = read(p)
+          t = re.sub(r'\s*<!-- Yandex\.Metrika counter -->.*?<!-- /Yandex\.Metrika counter -->\s*', '\n\n', t, flags=re.S)
+          t = add_head_assets(t, 'analytics-consent.css', 'analytics-consent.js')
+          write(p, t)
+
+          # Marketplace: remove unconditional Metrika script/noscript and add consent assets.
+          p = 'marketplace/index.html'
+          t = read(p)
+          t = re.sub(r'\s*<script>\s*\(function\(m,e,t,r,i,k,a\).*?ym\(109744286,\s*[\'\"]init[\'\"].*?</script>\s*', '\n', t, flags=re.S)
+          t = re.sub(r'\s*<noscript><div><img src="https://mc\.yandex\.ru/watch/109744286".*?</div></noscript>\s*', '\n', t, flags=re.S)
+          t = add_head_assets(t, '../analytics-consent.css', '../analytics-consent.js')
+          write(p, t)
+
+          # Privacy policy: align analytics section with explicit choice and add complaint right.
+          p = 'privacy.html'
+          t = read(p)
+          t = add_head_assets(t, 'analytics-consent.css', 'analytics-consent.js')
+          t = t.replace('Редакция от 15 августа 2026 года', 'Редакция от 18 августа 2026 года')
+          old10 = '<h2>10. Cookie и веб-аналитика</h2>\n<p>Сайт может использовать cookie-файлы и средства веб-аналитики для измерения посещаемости, источников переходов, технических характеристик устройств и поведения пользователей на сайте. Пользователь может ограничить использование cookie в настройках браузера; отдельные функции сайта после этого могут работать иначе.</p>'
+          new10 = '''<h2>10. Cookie и веб-аналитика</h2>\n<p>Для статистики посещений и улучшения сайта может использоваться Яндекс Метрика. Аналитический счётчик загружается только после того, как пользователь нажмёт кнопку «Разрешить аналитику» в уведомлении на сайте. До такого выбора Яндекс Метрика не подключается.</p>\n<p>Пользователь может отказаться от аналитики, выбрав «Только необходимые». Выбор сохраняется в локальном хранилище браузера, чтобы уведомление не показывалось при каждом переходе. Изменить ранее сделанный выбор можно в любое время: <a href="#" data-analytics-settings>открыть настройки аналитики</a>.</p>\n<p>При разрешённой аналитике Яндекс Метрика может обрабатывать cookie, IP-адрес, сведения об устройстве и браузере, источнике перехода и действиях на страницах в соответствии с условиями сервиса. Ограничение аналитических cookie не препятствует оформлению заказа и использованию основных функций сайта.</p>'''
+          if old10 in t:
+              t = t.replace(old10, new10)
+          else:
+              t = re.sub(r'<h2>10\. Cookie и веб-аналитика</h2>.*?(?=<h2>11\.)', new10 + '\n\n', t, flags=re.S)
+          rights = '<p>Субъект персональных данных вправе обжаловать действия или бездействие Оператора в уполномоченный орган по защите прав субъектов персональных данных (Роскомнадзор) или в судебном порядке.</p>'
+          if rights not in t:
+              t = t.replace('<p>Для реализации прав необходимо направить обращение на', rights + '\n<p>Для реализации прав необходимо направить обращение на', 1)
+          write(p, t)
+
+      - name: Commit changes
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html marketplace/index.html privacy.html
+          git commit -m 'Gate Yandex Metrika behind explicit consent' || exit 0
+          git push
