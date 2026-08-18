@@ -7,7 +7,7 @@ on:
       - '.github/workflows/build-timeweb-package.yml'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   package:
@@ -15,15 +15,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
       - name: Build deployment ZIP
         shell: bash
         run: |
+          rm -rf deploy kvsvideo-timeweb.zip
           mkdir -p deploy
           rsync -a ./ deploy/ \
             --exclude='.git/' \
             --exclude='.github/' \
             --exclude='CNAME' \
+            --exclude='kvsvideo-timeweb.zip' \
             --exclude='README.txt' \
             --exclude='README_RU.txt' \
             --exclude='SEO_NOTES_RU.txt' \
@@ -35,10 +39,11 @@ jobs:
           zip -r ../kvsvideo-timeweb.zip .
           cd ..
 
-      - name: Upload deployment ZIP
-        uses: actions/upload-artifact@v4
-        with:
-          name: kvsvideo-timeweb
-          path: kvsvideo-timeweb.zip
-          if-no-files-found: error
-          retention-days: 7
+      - name: Commit deployment ZIP
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -f kvsvideo-timeweb.zip
+          git commit -m 'Add Timeweb deployment ZIP' || exit 0
+          git push
