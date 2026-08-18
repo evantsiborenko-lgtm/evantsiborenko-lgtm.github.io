@@ -68,3 +68,5 @@ jobs:
           git add index.html marketplace/index.html privacy.html
           git commit -m 'Gate Yandex Metrika behind explicit consent' || exit 0
           git push
+
+# trigger: 2026-08-18
