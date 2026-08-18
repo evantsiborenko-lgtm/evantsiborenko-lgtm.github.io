@@ -1,0 +1,49 @@
+name: Build Timeweb analytics hotfix
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-analytics-hotfix.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main site
+        uses: actions/checkout@v4
+        with:
+          path: main-site
+
+      - name: Checkout video greetings
+        uses: actions/checkout@v4
+        with:
+          repository: evantsiborenko-lgtm/video-greetings-site
+          ref: video-greeting-cards-website-9028712209056600763
+          path: greetings
+
+      - name: Assemble hotfix
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p hotfix/marketplace hotfix/video-greetings-site
+          cp main-site/index.html hotfix/index.html
+          cp main-site/marketplace/index.html hotfix/marketplace/index.html
+          cp main-site/privacy.html hotfix/privacy.html
+          cp main-site/analytics-consent.js hotfix/analytics-consent.js
+          cp main-site/analytics-consent.css hotfix/analytics-consent.css
+          cp greetings/index.html hotfix/video-greetings-site/index.html
+          cp greetings/analytics-consent.js hotfix/video-greetings-site/analytics-consent.js
+          cp greetings/analytics-consent.css hotfix/video-greetings-site/analytics-consent.css
+          printf 'KVSvideo analytics consent hotfix - 2026-08-18\n' > hotfix/HOTFIX_README.txt
+
+      - name: Upload hotfix
+        uses: actions/upload-artifact@v4
+        with:
+          name: kvsvideo-analytics-hotfix
+          path: hotfix/
+          if-no-files-found: error
+          retention-days: 7
