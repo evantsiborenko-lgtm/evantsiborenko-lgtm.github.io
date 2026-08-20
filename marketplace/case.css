@@ -1,0 +1,40 @@
+.showcase-stage {
+  width: min(100%, 660px);
+  aspect-ratio: 2 / 3;
+}
+
+.showcase-slide--contain {
+  background: #f3f3f1;
+}
+
+.showcase-slide--contain img {
+  object-fit: contain;
+}
+
+.steps {
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.order-channel {
+  margin: 18px 0 0;
+  color: #aaa8a2;
+}
+
+.order-channel a {
+  color: var(--gold-2);
+  font-weight: 750;
+  text-decoration: underline;
+  text-decoration-color: rgba(240, 214, 154, .38);
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 620px) {
+  .step b {
+    font-size: 9px;
+    letter-spacing: -.02em;
+  }
+
+  .step span {
+    font-size: 8px;
+  }
+}

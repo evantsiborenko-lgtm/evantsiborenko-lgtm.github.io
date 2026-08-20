@@ -32,13 +32,16 @@
     const playButton = showcase.querySelector('[data-video-play]');
     const soundButton = showcase.querySelector('[data-video-sound]');
     const poster = showcase.querySelector('[data-video-poster]');
+    const videoIndex = slides.findIndex(slide => slide.querySelector('[data-video-shell]'));
 
     const content = [
-      ['Исходник → готовая карточка', 'Сразу показываем разницу между исходной фотографией и подготовленным коммерческим визуалом.'],
-      ['Product-сцена', 'Тот же товар переносится в более выразительный рекламный контекст без потери его роли в кадре.'],
-      ['Подарочное позиционирование', 'Один и тот же продукт можно подать под другой сценарий продажи и другую мотивацию покупателя.'],
-      ['Premium-позиционирование', 'Меняем окружение и настроение, сохраняя товар главным объектом композиции.'],
-      ['Готовый видеоматериал', 'Финальный этап — короткий ролик. Звук выключен по умолчанию и включается только по действию пользователя.']
+      ['Исходная фотография', 'Стартовый материал — одна фотография товара на нейтральном фоне.'],
+      ['Главная карточка', 'Товар получает коммерческую подачу и понятную систему преимуществ для первого слайда карточки.'],
+      ['Безопасность', 'Отдельная инфографика показывает светоотражающие элементы и объясняет их пользу покупателю.'],
+      ['Комфорт каждый день', 'Спинка, лямки и нагрудная стяжка превращены в аргументы для выбора товара.'],
+      ['Вместимость', 'Открытый рюкзак наглядно показывает отделения и привычный школьный набор внутри.'],
+      ['Lifestyle-сцена', 'Тот же товар показан в естественной школьной ситуации с двумя вариантами персонализации.'],
+      ['Готовый видеоролик', 'Кейс завершается коротким рекламным видео. Звук выключен по умолчанию и включается только пользователем.']
     ];
 
     let active = 0;
@@ -99,7 +102,7 @@
         img.style.webkitUserDrag = 'none';
         img.removeAttribute('data-src');
       }
-      if (index === 4 && poster && !poster.src) {
+      if (index === videoIndex && poster && !poster.src) {
         poster.src = videoShell.dataset.poster;
         poster.draggable = false;
       }
@@ -145,7 +148,7 @@
     const go = (index) => {
       resetDragVisual();
       const normalized = (index + slides.length) % slides.length;
-      if (normalized !== 4) pauseVideo();
+      if (normalized !== videoIndex) pauseVideo();
       slides.forEach((slide, i) => {
         const selected = i === normalized;
         slide.hidden = !selected;
@@ -354,7 +357,9 @@
     if (href.includes('t.me/KVSemenov')) {
       reachGoal('marketplace_telegram_click', {location: 'order'});
     } else if (href.includes('max.ru/')) {
-      reachGoal('marketplace_max_click', {location: 'order'});
+      reachGoal('marketplace_max_click', {
+        location: link.closest('.order-channel') ? 'channel' : 'order'
+      });
     }
   });
 
